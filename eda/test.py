@@ -1,6 +1,5 @@
 import pandas as pd
-from scipy.stats import shapiro, levene, ttest_ind
-from scipy.stats import ttest_1samp
+from scipy.stats import shapiro, levene, ttest_ind, ttest_1samp, chi2_contingency
 
 def t_test_1_sample(data: pd.DataFrame, mu_0: float, alternative: str = 'two-sided') -> None:
     """
@@ -81,5 +80,28 @@ def t_test_2_sample(data1: pd.Series, data2: pd.Series, alternative: str = 'two-
         print(f"Test is one-sided (less): Null hypothesis is {'rejected' if p_value < 0.05 else 'not rejected'}.")
 
 
-def chi_quadrat():
-    pass
+def chi_square_test(data: pd.DataFrame) -> None:
+    """
+    Perform a Chi-Square test of independence.
+
+    :param data: A pandas DataFrame containing the contingency table.
+    :return: None. Results are printed directly.
+    """
+
+    # Perform the Chi-Square test
+    chi2, p, dof, expected = chi2_contingency(data)
+
+    # Report results
+    print(f"Chi-Square Statistic: {chi2}")
+    print(f"P-value: {p}")
+    print(f"Degrees of Freedom: {dof}")
+    print("Expected Frequencies:")
+    print(pd.DataFrame(expected, index=data.index, columns=data.columns))
+
+    # Decision
+    alpha = 0.05
+    if p < alpha:
+        print("Reject the null hypothesis: There is a significant association between the variables.")
+    else:
+        print("Fail to reject the null hypothesis: There is no significant association between the variables.")
+
