@@ -1,11 +1,9 @@
 import pandas as pd
-from PyPDF2 import PdfReader
-import json
 
 def read_document(filename: str) -> pd.DataFrame:
     """
     Read a document and return its content as a DataFrame.
-    Supported file extensions: csv, pdf, txt, json
+    Supported file extensions: csv, txt (as comma-separated values)
 
     :param filename: Path to the document
     :return: DataFrame with the document content
@@ -14,18 +12,12 @@ def read_document(filename: str) -> pd.DataFrame:
     match extension:
         case "csv":
             df = pd.read_csv(filename)
-        case "pdf":
-            reader = PdfReader(filename)
-            text = [page.extract_text() for page in reader.pages]
-            df = pd.DataFrame({'Page': range(1, len(text) + 1), 'Content': text})
         case "txt":
             with open(filename, 'r') as file:
-                lines = file.readlines()
-            df = pd.DataFrame({'Line': range(1, len(lines) + 1), 'Content': [line.strip() for line in lines]})
-        case "json":
-            with open(filename, 'r') as file:
-                data = json.load(file)
-            df = pd.json_normalize(data)
+                # Read the first line as header and the rest as data
+                header = file.readline().strip().split(",")
+                data = [line.strip().split(",") for line in file]
+            df = pd.DataFrame(data, columns=header)
         case _:
             raise ValueError(f"Unsupported file extension: {extension}")
     return df
