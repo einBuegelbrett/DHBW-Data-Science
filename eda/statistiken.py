@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-from scipy import stats
 
 def relative_haeufigkeit(data: pd.Series) -> pd.Series:
     """
@@ -41,3 +40,22 @@ def modus(data: pd.Series) -> float:
     """
     return data.mode().iloc[0]
 
+
+def korrelation_kovarianz(series1: pd.Series, series2: pd.Series) -> dict:
+    """
+    Calculate the correlation and covariance between two Series.
+
+    :param series1: First input Series
+    :param series2: Second input Series
+    :return: Dictionary with 'correlation' and 'covariance'
+    """
+    if len(series1) != len(series2):
+        raise ValueError("Both Series must have the same length.")
+
+    # Berechnung der Kovarianz
+    covariance = np.cov(series1, series2)[0, 1]
+
+    # Berechnung der Korrelation
+    correlation = np.corrcoef(series1, series2)[0, 1]
+
+    return {"covariance": covariance, "correlation": correlation}
