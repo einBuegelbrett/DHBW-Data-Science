@@ -58,4 +58,7 @@ def korrelation_kovarianz(series1: pd.Series, series2: pd.Series) -> dict:
     # Berechnung der Korrelation
     correlation = np.corrcoef(series1, series2)[0, 1]
 
-    return {"covariance": covariance, "correlation": correlation}
+    result = {'covariance': covariance, 'correlation': correlation}
+    cleaned_result = {key: float(value) for key, value in result.items()}
+
+    return cleaned_result

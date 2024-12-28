@@ -41,3 +41,17 @@ def remove_duplicates(df: pd.DataFrame) -> pd.DataFrame:
     :return: DataFrame without duplicates
     """
     return df.drop_duplicates()
+
+def to_binary(df: pd.DataFrame, column: str, word1: str, word2: str) -> pd.DataFrame:
+    """
+    Convert a column in a DataFrame to binary values (0 or 1).
+    Maps 'word1' to 1 and 'word2' to 0.
+
+    :param word1: Word to map to 1
+    :param word2: Word to map to 0
+    :param df: DataFrame
+    :param column: Column name
+    :return: DataFrame with binary column
+    """
+    mapping = {word1: 1, word2: 0}
+    return df.assign(**{column: df[column].map(mapping)})
