@@ -6,12 +6,46 @@ from ml.k_neighbour import knn_classifier
 import pandas as pd
 
 def kunden_main(df):
-    df = dv.to_binary(df, "Gender", "Male", "Female")
+    """
+    Main function to perform analysis on the customer dataset.
+
+    :param df: Input DataFrame containing customer data
+    :return: None
+    """
+    print("Initial DataFrame Head:")
     print(df.head())
-    dict1 = st.korrelation_kovarianz(df["Gender"], df["Annual Income (k$)"])
-    dict2 = st.korrelation_kovarianz(df["Spending Score (1-100)"], df["Annual Income (k$)"])
-    # Bei beiden wenig Korrelation, da die Werte sehr nah an 0 sind.
-    print(dict1)  # Indicates a small positive relationship between the variables.
-    print(dict2)  # Indicates a stronger positive relationship between the variables (but the absolute value depends on the data's scale).
-    vs.scatterplot(df, "Annual Income (k$)", "Spending Score (1-100)")
-    # boxplot
+
+    # Beispiel für Korrelation und Kovarianz
+    dict = st.korrelation_kovarianz(df["Annual Income (k$)"], df["Spending Score (1-100)"])
+    print(f"Korrelation und Kovarianz (Income vs. Spending Score): {dict}")
+
+    # Scatterplot
+    scatterplot(df, "Annual Income (k$)", "Spending Score (1-100)")
+
+    # Boxplot
+    boxplot(df, x="Gender", y="Annual Income (k$)", hue=None, title="Annual Income by Gender", x_label="Gender", y_label="Annual Income (k$)", save_path="boxplot_income_gender.png")
+
+    # T-Test: One Sample
+    print("\nOne-Sample T-Test (Income):")
+    t_test_1_sample(df["Annual Income (k$)"], mu_0=50)
+
+    # T-Test: Two Sample
+    print("\nTwo-Sample T-Test (Income by Gender):")
+    males_income = df[df["Gender"] == "Male"]["Annual Income (k$)"]
+    females_income = df[df["Gender"] == "Female"]["Annual Income (k$)"]
+    t_test_2_sample(males_income, females_income)
+
+    # Chi-Square Test
+    print("\nChi-Square Test:")
+    gender_counts = pd.crosstab(index=df["Gender"], columns="count")
+    chi_square_test(gender_counts)
+
+    # Histogram: Spending Score
+    histogram(df, column="Spending Score (1-100)", title="Spending Score Distribution")
+
+    # KNN Classifier
+    print("\nKNN Classifier:")
+    df_encoded = df.copy()
+    df_encoded["Gender"] = df_encoded["Gender"].map({"Male": 0, "Female": 1})  # Gender-Encoding
+    accuracy = knn_classifier(df_encoded, target_column="Spending Score (1-100)", n_neighbors=5)
+    print(f"KNN Model Accuracy: {accuracy}")
