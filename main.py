@@ -13,3 +13,6 @@ if __name__ == "__main__":
 
     if document == "./datasets/Social-Media-Datensatz.csv":
         sm.social_media_main(df)
+
+    if document == "./datasets/Gesundheitsdaten-Datensatz.csv":
+        kd.kunden_main(df)
