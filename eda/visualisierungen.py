@@ -18,6 +18,15 @@ def scatterplot(data, column1, column2):
     plt.show()
 
 
+def histogram(data, column, title):
+    plt.figure(figsize=(15, 10))
+    sns.histplot(data[column], kde=False, bins=10)
+    plt.title(title)
+    plt.xlabel(column)
+    plt.ylabel("Frequency")
+    plt.show()
+
+
 def pie_chart(data, column, title):
     """
     Creates a pie chart based on a specific column of a DataFrame.
