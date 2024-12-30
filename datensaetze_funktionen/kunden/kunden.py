@@ -1,9 +1,17 @@
 import datenvorverarbeitung.datenvorverarbeitung as dv
 import eda.statistiken as st
 from eda.visualisierungen import scatterplot, boxplot, histogram
-from eda.test import t_test_1_sample, t_test_2_sample, chi_square_test
+from eda.test import t_test_1_sample, t_test_2_sample, chi_square_test, normality_test
 from ml.k_neighbour import knn_classifier
 import pandas as pd
+
+def categorize_spending_score(score):
+    if score <= 33:
+        return 'Low'
+    elif score <= 66:
+        return 'Medium'
+    else:
+        return 'High'
 
 def kunden_main(df):
     """
@@ -37,11 +45,19 @@ def kunden_main(df):
         print("\nT-Test cannot be performed on the data for Income because it is not normally distributed.")
 
     # Chi-Square Test
+    copy_df = df.copy()
+    df['Spending_Category'] = df['Spending Score (1-100)'].apply(categorize_spending_score)
+
+    # Create a contingency table for Gender vs. Spending_Category
+    contingency_table = pd.crosstab(df['Gender'], df['Spending_Category'])
+
+    # Perform the Chi-Square test
     print("\nChi-Square Test:")
-    gender_counts = pd.crosstab(index=df["Gender"], columns="count")
-    chi_square_test(gender_counts)
+    chi_square_test(contingency_table)
+
 
     # Histogram: Spending Score
+    df = copy_df
     histogram(df, column="Spending Score (1-100)", title="Spending Score Distribution")
 
     # KNN Classifier
