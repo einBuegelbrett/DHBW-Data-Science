@@ -1,6 +1,29 @@
 import pandas as pd
 from scipy.stats import shapiro, levene, ttest_ind, ttest_1samp, chi2_contingency
 
+def normality_test(data: pd.DataFrame) -> int:
+    """
+    Perform a normality test on the data.
+
+    :param data: A pandas DataFrame containing the data to test.
+    :return: None. Results are printed directly.
+
+    """
+    # Perform the Shapiro-Wilk test
+    stat, p = shapiro(data)
+
+    # Report results
+    print(f"Shapiro-Wilk Test for Normality:")
+    print(f"Statistic={stat}, P-value={p}")
+    if p > 0.05:
+        print("Fail to reject the null hypothesis: Data is normally distributed.")
+    else:
+        print("Reject the null hypothesis: Data is not normally distributed.")
+
+    return p
+
+
+
 def t_test_1_sample(data: pd.DataFrame, mu_0: float, alternative: str = 'two-sided') -> None:
     """
     Perform a one-sample t-test on the data.
@@ -14,12 +37,6 @@ def t_test_1_sample(data: pd.DataFrame, mu_0: float, alternative: str = 'two-sid
     :return: None. Results are printed directly.
     """
 
-    # Check if data is normally distributed
-    stat, p = shapiro(data)
-    if p > 0.05:
-        print("Data appears to be normally distributed (p > 0.05).")
-    else:
-        print("Data does not appear to be normally distributed (p <= 0.05). Proceed with caution.")
 
     # Perform the one-sample t-test
     t_stat, p_value = ttest_1samp(data, mu_0, alternative=alternative)
@@ -48,13 +65,6 @@ def t_test_2_sample(data1: pd.Series, data2: pd.Series, alternative: str = 'two-
                         'less' for testing if the mean of data1 is less than data2.
     :return: None. Results are printed directly.
     """
-    # Normality tests for both samples
-    statA, pA = shapiro(data1)
-    statB, pB = shapiro(data2)
-
-    print("Shapiro-Wilk Test for Normality:")
-    print(f"Sample 1: Statistic={statA}, P-value={pA} ({'Normal' if pA > 0.05 else 'Not Normal'})")
-    print(f"Sample 2: Statistic={statB}, P-value={pB} ({'Normal' if pB > 0.05 else 'Not Normal'})")
 
     # Levene's test for equality of variances
     stat, p = levene(data1, data2)

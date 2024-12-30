@@ -27,15 +27,14 @@ def kunden_main(df):
     # Boxplot
     boxplot(df, x="Gender", y="Annual Income (k$)", hue=None, title="Annual Income by Gender", x_label="Gender", y_label="Annual Income (k$)", save_path="boxplot_income_gender.png")
 
-    # T-Test: One Sample
-    print("\nOne-Sample T-Test (Income):")
-    t_test_1_sample(df["Annual Income (k$)"], mu_0=50)
+    # Normality Tests
+    print("\nNormality Test (Income):")
+    p = normality_test(df["Annual Income (k$)"])
 
-    # T-Test: Two Sample
-    print("\nTwo-Sample T-Test (Income by Gender):")
-    males_income = df[df["Gender"] == "Male"]["Annual Income (k$)"]
-    females_income = df[df["Gender"] == "Female"]["Annual Income (k$)"]
-    t_test_2_sample(males_income, females_income)
+    if p > 0.05:
+        print("\nT-Test can be performed on the data for Income because it is normally distributed.")
+    else:
+        print("\nT-Test cannot be performed on the data for Income because it is not normally distributed.")
 
     # Chi-Square Test
     print("\nChi-Square Test:")
