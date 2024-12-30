@@ -1,6 +1,9 @@
 import datenvorverarbeitung.datenvorverarbeitung as dv
 import eda.statistiken as st
-import eda.visualisierungen as vs
+from eda.visualisierungen import scatterplot, boxplot, histogram
+from eda.test import t_test_1_sample, t_test_2_sample, chi_square_test
+from ml.k_neighbour import knn_classifier
+import pandas as pd
 
 def kunden_main(df):
     df = dv.to_binary(df, "Gender", "Male", "Female")
