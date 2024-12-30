@@ -12,7 +12,9 @@ def kunden_main(df):
     :param df: Input DataFrame containing customer data
     :return: None
     """
-    print("Initial DataFrame Head:")
+    print(" DataFrame Head:")
+    # Encode all Genders to binary
+    df = dv.to_binary(df, "Gender", "Male", "Female")
     print(df.head())
 
     # Beispiel für Korrelation und Kovarianz
@@ -45,7 +47,5 @@ def kunden_main(df):
 
     # KNN Classifier
     print("\nKNN Classifier:")
-    df_encoded = df.copy()
-    df_encoded["Gender"] = df_encoded["Gender"].map({"Male": 0, "Female": 1})  # Gender-Encoding
-    accuracy = knn_classifier(df_encoded, target_column="Spending Score (1-100)", n_neighbors=5)
+    accuracy = knn_classifier(df, target_column="Spending Score (1-100)", n_neighbors=5)
     print(f"KNN Model Accuracy: {accuracy}")
