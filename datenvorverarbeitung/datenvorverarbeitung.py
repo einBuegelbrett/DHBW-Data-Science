@@ -1,4 +1,6 @@
+from typing import Any
 import pandas as pd
+from pandas import DataFrame
 
 def read_document(filename: str) -> pd.DataFrame:
     """
@@ -55,3 +57,20 @@ def to_binary(df: pd.DataFrame, column: str, word1: str, word2: str) -> pd.DataF
     """
     mapping = {word1: 1, word2: 0}
     return df.assign(**{column: df[column].map(mapping)})
+
+
+def map_keywords_to_integers(df: pd.DataFrame, column: str) -> tuple[DataFrame, dict[Any, int]]:
+    """
+    Map keywords in a column to unique integers.
+
+    :param df: Input DataFrame
+    :param column: Column name containing keywords
+    :return: DataFrame with a new column for mapped integers
+    """
+    # Create a mapping of unique keywords to integers
+    keyword_mapping = {keyword: idx for idx, keyword in enumerate(df[column].unique())}
+
+    # Map the keywords in the DataFrame
+    df[column] = df[column].map(keyword_mapping)
+
+    return df, keyword_mapping
