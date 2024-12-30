@@ -1,5 +1,6 @@
 import datenvorverarbeitung.datenvorverarbeitung as dv
 import datensaetze_funktionen.kunden.kunden as kd
+import datensaetze_funktionen.social_media.social_media as sm
 
 if __name__ == "__main__":
     document = "./datasets/Kunden-Datensatz.csv"
@@ -9,3 +10,6 @@ if __name__ == "__main__":
 
     if document == "./datasets/Kunden-Datensatz.csv":
         kd.kunden_main(df)
+
+    if document == "./datasets/Social-Media-Datensatz.csv":
+        sm.social_media_main(df)
