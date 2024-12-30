@@ -13,5 +13,17 @@ def boxplot(data, x, y, hue, title, x_label, y_label, save_path):
 
 def scatterplot(data, column1, column2):
     plt.figure(figsize=(15, 10))
-    data.plot.scatter(x=column1, y =column2)
+    plt.scatter(data[column1], data[column2])
+    plt.xlabel(column1)
+    plt.ylabel(column2)
+    plt.title(f"Scatterplot: {column1} vs {column2}")
+    plt.show()
+
+
+def histogram(data, column, title):
+    plt.figure(figsize=(15, 10))
+    sns.histplot(data[column], kde=False, bins=10)
+    plt.title(title)
+    plt.xlabel(column)
+    plt.ylabel("Frequency")
     plt.show()
