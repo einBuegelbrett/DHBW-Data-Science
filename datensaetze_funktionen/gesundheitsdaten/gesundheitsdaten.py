@@ -35,7 +35,10 @@ def gesundheitsdaten_main(data: pd.DataFrame):
     t_test_2_sample(data["Gesundheitsrisiko"], data["Alter"], alternative='two-sided')
 
     # Testen Sie, ob bestimmte Merkmale wie der Ruheblutdruck oder der Cholesterinwert signifikante Unterschiede zwischen Personen mit und ohne Risiko zeigen.
-    ...
+    ## Nullhypothese (H₀): Es gibt keinen Unterschied im Ruheblutdruck zwischen Personen mit Risiko (Gesundheitszustand = 1) und ohne Risiko (Gesundheitszustand = 0).
+    t_test_2_sample(data["Ruheblutdruck"], data["Gesundheitszustand"], alternative='two-sided')
+    ## Nullhypothese (H₀): Es gibt keinen Unterschied im Cholesterinwert zwischen Personen mit Risiko (Gesundheitszustand = 1) und ohne Risiko (Gesundheitszustand = 0).
+    t_test_2_sample(data["Cholesterinwert"], data["Gesundheitszustand"], alternative='two-sided')
 
     # 3. Modellierung und Klassifikation:
     # Klassifikationsmodell
