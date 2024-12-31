@@ -1,4 +1,5 @@
 import pandas as pd
+from eda.test import t_test_2_sample
 from eda.visualisierungen import histogram, boxplot
 from eda.statistiken import korrelation_kovarianz
 
@@ -28,7 +29,10 @@ def gesundheitsdaten_main(data: pd.DataFrame):
 
     # 2. Hypothesentests:
     # statistische Tests
-    ...
+    ## Nullhypothese (H₀): Es gibt keinen Unterschied im Gesundheitsrisiko zwischen Männern und Frauen.
+    t_test_2_sample(data["Gesundheitsrisiko"], data["Geschlecht"], alternative='two-sided')
+    ## Nullhypothese (H₀): Es gibt keinen Unterschied im Gesundheitsrisiko zwischen den Altersgruppen.
+    t_test_2_sample(data["Gesundheitsrisiko"], data["Alter"], alternative='two-sided')
 
     # Testen Sie, ob bestimmte Merkmale wie der Ruheblutdruck oder der Cholesterinwert signifikante Unterschiede zwischen Personen mit und ohne Risiko zeigen.
     ...
