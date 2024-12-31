@@ -14,7 +14,7 @@ def select_file():
     root.withdraw()
     file_path = filedialog.askopenfilename(
         title="Wählen Sie eine Datendatei aus",
-        filetypes=(("CSV-Dateien", "*.csv"), ("Textdateien", "*.txt"), ("PDF-Dateien", "*.pdf"), ("Alle Dateien", "*.*"))
+        filetypes=(("CSV-Dateien", "*.csv"), ("Textdateien", "*.txt"), ("PDF-Dateien", "*.pdf"), ("JSON-Dateien", "*.json") ,("Alle Dateien", "*.*"))
     )
     return file_path
 
