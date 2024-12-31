@@ -1,6 +1,6 @@
 import datenvorverarbeitung.datenvorverarbeitung as dv
 import eda.statistiken as st
-import nlp.nlp as nlp
+#import nlp.nlp as nlp
 import eda.visualisierungen as vis
 from eda.test import t_test_2_sample
 
