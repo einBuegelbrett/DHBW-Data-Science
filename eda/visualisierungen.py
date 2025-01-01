@@ -2,13 +2,12 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from wordcloud import WordCloud
 
-def boxplot(data, x, y, hue, title, x_label, y_label, save_path):
+def boxplot(data, x, y, hue, title, x_label, y_label):
     plt.figure(figsize=(15, 10))
     sns.boxplot(data=data, x=x, y=y, hue=hue)
     plt.title(title)
     plt.xlabel(x_label)
     plt.ylabel(y_label)
-    plt.savefig(save_path)
     plt.show()
 
 

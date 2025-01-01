@@ -2,6 +2,11 @@ import pandas as pd
 from eda.test import t_test_2_sample
 from eda.visualisierungen import histogram, boxplot
 from eda.statistiken import korrelation_kovarianz
+from sklearn.preprocessing import StandardScaler
+from ml.k_neighbour import knn_classifier
+from ml.logistic_regression import logistic_regression
+from ml.random_forest import random_forest
+
 
 def gesundheitsdaten_main(data: pd.DataFrame):
     for column in data.columns:
@@ -15,7 +20,7 @@ def gesundheitsdaten_main(data: pd.DataFrame):
 
     # Ausreißer identifizieren
     for column in data.columns:
-        boxplot(data, x=column, y=None, hue=None, title=f"Boxplot of {column}", x_label=column, y_label=column[0], save_path="boxplot_{column}.png")
+        boxplot(data, x=column, y=None, hue=None, title=f"Boxplot of {column}", x_label=column, y_label=column[0])
 
     # Korrelationen zwischen den Variablen
     # MaximaleHerzfrequenz/Alter ; Ruheblutdruck/Cholesterinwert ; Blutzucker/Cholesterinwert
@@ -30,9 +35,9 @@ def gesundheitsdaten_main(data: pd.DataFrame):
     # 2. Hypothesentests:
     # statistische Tests
     ## Nullhypothese (H₀): Es gibt keinen Unterschied im Gesundheitsrisiko zwischen Männern und Frauen.
-    t_test_2_sample(data["Gesundheitsrisiko"], data["Geschlecht"], alternative='two-sided')
+    t_test_2_sample(data["Gesundheitszustand"], data["Geschlecht"], alternative='two-sided')
     ## Nullhypothese (H₀): Es gibt keinen Unterschied im Gesundheitsrisiko zwischen den Altersgruppen.
-    t_test_2_sample(data["Gesundheitsrisiko"], data["Alter"], alternative='two-sided')
+    t_test_2_sample(data["Gesundheitszustand"], data["Alter"], alternative='two-sided')
 
     # Testen Sie, ob bestimmte Merkmale wie der Ruheblutdruck oder der Cholesterinwert signifikante Unterschiede zwischen Personen mit und ohne Risiko zeigen.
     ## Nullhypothese (H₀): Es gibt keinen Unterschied im Ruheblutdruck zwischen Personen mit Risiko (Gesundheitszustand = 1) und ohne Risiko (Gesundheitszustand = 0).
@@ -42,7 +47,17 @@ def gesundheitsdaten_main(data: pd.DataFrame):
 
     # 3. Modellierung und Klassifikation:
     # Klassifikationsmodell
-    ...
+    X = data.drop("Gesundheitszustand", axis=1)  # Features
+    # y = data["Gesundheitszustand"]  # Zielvariable
+    # scaler = StandardScaler()
+    # X_scaled = scaler.fit_transform(X)
+
+    # logistic_regression
+    logistic_regression(data, "Gesundheitszustand")
+    # random_forest
+    random_forest(data, "Gesundheitszustand")
+    # knn_classifier
+    knn_classifier(data, "Gesundheitszustand")
 
     # Evaluieren Sie die Modelle mit geeigneten Metriken (z.B. Accuracy, F1-Score).
     ...

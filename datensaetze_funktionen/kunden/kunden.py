@@ -33,7 +33,7 @@ def kunden_main(df):
     scatterplot(df, "Annual Income (k$)", "Spending Score (1-100)")
 
     # Boxplot
-    boxplot(df, x="Gender", y="Annual Income (k$)", hue=None, title="Annual Income by Gender", x_label="Gender", y_label="Annual Income (k$)", save_path="boxplot_income_gender.png")
+    boxplot(df, x="Gender", y="Annual Income (k$)", hue=None, title="Annual Income by Gender", x_label="Gender", y_label="Annual Income (k$)")
 
     # Normality Tests
     print("\nNormality Test (Income):")
