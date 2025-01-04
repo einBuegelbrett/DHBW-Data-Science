@@ -1,6 +1,7 @@
 from typing import Any
 import pandas as pd
 from pandas import DataFrame
+import re
 
 def read_document(filename: str) -> pd.DataFrame:
     """
@@ -74,3 +75,18 @@ def map_keywords_to_integers(df: pd.DataFrame, column: str) -> tuple[DataFrame, 
     df[column] = df[column].map(keyword_mapping)
 
     return df, keyword_mapping
+
+
+def clean_text(df: pd.DataFrame, column: str) -> pd.DataFrame:
+    """
+    Clean text data in a specified DataFrame column.
+
+    :param df: Input DataFrame
+    :param column: Column name containing text data
+    :return: DataFrame with cleaned text in the specified column
+    """
+    df[column] = df[column].astype(str).str.lower() \
+        .str.replace(r"http\S+", "", regex=True) \
+        .str.replace(r"[^a-zA-Z0-9\s]", "", regex=True) \
+        .str.replace(r"&amp;|amp", "", regex=True)
+    return df
