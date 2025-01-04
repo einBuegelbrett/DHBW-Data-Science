@@ -1,7 +1,6 @@
 from typing import Any
 import pandas as pd
 from pandas import DataFrame
-import re
 
 def read_document(filename: str) -> pd.DataFrame:
     """
