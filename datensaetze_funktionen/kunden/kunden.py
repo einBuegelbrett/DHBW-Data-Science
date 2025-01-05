@@ -1,7 +1,7 @@
 import datenvorverarbeitung.datenvorverarbeitung as dv
 import eda.statistiken as st
-from eda.visualisierungen import scatterplot, boxplot, histogram
-from eda.test import t_test_1_sample, t_test_2_sample, chi_square_test, normality_test
+from eda.visualisierungen import scatterplot, boxplot, histogram, lineplot
+from eda.test import chi_square_test, normality_test
 from ml.k_neighbour import knn_classifier
 import pandas as pd
 
@@ -20,29 +20,93 @@ def kunden_main(df):
     :param df: Input DataFrame containing customer data
     :return: None
     """
-    print(" DataFrame Head:")
-    # Encode all Genders to binary
-    df = dv.to_binary(df, "Gender", "Male", "Female")
+    print("Initial DataFrame:")
     print(df.head())
 
-    # Beispiel für Korrelation und Kovarianz
-    dict = st.korrelation_kovarianz(df["Annual Income (k$)"], df["Spending Score (1-100)"])
-    print(f"Korrelation und Kovarianz (Income vs. Spending Score): {dict}")
+    # Encode Gender to binary
+    df = dv.to_binary(df, "Gender", "Male", "Female")
+    print("\nData after encoding Gender:")
+    print(df.head())
 
-    # Scatterplot
+# Die Oberen beiden Prints sind nur für die Ausgabe der Daten, um zu sehen, wie die Daten aussehen. Sollten vor Abgabe
+# des Projekts entfernt werden.
+    # Statistical Summary
+    print("\nStatistical Summary:")
+    summary_stats = []
+    for col in ['Age', 'Annual Income (k$)', 'Spending Score (1-100)']:
+        mean = st.mittelwert(df[col])
+        median = st.median(df[col])
+        std_dev = df[col].std()
+        summary_stats.append({
+            "column": col,
+            "mean": mean,
+            "median": median,
+            "std_dev": std_dev
+        })
+    # Bericht drucken
+    for stats in summary_stats:
+        col = stats["column"]
+        mean = stats["mean"]
+        median = stats["median"]
+        std_dev = stats["std_dev"]
+
+        if col == "Age":
+            distribution_comment = "Das Alter der Kunden ist leicht rechtsschief verteilt (Median < Mittelwert), was darauf hindeutet, dass es mehr jüngere Kunden gibt."
+        elif col == "Annual Income (k$)":
+            distribution_comment = "Die Verteilung des Einkommens ist relativ symmetrisch, da Median und Mittelwert fast gleich sind."
+        elif col == "Spending Score (1-100)":
+            distribution_comment = "Diese Verteilung ist nahezu ausgeglichen, was darauf hinweist, dass die Kunden unterschiedliche Kaufverhalten aufweisen, von sparsamen bis hin zu spendablen Kunden."
+        else:
+            distribution_comment = "Keine spezifische Verteilungsanalyse verfügbar."
+
+        print(f"{col}:\n"
+              f"  Mittelwert = {mean:.2f}\n"
+              f"  Median = {median:.2f}\n"
+              f"  Standardabweichung = {std_dev:.2f}\n"
+              f"  {distribution_comment}\n")
+
+    # Correlation and Covariance
+    corr_cov = st.korrelation_kovarianz(df["Annual Income (k$)"], df["Spending Score (1-100)"])
+    print("\n--- Analyse der Korrelation und Kovarianz ---")
+    print(f"Die Kovarianz {corr_cov['covariance']:.2f}, zeigt eine leichte gemeinsame Streuung der beiden Variablen,"
+          f"was bedeutet, dass sie sich in die gleiche Richtung bewegen.\n"
+          "Die Stärke und Richtung der Beziehung wird dadurch aber nicht deutlich.\n"
+          f"Die Extrem niedrige Korrelation von {corr_cov['correlation']:f}, deutet darauf hin dass es keinen"
+          "linearen Zusammenhang zwischen Einkommen und Ausgabenverhalten gibt.\n")
+
+    # Scatterplot: Income vs. Spending Score
     scatterplot(df, "Annual Income (k$)", "Spending Score (1-100)")
+    print("\n--- Analyse des Scatterplots ---")
+    print("Der Scatterplot zeigt deutlich unterschiedliche Cluster in den Daten: \n"
+          "Ein großes, zentrales Cluster, das viele Datenpunkte im Bereich von mittlerem Einkommen (40-60 k$) "
+          "und mittlerem Spending Score (40-60) umfasst.\n"
+          "Vier kleinere Cluster, in den jeweiligen Ecken verteilt sind: "
+          "Die Verteilung zeigt deutlich segmentiertes Verhalten, was auf verschiedene Kundengruppen oder "
+          "Marktsegmente hinweist.")
 
-    # Boxplot
+    print("\n--- Verbindung zwischen Korrelation/Kovarianz und Scatterplot ---")
+    print("Die numerischen Ergebnisse von Korrelation und Kovarianz stimmen mit dem Scatterplot überein:\n"
+          "Es gibt keinen linearen Zusammenhang zwischen Einkommen und Ausgabeverhalten, welcher Aussagekräftig genug ist"
+          "um eine klare Beziehung zu erkennen.\n"
+          "Die Cluster im Scatterplot zeigen jedoch eine segmentierte Population, die sich in fünf Gruppen unterteilen lässt. "
+          "Dies deutet darauf hin, dass andere Faktoren das Ausgabeverhalten beeinflussen. ")
+
+    # Boxplot: Income by Gender
     boxplot(df, x="Gender", y="Annual Income (k$)", hue=None, title="Annual Income by Gender", x_label="Gender", y_label="Annual Income (k$)")
 
-    # Normality Tests
-    print("\nNormality Test (Income):")
-    p = normality_test(df["Annual Income (k$)"])
+    # Histogram: Age Distribution
+    histogram(df, column="Age", title="Age Distribution")
 
-    if p > 0.05:
-        print("\nT-Test can be performed on the data for Income because it is normally distributed.")
+    # Histogram: Spending Score Distribution
+    histogram(df, column="Spending Score (1-100)", title="Spending Score Distribution")
+
+    # Normality Test
+    print("\nNormality Test (Annual Income):")
+    p_income = normality_test(df["Annual Income (k$)"])
+    if p_income > 0.05:
+        print("Annual Income data is normally distributed.")
     else:
-        print("\nT-Test cannot be performed on the data for Income because it is not normally distributed.")
+        print("Annual Income data is not normally distributed.")
 
     # Chi-Square Test
     copy_df = df.copy()
@@ -55,12 +119,15 @@ def kunden_main(df):
     print("\nChi-Square Test:")
     chi_square_test(contingency_table)
 
-
-    # Histogram: Spending Score
+    # KNN Classifier with Visualization
     df = copy_df
-    histogram(df, column="Spending Score (1-100)", title="Spending Score Distribution")
+    print("\nKNN Classifier Performance:")
+    neighbors = [1, 3, 5, 7, 9]
+    accuracies = []
+    for n in neighbors:
+        accuracy = knn_classifier(df, target_column="Spending Score (1-100)", n_neighbors=n)
+        accuracies.append(accuracy)
+        print(f"Accuracy with {n} neighbors: {accuracy:.2f}")
 
-    # KNN Classifier
-    print("\nKNN Classifier:")
-    accuracy = knn_classifier(df, target_column="Spending Score (1-100)", n_neighbors=5)
-    print(f"KNN Model Accuracy: {accuracy}")
+    # Lineplot for KNN Accuracies
+    lineplot(x=neighbors, y=accuracies, title="KNN Accuracy vs. Number of Neighbors", x_label="Number of Neighbors", y_label="Accuracy")
