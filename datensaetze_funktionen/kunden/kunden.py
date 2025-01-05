@@ -67,8 +67,11 @@ def kunden_main(df):
 
     # Correlation and Covariance
     corr_cov = st.korrelation_kovarianz(df["Annual Income (k$)"], df["Spending Score (1-100)"])
-    print(f"\nCorrelation and Covariance (Income vs. Spending Score): {corr_cov}")
-
+    print("\n--- Analyse der Korrelation und Kovarianz ---")
+    print(f"Die Kovarianz {corr_cov['covariance']:.2f}, zeigt eine leichte gemeinsame Streuung der beiden Variablen,was bedeutet, dass sie sich in die gleiche Richtung bewegen.\n"
+          "Die Stärke und Richtung der Beziehung wird dadurch aber nicht deutlich.\n"
+          f"Die Extrem niedrige Korrelation von {corr_cov['correlation']:f}, deutet darauf hin dass es keinen"
+          "linearen Zusammenhang zwischen Einkommen und Ausgabenverhalten gibt.\n")
     # Scatterplot: Income vs. Spending Score
     scatterplot(df, "Annual Income (k$)", "Spending Score (1-100)")
 
