@@ -68,12 +68,28 @@ def kunden_main(df):
     # Correlation and Covariance
     corr_cov = st.korrelation_kovarianz(df["Annual Income (k$)"], df["Spending Score (1-100)"])
     print("\n--- Analyse der Korrelation und Kovarianz ---")
-    print(f"Die Kovarianz {corr_cov['covariance']:.2f}, zeigt eine leichte gemeinsame Streuung der beiden Variablen,was bedeutet, dass sie sich in die gleiche Richtung bewegen.\n"
+    print(f"Die Kovarianz {corr_cov['covariance']:.2f}, zeigt eine leichte gemeinsame Streuung der beiden Variablen,"
+          f"was bedeutet, dass sie sich in die gleiche Richtung bewegen.\n"
           "Die Stärke und Richtung der Beziehung wird dadurch aber nicht deutlich.\n"
           f"Die Extrem niedrige Korrelation von {corr_cov['correlation']:f}, deutet darauf hin dass es keinen"
           "linearen Zusammenhang zwischen Einkommen und Ausgabenverhalten gibt.\n")
+
     # Scatterplot: Income vs. Spending Score
     scatterplot(df, "Annual Income (k$)", "Spending Score (1-100)")
+    print("\n--- Analyse des Scatterplots ---")
+    print("Der Scatterplot zeigt deutlich unterschiedliche Cluster in den Daten: \n"
+          "Ein großes, zentrales Cluster, das viele Datenpunkte im Bereich von mittlerem Einkommen (40-60 k$) "
+          "und mittlerem Spending Score (40-60) umfasst.\n"
+          "Vier kleinere Cluster, in den jeweiligen Ecken verteilt sind: "
+          "Die Verteilung zeigt deutlich segmentiertes Verhalten, was auf verschiedene Kundengruppen oder "
+          "Marktsegmente hinweist.")
+
+    print("\n--- Verbindung zwischen Korrelation/Kovarianz und Scatterplot ---")
+    print("Die numerischen Ergebnisse von Korrelation und Kovarianz stimmen mit dem Scatterplot überein:\n"
+          "Es gibt keinen linearen Zusammenhang zwischen Einkommen und Ausgabeverhalten, welcher Aussagekräftig genug ist"
+          "um eine klare Beziehung zu erkennen.\n"
+          "Die Cluster im Scatterplot zeigen jedoch eine segmentierte Population, die sich in fünf Gruppen unterteilen lässt. "
+          "Dies deutet darauf hin, dass andere Faktoren das Ausgabeverhalten beeinflussen. ")
 
     # Boxplot: Income by Gender
     boxplot(df, x="Gender", y="Annual Income (k$)", hue=None, title="Annual Income by Gender", x_label="Gender", y_label="Annual Income (k$)")
