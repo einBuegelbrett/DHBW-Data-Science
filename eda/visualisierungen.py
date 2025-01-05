@@ -28,6 +28,16 @@ def histogram(data, column, title):
     plt.ylabel("Frequency")
     plt.show()
 
+def bar_chart(data, x, hue):
+    plt.figure(figsize=(12, 6))
+    sns.countplot(data=data, x=x, hue=hue, palette='Set2')
+    plt.title("Count of Sentiment by Relevance")
+    plt.xlabel("Relevance (0 = Irrelevant, 1 = Relevant)")
+    plt.ylabel("Count of Posts")
+    plt.legend(title="Sentiment")
+    plt.show()
+
+
 def pie_chart(data, column, title):
     """
     Creates a pie chart based on a specific column of a DataFrame.
