@@ -1,6 +1,6 @@
 import datenvorverarbeitung.datenvorverarbeitung as dv
 import eda.statistiken as st
-#import nlp.nlp as nlp
+import nlp.nlp as nlp
 import eda.visualisierungen as vis
 from eda.test import t_test_2_sample
 
@@ -16,9 +16,11 @@ def social_media_main(data):
     # Bei beiden wenig Korrelation, da die Werte sehr nah an 0 sind.
     print(dict1)  # Indicates a small positive relationship between the variables.
     print(dict2)  # Indicates a stronger positive relationship between the variables (but the absolute value depends on the data's scale).
-    # nlp.nlp_social_media(data)
+
     vis.pie_chart(data, "target", "Anzahl der relevanten und irrelevanten Beiträge")
     vis.word_cloud(data, "text")
+
+    # Calculate the average post length for each group
 
     # 2 sample t-test
     # Calculate post lengths
@@ -31,3 +33,6 @@ def social_media_main(data):
     t_test_2_sample(relevant_posts, irrelevant_posts, alternative='two-sided')
 
     print("This means there is a statistically significant difference between the average post lengths of relevant and irrelevant posts.")
+
+    print("Wir wollen jetzt schauen, ob das Sentiment des Textes einen Einfluss auf die Relevanz des Beitrags hat.")
+    nlp.nlp_social_media(data, "text", 5)
