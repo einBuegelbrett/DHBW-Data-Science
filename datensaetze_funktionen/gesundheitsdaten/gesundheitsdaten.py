@@ -1,8 +1,7 @@
 import pandas as pd
 from eda.test import t_test_2_sample
 from eda.visualisierungen import histogram, boxplot
-from eda.statistiken import korrelation_kovarianz
-from sklearn.preprocessing import StandardScaler
+from eda.statistiken import korrelation_kovarianz, gesundheitsdaten_subset_analysis
 from ml.k_neighbour import knn_classifier
 from ml.logistic_regression import logistic_regression
 from ml.random_forest import random_forest
@@ -29,8 +28,11 @@ def gesundheitsdaten_main(data: pd.DataFrame):
     print(korrelation_kovarianz(data["Blutzucker"], data["Cholesterinwert"]))
 
     # mögliche Zusammenhänge zwischen den unabhängigen Variablen und der Zielvariable
-    # -> Alter/Gesundheitszustand
-    ...
+    print("\n--- Korrelationsanalyse ---\n")
+    for column in data.columns[:-1]:  # Zielvariable ausschließen
+        if column != "Gesundheitszustand":
+            correlation, covariance = korrelation_kovarianz(data[column], data["Gesundheitszustand"])
+            print(f"Korrelation zwischen {column} und Gesundheitszustand: {correlation:.2f} (Kovarianz: {covariance:.4f})")
 
     # 2. Hypothesentests:
     # statistische Tests
@@ -52,6 +54,7 @@ def gesundheitsdaten_main(data: pd.DataFrame):
     # scaler = StandardScaler()
     # X_scaled = scaler.fit_transform(X)
 
+    # Evaluieren Sie die Modelle mit geeigneten Metriken (z.B. Accuracy, F1-Score) (findet statt in der Funktion).
     # logistic_regression
     logistic_regression(data, "Gesundheitszustand")
     # random_forest
@@ -59,12 +62,11 @@ def gesundheitsdaten_main(data: pd.DataFrame):
     # knn_classifier
     knn_classifier(data, "Gesundheitszustand")
 
-    # Evaluieren Sie die Modelle mit geeigneten Metriken (z.B. Accuracy, F1-Score).
-    ...
 
     # Hyperparameter-Tuning
     ...
 
     # 4. Zusätzliche Analyse:
     # Wählen Sie ein Subset der Daten (z.B. eine spezifische Altersgruppe oder Geschlechtergruppe) und analysieren Sie, wie sich die Vorhersagen oder statistischen Eigenschaften in dieser Gruppe von der Gesamtpopulation unterscheiden.
-    ...
+    subset_condition = {'Alter': 60}
+    gesundheitsdaten_subset_analysis(data, subset_condition)
