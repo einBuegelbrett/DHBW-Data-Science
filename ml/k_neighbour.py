@@ -2,6 +2,7 @@ import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
+from ml.evaluate_model import evaluate_model
 
 def knn_classifier(data: pd.DataFrame, target_column: str, n_neighbors: int = 5, test_size: float = 0.2, random_state: int = 42):
     """
@@ -29,7 +30,15 @@ def knn_classifier(data: pd.DataFrame, target_column: str, n_neighbors: int = 5,
     knn = KNeighborsClassifier(n_neighbors=n_neighbors)
     knn.fit(X_train, y_train)
 
+    # Predictions
+    y_pred = knn.predict(X_test)
+
     # Accuracy
     accuracy = knn.score(X_test, y_test)
     print(f"KNN Accuracy: {accuracy}")
+
+    # Evaluate model
+    print("\n--- Evaluation: K-Nearest Neighbors (KNN) ---")
+    evaluate_model(y_test, y_pred)
+
     return accuracy

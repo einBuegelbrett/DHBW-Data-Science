@@ -1,8 +1,6 @@
 import pandas as pd
 from transformers import pipeline
-
 from eda.visualisierungen import boxplot, bar_chart
-
 
 def nlp_social_media(data: pd.DataFrame, column: str, lines_to_process: int) -> None:
     """
