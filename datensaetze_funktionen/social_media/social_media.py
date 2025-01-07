@@ -9,6 +9,7 @@ def social_media_main(data):
     data, dict3 = dv.map_keywords_to_integers(data, "keyword")
     data, dict4 = dv.map_keywords_to_integers(data, "location")
 
+    dv.clean_text(data, "keyword")
     dv.clean_text(data, "text")
 
     dict1 = st.korrelation_kovarianz(data["keyword"], data["target"])

@@ -87,5 +87,6 @@ def clean_text(df: pd.DataFrame, column: str) -> pd.DataFrame:
     df[column] = df[column].astype(str).str.lower() \
         .str.replace(r"http\S+", "", regex=True) \
         .str.replace(r"[^a-zA-Z0-9\s]", "", regex=True) \
-        .str.replace(r"&amp;|amp", "", regex=True)
+        .str.replace(r"&amp;|amp", "", regex=True) \
+        .str.replace(r"%20", " ", regex=True)
     return df
