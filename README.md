@@ -7,7 +7,7 @@
 ## Projekt starten
 Die Datei `main.py` muss nur ausgeführt werden. Es öffnet sich automatisch ein Fenster, in dem die Datei ausgewählt werden kann, von der ein Bericht erstellt werden soll.
 ### Hinweis bei dem Starten
-Auf Windows basierten Systemen, ist es möglich das man nach dem Starten, nochmal auf Rerun drücken muss.
+Auf Windows-basierten Systemen kann es vorkommen, dass das Programm nach dem Start erneut ausgeführt werden muss, damit sich das Dateiauswahlfenster korrekt öffnet.
 
 ## Wichtiger Hinweis
 Bei Linux basierten Systemen muss tkinter im voraus installiert werden:
