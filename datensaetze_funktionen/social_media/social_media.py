@@ -5,6 +5,9 @@ import eda.visualisierungen as vis
 from eda.test import t_test_2_sample
 
 def social_media_main(data):
+    print("Initialer Datensatz:")
+    print(data.head())
+
     print(st.relative_haeufigkeit(data["location"]))
     data, dict3 = dv.map_keywords_to_integers(data, "keyword")
     data, dict4 = dv.map_keywords_to_integers(data, "location")
@@ -39,6 +42,7 @@ def social_media_main(data):
     irrelevant_posts = data[data['target'] == 0]['text_length']
 
     # Calculate the average post length for each location
+    print("Wir wollen jetzt schauen, ob die Länge des Textes einen Einfluss auf die Relevanz des Beitrags hat.")
     vis.pie_chart(data, "target", "Anzahl der relevanten und irrelevanten Beiträge")
 
     # 2 sample t-test
@@ -48,3 +52,5 @@ def social_media_main(data):
 
     print("Wir wollen jetzt schauen, ob das Sentiment des Textes einen Einfluss auf die Relevanz des Beitrags hat.")
     nlp.nlp_social_media(data, "text", 5)
+
+    print("Wir merken, dass oft ein Negatives Sentiment auch ein Indikator für relevante Beiträge ist und umgekehrt. Wir können daraus schließen, dass relevante Beiträge für Katastrophe oft negativ sind. Das war zu erwarten wie man es schon mit der Wortwolke gesehen hat.")
