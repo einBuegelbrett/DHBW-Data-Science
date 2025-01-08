@@ -40,10 +40,7 @@ def knn_classifier(data: pd.DataFrame, target_column: str, n_neighbors: int = 5,
     print(f"KNN Accuracy: {accuracy}")
 
     # Evaluate model
-    print("\n--- Evaluation: K-Nearest Neighbors (KNN) ---")
-    evaluate_model(y_test, y_pred)
-
-    return accuracy
+    return evaluate_model(y_test, y_pred)
 
 
 def kmeans_cluster_analysis(df, n_clusters=5):

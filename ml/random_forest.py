@@ -31,5 +31,4 @@ def random_forest(data: pd.DataFrame, target_column: str, test_size: float = 0.2
     y_pred_rf = rf.predict(X_test)
 
     # Modell evaluieren
-    print("\n--- Evaluation: Random Forest ---")
-    evaluate_model(y_test, y_pred_rf)
+    return evaluate_model(y_test, y_pred_rf)

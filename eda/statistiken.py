@@ -81,28 +81,32 @@ def count_outliers_iqr(series: pd.Series) -> int:
     return ((series < lower_bound) | (series > upper_bound)).sum()
 
 
-def gesundheitsdaten_subset_analysis(data: pd.DataFrame, subset_condition: dict):
+def gesundheitsdaten_subset_analysis(data: pd.DataFrame, subset_condition: dict) -> str:
     """
-    Analysiert ein Subset der Daten und vergleicht die Eigenschaften mit der Gesamtpopulation.
+    Analyses a subset of the data and compares the characteristics with the total population.
 
-    :param data: DataFrame mit Gesundheitsdaten.
-    :param subset_condition: Bedingung, um ein Subset der Daten zu filtern (z. B. {'Geschlecht': 1}).
+    :param data: DataFrame with health data.
+    :param subset_condition: Condition to filter a subset of the data (e.g. {‘Gender’: 1}).
+    :return: A string containing the formatted analysis results.
     """
+    # Initialize an empty string to hold the output
+    output = ""
+
     # Konvertiere alle Spalten in numerische Werte
     for column in data.columns:
         data[column] = pd.to_numeric(data[column], errors='coerce')
 
     # Originaldaten untersuchen
-    print("\n--- Statistische Eigenschaften der Gesamtpopulation ---\n")
-    print(data.describe())
+    output += "<h2>--- Statistische Eigenschaften der Gesamtpopulation ---<\h2> <br>"
+    output += f"{data.describe().to_string()} <br>"
 
     # Subset auswählen basierend auf der Bedingung
     subset = data.copy()
     for column, value in subset_condition.items():
         subset = subset[subset[column] == value]
 
-    print("\n--- Statistische Eigenschaften des Subsets ---\n")
-    print(subset.describe())
+    output += "<h2>--- Statistische Eigenschaften des Subsets ---<\h2> <br>"
+    output += f"{subset.describe().to_string()} <br>"
 
     # Histogramme: Vergleich zwischen Gesamtpopulation und Subset
     for column in data.columns:
@@ -125,9 +129,11 @@ def gesundheitsdaten_subset_analysis(data: pd.DataFrame, subset_condition: dict)
         plt.show()
 
     # Korrelationen innerhalb des Subsets
-    print("\n--- Korrelationen im Subset ---\n")
+    output += "<h2>--- Korrelationen im Subset ---<\h2> <br>"
     for column in subset.columns[:-1]:
         if column != "Gesundheitszustand":
             correlation, covariance = korrelation_kovarianz(subset[column], subset["Gesundheitszustand"])
-            print(f"Korrelation zwischen {column} und Gesundheitszustand (Subset): {correlation:.2f} (Kovarianz: {covariance:.4f})")
+            output += f"Korrelation zwischen {column} und Gesundheitszustand (Subset): {correlation:.2f} (Kovarianz: {covariance:.4f}) <br>"
+
+    return output
 
