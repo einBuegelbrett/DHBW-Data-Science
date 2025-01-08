@@ -23,10 +23,20 @@ kunden_template = """
         <h2>Nach Cleaning</h2>
         <p>{{ cleaning }}</p>
     </section>
-
-    <section id="korrelation-kovarianz">
-        <h2>Korrelation / Kovarianz</h2>
+    
+    <section id="statistiken">
+        <h2>Statistiken</h2>
+        {{ statistics }}
+    </section>
+    
+    <section id="income_spending">
+        <h2>Vergleich Einkommen und Ausgabeverhalten</h2>
+        <h4>Korrelation und Kovarianz</h4>
         <p>{{ correlation_covariance }}</p>
+        <p>{{ correlation_covariance_interpretation }}</p>
+        <h4>Visualisierung mit Scatterplot</h4>
+        <img src="images/income_spending.png" alt="Income Spending Scatterplot" width="400px" height="400px">
+        <p>{{ scatterplot_interpretation }}</p>
     </section>
 
     <section id="graphen">

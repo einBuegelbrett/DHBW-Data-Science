@@ -3,6 +3,17 @@ import seaborn as sns
 from wordcloud import WordCloud
 
 def boxplot(data, x, y, hue, title, x_label, y_label):
+    """
+    Create a box plot
+    :param data: DataFrame containing the data
+    :param x: The column name for the x-axis
+    :param y: The column name for the y-axis
+    :param hue: Optional, the column name to group the data by
+    :param title: Title of the plot
+    :param x_label: Label for the x-axis
+    :param y_label: Label for the y-axis
+    :return: None
+    """
     plt.figure(figsize=(15, 10))
     sns.boxplot(data=data, x=x, y=y, hue=hue)
     plt.title(title)
@@ -11,21 +22,39 @@ def boxplot(data, x, y, hue, title, x_label, y_label):
     plt.show()
 
 
-def scatterplot(data, column1, column2):
+def scatterplot(data, column1, column2, imagename):
+    """
+    Create a scatter plot
+    :param data: DataFrame containing the data
+    :param column1: The column name for the x-axis
+    :param column2: The column name for the y-axis
+    :param imagename: Name of the image file to save the plot
+    :return: None
+    """
     plt.figure(figsize=(15, 10))
     plt.scatter(data[column1], data[column2])
     plt.xlabel(column1)
     plt.ylabel(column2)
     plt.title(f"Scatterplot: {column1} vs {column2}")
+    plt.savefig(f"images/{imagename}.png")
     plt.show()
 
 
-def histogram(data, column, title):
+def histogram(data, column, title, imagename):
+    """
+    Create a histogram
+    :param data: DataFrame containing the data
+    :param column: The column name for the histogram
+    :param title: Title of the plot
+    :param imagename: Name of the image file to save the plot
+    :return: None
+    """
     plt.figure(figsize=(15, 10))
     sns.histplot(data[column], kde=False, bins=10)
     plt.title(title)
     plt.xlabel(column)
     plt.ylabel("Frequency")
+    plt.savefig(f"images/{imagename}.png")
     plt.show()
 
 def bar_chart(data, x, hue):

@@ -12,26 +12,22 @@ def categorize_spending_score(score):
         return 'Medium'
     else:
         return 'High'
-
 def kunden_main(df):
     """
     Main function to perform analysis on the customer dataset.
 
     :param df: Input DataFrame containing customer data
-    :return: None
+    :return: Data Input for output generation
     """
-    print("Initial DataFrame:")
-    print(df.head())
+    data = {}
+    statistics_texts = []
+    data["initial_dataset"] = df.head().to_html(classes="table")
 
     # Encode Gender to binary
     df = dv.to_binary(df, "Gender", "Male", "Female")
-    print("\nData after encoding Gender:")
-    print(df.head())
+    data["cleaning"] = df.head().to_html(classes="table")
 
-# Die Oberen beiden Prints sind nur für die Ausgabe der Daten, um zu sehen, wie die Daten aussehen. Sollten vor Abgabe
-# des Projekts entfernt werden.
     # Statistical Summary
-    print("\nStatistical Summary:")
     summary_stats = []
     for col in ['Age', 'Annual Income (k$)', 'Spending Score (1-100)']:
         mean = st.mittelwert(df[col])
@@ -52,27 +48,39 @@ def kunden_main(df):
 
         if col == "Age":
             distribution_comment = "Das Alter der Kunden ist leicht rechtsschief verteilt (Median < Mittelwert), was darauf hindeutet, dass es mehr jüngere Kunden gibt."
+            imagename = "Age"
+            histogram(df, col, "Age Distribution", imagename)
         elif col == "Annual Income (k$)":
             distribution_comment = "Die Verteilung des Einkommens ist relativ symmetrisch, da Median und Mittelwert fast gleich sind."
+            imagename = "Income"
+            histogram(df, col, "Annual Income Distribution", imagename)
         elif col == "Spending Score (1-100)":
             distribution_comment = "Diese Verteilung ist nahezu ausgeglichen, was darauf hinweist, dass die Kunden unterschiedliche Kaufverhalten aufweisen, von sparsamen bis hin zu spendablen Kunden."
+            imagename = "Spending"
+            histogram(df, col, "Spending Score Distribution", imagename)
         else:
             distribution_comment = "Keine spezifische Verteilungsanalyse verfügbar."
 
-        print(f"{col}:\n"
-              f"  Mittelwert = {mean:.2f}\n"
-              f"  Median = {median:.2f}\n"
-              f"  Standardabweichung = {std_dev:.2f}\n"
-              f"  {distribution_comment}\n")
+        statistics_texts.append(
+            f"<h3>{col}</h3>"
+            f"<p>Mittelwert = {mean:.2f}<br>"
+            f"Median = {median:.2f}<br>"
+            f"Standardabweichung = {std_dev:.2f}<br>"
+            f"{distribution_comment}</p>"
+            + f'<img src="images/{imagename}.png" alt="{col} Histogram" width="400px" height="400px">'
+        )
+        # Nach der Schleife alle Texte zusammenfügen
+        data["statistics"] = "\n".join(statistics_texts)
 
     # Correlation and Covariance
     corr_cov = st.korrelation_kovarianz(df["Annual Income (k$)"], df["Spending Score (1-100)"])
-    print("\n--- Analyse der Korrelation und Kovarianz ---")
-    print(f"Die Kovarianz {corr_cov['covariance']:.2f}, zeigt eine leichte gemeinsame Streuung der beiden Variablen,"
-          f"was bedeutet, dass sie sich in die gleiche Richtung bewegen.\n"
-          "Die Stärke und Richtung der Beziehung wird dadurch aber nicht deutlich.\n"
+    data["correlation_covariance"] = f"Covariance: {corr_cov['covariance']:.2f}, Correlation: {corr_cov['correlation']:.2f}"
+    data["correlation_covariance_interpretation"] = (f"--- Analyse der Korrelation und Kovarianz ---<br>"
+          f"Die Kovarianz {corr_cov['covariance']:.2f}, zeigt eine leichte gemeinsame Streuung der beiden Variablen,"
+          f"was bedeutet, dass sie sich in die gleiche Richtung bewegen.<br>"
+          "Die Stärke und Richtung der Beziehung wird dadurch aber nicht deutlich.<br>"
           f"Die Extrem niedrige Korrelation von {corr_cov['correlation']:f}, deutet darauf hin dass es keinen"
-          "linearen Zusammenhang zwischen Einkommen und Ausgabenverhalten gibt.\n")
+          "linearen Zusammenhang zwischen Einkommen und Ausgabenverhalten gibt.<br>")
 
     # Scatterplot: Income vs. Spending Score
     scatterplot(df, "Annual Income (k$)", "Spending Score (1-100)")
@@ -93,12 +101,6 @@ def kunden_main(df):
 
     # Boxplot: Income by Gender
     boxplot(df, x="Gender", y="Annual Income (k$)", hue=None, title="Annual Income by Gender", x_label="Gender", y_label="Annual Income (k$)")
-
-    # Histogram: Age Distribution
-    histogram(df, column="Age", title="Age Distribution")
-
-    # Histogram: Spending Score Distribution
-    histogram(df, column="Spending Score (1-100)", title="Spending Score Distribution")
 
     # Normality Test
     print("\nNormality Test (Annual Income):")
@@ -131,3 +133,5 @@ def kunden_main(df):
 
     # Lineplot for KNN Accuracies
     lineplot(x=neighbors, y=accuracies, title="KNN Accuracy vs. Number of Neighbors", x_label="Number of Neighbors", y_label="Accuracy")
+
+    return data

@@ -42,17 +42,7 @@ if __name__ == "__main__":
 
     # Wähle das richtige Modul basierend auf dem Dateinamen
     if "Kunden-Datensatz" in document:
-        kd.kunden_main(df)
-        # Daten vorbereiten
-        data = {
-            "initial_dataset": "Hier sind die Daten vor dem Cleaning beschrieben.",
-            "cleaning": "Nach dem Cleaning wurden folgende Änderungen vorgenommen...",
-            "correlation_covariance": "Die berechneten Korrelations- und Kovarianzwerte sind...",
-            "graphs": "Graphen zur Visualisierung der Daten: ...",
-            "tests": "Durchgeführte Tests und Ergebnisse: ...",
-            "nlp_ml": "NLP- und ML-Techniken wie Tokenisierung und Modelltraining wurden angewandt...",
-            "hyperparameter_tuning": "Ergebnisse des Hyperparametertunings: ..."
-        }
+        data = kd.kunden_main(df)
 
         # Template laden
         jinja_template = Template(kunden_template)
