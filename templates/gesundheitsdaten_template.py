@@ -26,7 +26,25 @@ gesundheitsdaten_template = """
 
     <section id="korrelation-kovarianz">
         <h2>Korrelation / Kovarianz</h2>
-        <p>{{ correlation_covariance }}</p>
+        <h3>--- Analyse der Korrelation und Kovarianz ---</h3>
+        <p>{{ corr_cov_maximaleHerzfrequenz_alter }}</p>
+        <p><p>
+        
+        <h3>--- Analyse der Korrelation und Kovarianz ---</h3>
+        <p>{{ corr_cov_ruheblutdruck_cholesterinwert }}</p>
+        <p><p>
+        
+        <h3>--- Analyse der Korrelation und Kovarianz ---</h3>
+        <p>{{ corr_cov_blutzucker_cholesterinwert }}</p>
+        <p><p>
+        
+        <h3>--- Analyse der Korrelation und Kovarianz ---</h3>
+        <p>{{ corr_cov_location_target }}</p>
+        <p><p>
+        
+        <h3>--- Analyse der Korrelation und Kovarianz ---</h3>
+        <p>{{ corr_cov_location_target }}</p>
+        <p><p>
     </section>
 
     <section id="graphen">
