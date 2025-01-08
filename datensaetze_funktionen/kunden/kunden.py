@@ -1,6 +1,6 @@
 import datenvorverarbeitung.datenvorverarbeitung as dv
 import eda.statistiken as st
-from eda.visualisierungen import scatterplot, boxplot, histogram, lineplot
+from eda.visualisierungen import scatterplot, boxplot, histogram, line_plot
 from eda.test import chi_square_test, normality_test
 from ml.k_neighbour import knn_classifier, kmeans_cluster_analysis
 import pandas as pd
@@ -132,7 +132,7 @@ def kunden_main(df):
         print(f"Accuracy with {n} neighbors: {accuracy:.2f}")
 
     # Lineplot for KNN Accuracies
-    lineplot(x=neighbors, y=accuracies, title="KNN Accuracy vs. Number of Neighbors", x_label="Number of Neighbors", y_label="Accuracy")
+    line_plot(x=neighbors, y=accuracies, title="KNN Accuracy vs. Number of Neighbors", x_label="Number of Neighbors", y_label="Accuracy")
 
     print("\nK-Means Cluster Analysis:")
     cluster_centers = kmeans_cluster_analysis(df)
