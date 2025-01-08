@@ -1,7 +1,7 @@
 import pandas as pd
 from eda.test import t_test_2_sample
 from eda.visualisierungen import histogram, boxplot
-from eda.statistiken import korrelation_kovarianz, gesundheitsdaten_subset_analysis
+from eda.statistiken import korrelation_kovarianz, gesundheitsdaten_subset_analysis, count_outliers_iqr
 from ml.k_neighbour import knn_classifier
 from ml.logistic_regression import logistic_regression
 from ml.random_forest import random_forest
@@ -25,15 +25,25 @@ def gesundheitsdaten_main(df: pd.DataFrame):
 
     # 1. Datenexploration (EDA):
     # Untersuchung der Verteilung der numerischen Variablen
-    # TODO - Sich für eins Entscheiden
-    print("\n--- Untersuchung der Verteilungen ---\n")
     for column in df.columns:
-        histogram(df, column, column[0], column[0])
+        print("Column: ", column)
+        histogram(df, column, column, column)
 
     # Ausreißer identifizieren
-    # TODO - Sich für eins Entscheiden
-    for column in df.columns:
-        boxplot(df, x=column, y=None, hue=None, title=f"Boxplot of {column}", x_label=column, y_label=column[0], image_name=column[0])
+    # Anzahl der Ausreißer für jede Spalte berechnen
+    outlier_counts = {col: count_outliers_iqr(df[col]) for col in df.columns}
+
+    # Sortieren und die drei Spalten mit den meisten Ausreißern auswählen
+    top_outliers = sorted(outlier_counts.items(), key=lambda x: x[1], reverse=True)[:3]
+
+    # Ausgabe der Top-3-Spalten
+    i = 0
+    data["top_outliers"] = ""
+    for column, count in top_outliers:
+        data["top_outliers"] += f"<li>{column}: {count} Ausreißer</li>"
+        boxplot(df, x=column, y=None, hue=None, title=f"Boxplot of {column}", x_label=column, y_label=column[0],
+                image_name=f"image_{i}")
+        i+= 1
 
     # Correlation and covariance
     corr_cov_maximaleHerzfrequenz_alter = korrelation_kovarianz(df["MaximaleHerzfrequenz"], df["Alter"])
@@ -44,12 +54,21 @@ def gesundheitsdaten_main(df: pd.DataFrame):
     data["corr_cov_blutzucker_cholesterinwert"] = f"Covariance: {corr_cov_blutzucker_cholesterinwert['covariance']:.2f}, Correlation: {corr_cov_blutzucker_cholesterinwert['correlation']:.2f}"
 
     # mögliche Zusammenhänge zwischen den unabhängigen Variablen und der Zielvariable
-    # TODO - Sich für eins Entscheiden
-    print("\n--- Korrelationsanalyse ---\n")
+    # Dictionary zur Speicherung der Korrelationen
+    correlations = {}
     for column in df.columns[:-1]:  # Zielvariable ausschließen
         if column != "Gesundheitszustand":
-            correlation, covariance = korrelation_kovarianz(df[column], df["Gesundheitszustand"])
-            print(f"Korrelation zwischen {column} und Gesundheitszustand: {correlation:.2f} (Kovarianz: {covariance:.4f})")
+            corr_cov = korrelation_kovarianz(df[column], df["Gesundheitszustand"])
+            correlations[column] = corr_cov['covariance']
+            f"Covariance: {corr_cov['covariance']:.2f}, Correlation: {corr_cov['correlation']:.2f}"
+
+    # Bestimmung der höchsten und niedrigsten Korrelation
+    max_correlation_column = max(correlations, key=correlations.get)
+    min_correlation_column = min(correlations, key=correlations.get)
+
+    # Ausgabe der Spalten mit der höchsten und niedrigsten Korrelation
+    data["max_correlation_column"] = f"Spalte mit der größten Korrelation: {max_correlation_column} ({correlations[max_correlation_column]:.2f})"
+    data["min_correlation_column"] = f"Spalte mit der niedrigsten Korrelation: {min_correlation_column} ({correlations[min_correlation_column]:.2f})"
 
     # 2. Hypothesentests:
     # statistische Tests
@@ -79,4 +98,7 @@ def gesundheitsdaten_main(df: pd.DataFrame):
     # Wählen Sie ein Subset der Daten (z.B. eine spezifische Altersgruppe oder Geschlechtergruppe) und analysieren Sie, wie sich die Vorhersagen oder statistischen Eigenschaften in dieser Gruppe von der Gesamtpopulation unterscheiden.
     # TODO - String zurückgeben
     subset_condition = {'Alter': 60}
-    gesundheitsdaten_subset_analysis(df, subset_condition)
+    # gesundheitsdaten_subset_analysis(df, subset_condition)
+
+    # Return data for output generation
+    return data

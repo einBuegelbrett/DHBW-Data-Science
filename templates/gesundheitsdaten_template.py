@@ -38,18 +38,37 @@ gesundheitsdaten_template = """
         <p>{{ corr_cov_blutzucker_cholesterinwert }}</p>
         <p><p>
         
-        <h3>--- Analyse der Korrelation und Kovarianz ---</h3>
-        <p>{{ corr_cov_location_target }}</p>
+        <h2>Mögliche Zusammenhänge zwischen den unabhängigen Variablen und der Zielvariable, höchsten und niedrigsten Korrelation</h2>
+        
+        <h3>--- Analyse der Korrelation und Kovarianz (max) ---</h3>
+        <p>{{ max_correlation_column }}</p>
         <p><p>
         
-        <h3>--- Analyse der Korrelation und Kovarianz ---</h3>
-        <p>{{ corr_cov_location_target }}</p>
+        <h3>--- Analyse der Korrelation und Kovarianz (min) ---</h3>
+        <p>{{ min_correlation_column }}</p>
         <p><p>
     </section>
 
     <section id="graphen">
         <h2>Graphen</h2>
-        <p>{{ graphs }}</p>
+        <h3>Untersuchung der Verteilung der numerischen Variablen</h3>
+        <img src="images/Alter.png" alt="Histogram of Alter" width="400px" height="400px">
+        <img src="images/Geschlecht.png" alt="Histogram of Geschlecht" width="400px" height="400px">
+        <img src="images/Brustschmerz-Typ.png" alt="Histogram of Brustschmerz-Typ" width="400px" height="400px">
+        <img src="images/Ruheblutdruck.png" alt="Histogram of Ruheblutdruck" width="400px" height="400px">
+        <img src="images/Cholesterinwert.png" alt="Histogram of Cholesterinwert" width="400px" height="400px">
+        <img src="images/Blutzucker.png" alt="Histogram of Blutzucker" width="400px" height="400px">
+        <img src="images/EKG.png" alt="Histogram of EKG" width="400px" height="400px">
+        <img src="images/MaximaleHerzfrequenz.png" alt="Histogram of MaximaleHerzfrequenz" width="400px" height="400px">
+        <img src="images/Gesundheitszustand.png" alt="Histogram of Gesundheitszustand" width="400px" height="400px">
+        
+        <h3>Die 3 Spalten mit den größten Ausreißern sind:</h3>
+        <ul>
+            {{ top_outliers }}
+        </ul>
+        <img src="images/image_0.png" alt="Boxplot of {{ top_outliers[0].column }}" width="400px" height="400px">
+        <img src="images/image_1.png" alt="Boxplot of {{ top_outliers[1].column }}" width="400px" height="400px">
+        <img src="images/image_2.png" alt="Boxplot of {{ top_outliers[2].column }}" width="400px" height="400px">
     </section>
 
     <section id="tests">
@@ -67,9 +86,9 @@ gesundheitsdaten_template = """
         <p>{{ ttest_Cholesterinwert_Gesundheitszustand }}</p>
     </section>
 
-    <section id="nlp-ml">
-        <h2>nlp / ml</h2>
-        <p>{{ nlp_ml }}</p>
+    <section id="ml">
+        <h2>ml</h2>
+        <p>{{ ml }}</p>
     </section>
 
     <section id="hyperparametertuning">

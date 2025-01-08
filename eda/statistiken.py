@@ -66,6 +66,21 @@ def korrelation_kovarianz(series1: pd.Series, series2: pd.Series) -> dict:
     return cleaned_result
 
 
+def count_outliers_iqr(series: pd.Series) -> int:
+    """
+    Count the number of outliers in a Series using the IQR method.
+
+    :param series: Input Series
+    :return: Number of outliers
+    """
+    Q1 = series.quantile(0.25)
+    Q3 = series.quantile(0.75)
+    IQR = Q3 - Q1
+    lower_bound = Q1 - 1.5 * IQR
+    upper_bound = Q3 + 1.5 * IQR
+    return ((series < lower_bound) | (series > upper_bound)).sum()
+
+
 def gesundheitsdaten_subset_analysis(data: pd.DataFrame, subset_condition: dict):
     """
     Analysiert ein Subset der Daten und vergleicht die Eigenschaften mit der Gesamtpopulation.
