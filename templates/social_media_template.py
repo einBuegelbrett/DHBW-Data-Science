@@ -69,11 +69,6 @@ social_media_template = """
         <img src="images/sentiment_bar_chart.png" alt="Sentiment Bar Chart" width="400px" height="400px">
         <p>Wir merken, dass oft ein Negatives Sentiment auch ein Indikator für relevante Beiträge ist und umgekehrt. Wir können daraus schließen, dass relevante Beiträge für Katastrophe oft negativ sind. Das war zu erwarten wie man es schon mit der Wortwolke gesehen hat.</p>
     </section>
-
-    <section id="hyperparametertuning">
-        <h2>Hyperparametertuning</h2>
-        <p>{{ hyperparameter_tuning }}</p>
-    </section>
 </body>
 </html>
 """
