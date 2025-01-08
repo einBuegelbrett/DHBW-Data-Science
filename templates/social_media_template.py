@@ -65,6 +65,8 @@ social_media_template = """
         <h2>nlp</h2>
         <p>Wir wollen jetzt schauen, ob das Sentiment des Textes einen Einfluss auf die Relevanz des Beitrags hat.</p>
         <p>{{ nlp }}</p>
+        <img src="images/sentiment_scores_boxplot.png" alt="Sentiment Scores Boxplot" width="400px" height="400px">
+        <img src="images/sentiment_bar_chart.png" alt="Sentiment Bar Chart" width="400px" height="400px">
         <p>Wir merken, dass oft ein Negatives Sentiment auch ein Indikator für relevante Beiträge ist und umgekehrt. Wir können daraus schließen, dass relevante Beiträge für Katastrophe oft negativ sind. Das war zu erwarten wie man es schon mit der Wortwolke gesehen hat.</p>
     </section>
 

@@ -42,7 +42,7 @@ def social_media_main(df):
     data["tests"] = t_test_2_sample(relevant_posts, irrelevant_posts, alternative='two-sided')
 
     # NLP
-    nlp.nlp_social_media(df, "text", 5)
+    data["nlp"] = nlp.nlp_social_media(df, "text", 5)
 
     # Return data for output generation
     return data
