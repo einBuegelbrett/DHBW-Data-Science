@@ -1,5 +1,3 @@
-import tkinter as tk
-from tkinter import filedialog
 import datenvorverarbeitung.datenvorverarbeitung as dv
 import datensaetze_funktionen.kunden.kunden as kd
 import datensaetze_funktionen.social_media.social_media as sm
@@ -10,28 +8,17 @@ from templates.social_media_template import social_media_template
 from templates.gesundheitsdaten_template import gesundheitsdaten_template
 import pdfkit
 
-def select_file():
-    """
-    Opens a file dialog for the user to select a dataset.
-    :return: The path to the selected file
-    """
-    root = tk.Tk()
-    root.withdraw()
-    file_path = filedialog.askopenfilename(
-        title="Wählen Sie eine Datendatei aus",
-        filetypes=(("CSV-Dateien", "*.csv"), ("Textdateien", "*.txt"))
-    )
-    return file_path
-
-
 if __name__ == "__main__":
+    document = sf.select_file()
     jinja_template = None
     data = None
-    document = select_file()
 
     if document == "":
         print("Keine Datei ausgewählt. Das Programm wird beendet.")
         exit()
+
+    jinja_template = None
+    data = None
 
     df = dv.read_document(document)
     df = dv.replace_missing_values(df)
