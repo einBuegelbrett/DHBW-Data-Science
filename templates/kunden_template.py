@@ -37,6 +37,7 @@ kunden_template = """
         <h4>Visualisierung mit Scatterplot</h4>
         <img src="images/income_spending.png" alt="Income Spending Scatterplot" width="400px" height="400px">
         <p>{{ scatterplot_interpretation }}</p>
+        <p>{{ correlation_covariance_scatterplot }}</p>
     </section>
 
     <section id="graphen">

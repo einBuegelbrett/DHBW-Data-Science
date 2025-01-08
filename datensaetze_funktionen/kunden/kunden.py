@@ -83,21 +83,21 @@ def kunden_main(df):
           "linearen Zusammenhang zwischen Einkommen und Ausgabenverhalten gibt.<br>")
 
     # Scatterplot: Income vs. Spending Score
-    scatterplot(df, "Annual Income (k$)", "Spending Score (1-100)")
-    print("\n--- Analyse des Scatterplots ---")
-    print("Der Scatterplot zeigt deutlich unterschiedliche Cluster in den Daten: \n"
+    scatterplot(df, "Annual Income (k$)", "Spending Score (1-100)", "income_spending")
+    data["scatterplot_interpretation"] = ("--- Interpretation des Scatterplots ---<br>"
+        "Der Scatterplot zeigt deutlich unterschiedliche Cluster in den Daten: <br>"
           "Ein großes, zentrales Cluster, das viele Datenpunkte im Bereich von mittlerem Einkommen (40-60 k$) "
-          "und mittlerem Spending Score (40-60) umfasst.\n"
+          "und mittlerem Spending Score (40-60) umfasst.<br>"
           "Vier kleinere Cluster, in den jeweiligen Ecken verteilt sind: "
           "Die Verteilung zeigt deutlich segmentiertes Verhalten, was auf verschiedene Kundengruppen oder "
           "Marktsegmente hinweist.")
 
-    print("\n--- Verbindung zwischen Korrelation/Kovarianz und Scatterplot ---")
-    print("Die numerischen Ergebnisse von Korrelation und Kovarianz stimmen mit dem Scatterplot überein:\n"
-          "Es gibt keinen linearen Zusammenhang zwischen Einkommen und Ausgabeverhalten, welcher Aussagekräftig genug ist"
-          "um eine klare Beziehung zu erkennen.\n"
-          "Die Cluster im Scatterplot zeigen jedoch eine segmentierte Population, die sich in fünf Gruppen unterteilen lässt. "
-          "Dies deutet darauf hin, dass andere Faktoren das Ausgabeverhalten beeinflussen. ")
+    data["correlation_covariance_scatterplot"] = ("--- Verbindung zwischen Korrelation/Kovarianz und Scatterplot ---<br>"
+            "Die numerischen Ergebnisse von Korrelation und Kovarianz stimmen mit dem Scatterplot überein:<br>"
+            "Es gibt keinen linearen Zusammenhang zwischen Einkommen und Ausgabeverhalten, welcher Aussagekräftig genug ist"
+            "um eine klare Beziehung zu erkennen.<br>"
+            "Die Cluster im Scatterplot zeigen jedoch eine segmentierte Population, die sich in fünf Gruppen unterteilen lässt. "
+            "Dies deutet darauf hin, dass andere Faktoren das Ausgabeverhalten beeinflussen. ")
 
     # Boxplot: Income by Gender
     boxplot(df, x="Gender", y="Annual Income (k$)", hue=None, title="Annual Income by Gender", x_label="Gender", y_label="Annual Income (k$)")
