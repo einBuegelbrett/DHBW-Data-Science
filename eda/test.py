@@ -7,7 +7,6 @@ def normality_test(data: pd.DataFrame) -> int:
 
     :param data: A pandas DataFrame containing the data to test.
     :return: None. Results are printed directly.
-
     """
     # Perform the Shapiro-Wilk test
     stat, p = shapiro(data)
@@ -23,8 +22,7 @@ def normality_test(data: pd.DataFrame) -> int:
     return p
 
 
-
-def t_test_1_sample(data: pd.DataFrame, mu_0: float, alternative: str = 'two-sided') -> None:
+def t_test_1_sample(data: pd.DataFrame, mu_0: float, alternative: str = 'two-sided') -> str:
     """
     Perform a one-sample t-test on the data.
 
@@ -34,26 +32,34 @@ def t_test_1_sample(data: pd.DataFrame, mu_0: float, alternative: str = 'two-sid
                         'two-sided' (default) for testing if the sample mean is different from mu_0,
                         'greater' for testing if the sample mean is greater than mu_0,
                         'less' for testing if the sample mean is less than mu_0.
-    :return: None. Results are printed directly.
+    :return: A string containing the formatted test results.
     """
-
+    # Initialize an empty string to hold the output
+    output = ""
 
     # Perform the one-sample t-test
     t_stat, p_value = ttest_1samp(data, mu_0, alternative=alternative)
 
     # Report results
-    print(f"T-statistic: {t_stat}")
-    print(f"P-value: {p_value}")
+    output += f"T-statistic: {t_stat}\n"
+    output += f"P-value: {p_value}\n"
 
     if alternative == 'two-sided':
-        print(f"Test is two-sided: Null hypothesis is {'rejected' if p_value < 0.05 else 'not rejected'}.")
+        decision = "rejected" if p_value < 0.05 else "not rejected"
+        output += f"Test is two-sided: Null hypothesis is {decision}.\n"
     elif alternative == 'greater':
-        print(f"Test is one-sided (greater): Null hypothesis is {'rejected' if p_value < 0.05 else 'not rejected'}.")
+        decision = "rejected" if p_value < 0.05 else "not rejected"
+        output += f"Test is one-sided (greater): Null hypothesis is {decision}.\n"
     elif alternative == 'less':
-        print(f"Test is one-sided (less): Null hypothesis is {'rejected' if p_value < 0.05 else 'not rejected'}.")
+        decision = "rejected" if p_value < 0.05 else "not rejected"
+        output += f"Test is one-sided (less): Null hypothesis is {decision}.\n"
+    else:
+        output += "Invalid alternative hypothesis.\n"
+
+    return output
 
 
-def t_test_2_sample(data1: pd.Series, data2: pd.Series, alternative: str = 'two-sided') -> None:
+def t_test_2_sample(data1: pd.Series, data2: pd.Series, alternative: str = 'two-sided') -> str:
     """
     Perform a two-sample t-test to compare the means of two independent samples.
 
@@ -63,55 +69,68 @@ def t_test_2_sample(data1: pd.Series, data2: pd.Series, alternative: str = 'two-
                         'two-sided' (default) for testing if the means are different,
                         'greater' for testing if the mean of data1 is greater than data2,
                         'less' for testing if the mean of data1 is less than data2.
-    :return: None. Results are printed directly.
+    :return: A string containing the formatted test results.
     """
+    # Initialize an empty string to hold the output
+    output = ""
 
     # Levene's test for equality of variances
     stat, p = levene(data1, data2)
     equal_var = p > 0.05  # Assume equal variance if p > 0.05
 
-    print("\nLevene’s Test for Equality of Variances:")
-    print(f"Statistic={stat}, P-value={p} ({'Equal variances' if equal_var else 'Unequal variances'})")
+    output += "\nLevene’s Test for Equality of Variances:\n"
+    output += f"Statistic={stat}, P-value={p} ({'Equal variances' if equal_var else 'Unequal variances'})\n"
 
     # Perform the two-sample t-test
     t_stat, p_value = ttest_ind(data1, data2, equal_var=equal_var, alternative=alternative)
 
     # Print the t-test results
-    print("\nTwo-Sample T-Test:")
-    print(f"T-statistic: {t_stat}")
-    print(f"P-value: {p_value}")
+    output += "\nTwo-Sample T-Test:\n"
+    output += f"T-statistic: {t_stat}\n"
+    output += f"P-value: {p_value}\n"
 
     # Interpret the results based on the alternative hypothesis
     if alternative == 'two-sided':
-        print(f"Test is two-sided: Null hypothesis is {'rejected' if p_value < 0.05 else 'not rejected'}.")
+        result = "rejected" if p_value < 0.05 else "not rejected"
+        output += f"Test is two-sided: Null hypothesis is {result}.\n"
     elif alternative == 'greater':
-        print(f"Test is one-sided (greater): Null hypothesis is {'rejected' if p_value < 0.05 else 'not rejected'}.")
+        result = "rejected" if p_value < 0.05 else "not rejected"
+        output += f"Test is one-sided (greater): Null hypothesis is {result}.\n"
     elif alternative == 'less':
-        print(f"Test is one-sided (less): Null hypothesis is {'rejected' if p_value < 0.05 else 'not rejected'}.")
+        result = "rejected" if p_value < 0.05 else "not rejected"
+        output += f"Test is one-sided (less): Null hypothesis is {result}.\n"
+    else:
+        return "Invalid alternative hypothesis."
+
+    return output
 
 
-def chi_square_test(data: pd.DataFrame) -> None:
+def chi_square_test(data: pd.DataFrame) -> str:
     """
     Perform a Chi-Square test of independence.
 
     :param data: A pandas DataFrame containing the contingency table.
-    :return: None. Results are printed directly.
+    :return: A string containing the formatted test results.
     """
+    # Initialize an empty string to hold the output
+    output = ""
 
     # Perform the Chi-Square test
     chi2, p, dof, expected = chi2_contingency(data)
 
     # Report results
-    print(f"Chi-Square Statistic: {chi2}")
-    print(f"P-value: {p}")
-    print(f"Degrees of Freedom: {dof}")
-    print("Expected Frequencies:")
-    print(pd.DataFrame(expected, index=data.index, columns=data.columns))
+    output += f"Chi-Square Statistic: {chi2}\n"
+    output += f"P-value: {p}\n"
+    output += f"Degrees of Freedom: {dof}\n"
+    output += "Expected Frequencies:\n"
+    output += pd.DataFrame(expected, index=data.index, columns=data.columns).to_string() + "\n"
 
     # Decision
     alpha = 0.05
     if p < alpha:
-        print("Reject the null hypothesis: There is a significant association between the variables.")
+        output += "Reject the null hypothesis: There is a significant association between the variables.\n"
     else:
-        print("Fail to reject the null hypothesis: There is no significant association between the variables.")
+        output += "Fail to reject the null hypothesis: There is no significant association between the variables.\n"
+
+    return output
 

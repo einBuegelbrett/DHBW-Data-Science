@@ -39,7 +39,7 @@ def social_media_main(df):
     vis.pie_chart(df, "target", "Anzahl der relevanten und irrelevanten Beiträge", "number_of_posts_pie_chart") # Calculate the average post length for each location
 
     # Tests
-    t_test_2_sample(relevant_posts, irrelevant_posts, alternative='two-sided')
+    data["tests"] = t_test_2_sample(relevant_posts, irrelevant_posts, alternative='two-sided')
 
     # NLP
     nlp.nlp_social_media(df, "text", 5)
