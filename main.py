@@ -2,6 +2,7 @@ import datenvorverarbeitung.datenvorverarbeitung as dv
 import datensaetze_funktionen.kunden.kunden as kd
 import datensaetze_funktionen.social_media.social_media as sm
 import datensaetze_funktionen.gesundheitsdaten.gesundheitsdaten as gd
+import datenvorverarbeitung.select_file as sf
 from jinja2 import Template
 from templates.kunden_template import kunden_template
 from templates.social_media_template import social_media_template
@@ -32,13 +33,13 @@ if __name__ == "__main__":
         jinja_template = Template(kunden_template)
 
     elif "Social-Media-Datensatz" in document:
-        sm.social_media_main(df)
+        data = sm.social_media_main(df)
 
         # Template laden
         jinja_template = Template(social_media_template)
 
     elif "Gesundheitsdaten-Datensatz" in document:
-        gd.gesundheitsdaten_main(df)
+        data = gd.gesundheitsdaten_main(df)
 
         # Template laden
         jinja_template = Template(gesundheitsdaten_template)
@@ -57,4 +58,4 @@ if __name__ == "__main__":
         # Konvertiere HTML zu PDF
         pdfkit.from_file('report.html', 'report.pdf')
     else:
-        print("Kein Template gefunden.")
+        print("Keine Template oder Daten gefunden.")

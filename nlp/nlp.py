@@ -32,6 +32,6 @@ def nlp_social_media(data: pd.DataFrame, column: str, lines_to_process: int) -> 
     data_subset['Sentiment'] = [result['label'] for result in sentiment_results]
     data_subset['Score'] = [result['score'] for result in sentiment_results]
 
-    boxplot(data_subset, 'target', 'Score', 'Sentiment', 'Sentiment Scores by Relevance', 'Relevance (0 = Irrelevant, 1 = Relevant)', 'Sentiment Score')
-    bar_chart(data_subset, 'target', 'Sentiment')
+    boxplot(data_subset, 'target', 'Score', 'Sentiment', 'Sentiment Scores by Relevance', 'Relevance (0 = Irrelevant, 1 = Relevant)', 'Sentiment Score', 'sentiment_scores_boxplot')
+    bar_chart(data_subset, 'target', 'Sentiment', 'sentiment_bar_chart')
 
