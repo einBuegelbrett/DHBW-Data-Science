@@ -89,18 +89,25 @@ gesundheitsdaten_template = """
     <section id="ml">
         <h2>ml</h2>
         <h3>--- Evaluation: Logistic Regression ---</h3>
-        <p>{{ logistic_regression }}</p>
+        <p>{{ logistic_regression_evaluate_model }}</p>
         
         <h3>--- Evaluation: Random Forest ---</h3>
-        <p>{{ random_forest }}</p>
+        <p>{{ random_forest_evaluate_model }}</p>
         
         <h3>--- Evaluation: K-Nearest Neighbors (KNN) ---</h3>
-        <p>{{ knn_classifier }}</p>
+        <p>{{ knn_classifier_evaluate_model }}</p>
     </section>
 
     <section id="hyperparametertuning">
         <h2>Hyperparametertuning</h2>
-        <p>{{ hyperparameter_tuning }}</p>
+        <h3>--- Evaluation: Logistic Regression ---</h3>
+        <p>{{ logistic_regression_best_params }}</p>
+        
+        <h3>--- Evaluation: Random Forest ---</h3>
+        <p>{{ random_forest_best_params }}</p>
+        
+        <h3>--- Evaluation: K-Nearest Neighbors (KNN) ---</h3>
+        <p>{{ knn_classifier_best_params }}</p>
     </section>
     
     <section id="zusaetzlicheanalyse">

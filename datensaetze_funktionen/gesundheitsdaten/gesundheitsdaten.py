@@ -82,17 +82,17 @@ def gesundheitsdaten_main(df: pd.DataFrame):
     # Klassifikationsmodell
     # Evaluieren Sie die Modelle mit geeigneten Metriken (z.B. Accuracy, F1-Score) (findet statt in der Funktion).
     # logistic_regression
-    data["logistic_regression"] = logistic_regression(df, "Gesundheitszustand")
+    data["logistic_regression_evaluate_model"], data["logistic_regression_best_params"] = logistic_regression(df, "Gesundheitszustand")
     # random_forest
-    data["random_forest"] = random_forest(df, "Gesundheitszustand")
+    data["random_forest_evaluate_model"], data["random_forest_best_params"] = random_forest(df, "Gesundheitszustand")
     # knn_classifier
-    data["knn_classifier"] = knn_classifier(df, "Gesundheitszustand")
+    data["knn_classifier_evaluate_model"], data["knn_classifier_best_params"] = knn_classifier(df, "Gesundheitszustand")
 
     # 4. Zusätzliche Analyse:
     # Wählen Sie ein Subset der Daten (z.B. eine spezifische Altersgruppe oder Geschlechtergruppe) und analysieren Sie, wie sich die Vorhersagen oder statistischen Eigenschaften in dieser Gruppe von der Gesamtpopulation unterscheiden.
     # TODO - String zurückgeben
     subset_condition = {'Alter': 60}
-    data["mehranalyse"] = gesundheitsdaten_subset_analysis(df, subset_condition)
+    # data["mehranalyse"] = gesundheitsdaten_subset_analysis(df, subset_condition)
 
     # Return data for output generation
     return data
