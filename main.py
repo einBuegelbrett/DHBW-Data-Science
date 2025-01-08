@@ -1,9 +1,8 @@
-import datenvorverarbeitung.datenvorverarbeitung as dv
-import datenvorverarbeitung.select_file as sf
+import datenvorverarbeitung.data_cleaning as dv
 import datensaetze_funktionen.kunden.kunden as kd
 import datensaetze_funktionen.social_media.social_media as sm
 import datensaetze_funktionen.gesundheitsdaten.gesundheitsdaten as gd
-import datenvorverarbeitung.select_file as sf
+import datenvorverarbeitung.file_handler as fh
 from jinja2 import Template
 from templates.kunden_template import kunden_template
 from templates.social_media_template import social_media_template
@@ -11,7 +10,7 @@ from templates.gesundheitsdaten_template import gesundheitsdaten_template
 import pdfkit
 
 if __name__ == "__main__":
-    document = sf.select_file()
+    document = fh.select_file()
     jinja_template = None
     data = None
 
@@ -22,7 +21,7 @@ if __name__ == "__main__":
     jinja_template = None
     data = None
 
-    df = dv.read_document(document)
+    df = fh.read_document(document)
     df = dv.replace_missing_values(df)
     df = dv.remove_duplicates(df)
 

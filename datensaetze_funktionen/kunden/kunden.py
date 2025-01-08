@@ -1,4 +1,4 @@
-import datenvorverarbeitung.datenvorverarbeitung as dv
+import datenvorverarbeitung.data_cleaning as dv
 import eda.statistiken as st
 from eda.visualisierungen import scatterplot, boxplot, histogram, line_plot
 from eda.test import chi_square_test, normality_test

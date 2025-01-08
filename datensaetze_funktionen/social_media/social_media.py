@@ -1,4 +1,4 @@
-import datenvorverarbeitung.datenvorverarbeitung as dv
+import datenvorverarbeitung.data_cleaning as dv
 import eda.statistiken as st
 import nlp.nlp as nlp
 import eda.visualisierungen as vis
