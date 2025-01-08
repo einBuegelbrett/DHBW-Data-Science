@@ -28,11 +28,12 @@ def gesundheitsdaten_main(df: pd.DataFrame):
     # TODO - Sich für eins Entscheiden
     print("\n--- Untersuchung der Verteilungen ---\n")
     for column in df.columns:
-        histogram(df, column, column[0])
+        histogram(df, column, column[0], column[0])
 
     # Ausreißer identifizieren
+    # TODO - Sich für eins Entscheiden
     for column in df.columns:
-        boxplot(df, x=column, y=None, hue=None, title=f"Boxplot of {column}", x_label=column, y_label=column[0])
+        boxplot(df, x=column, y=None, hue=None, title=f"Boxplot of {column}", x_label=column, y_label=column[0], image_name=column[0])
 
     # Correlation and covariance
     corr_cov_maximaleHerzfrequenz_alter = korrelation_kovarianz(df["MaximaleHerzfrequenz"], df["Alter"])
@@ -52,18 +53,14 @@ def gesundheitsdaten_main(df: pd.DataFrame):
 
     # 2. Hypothesentests:
     # statistische Tests
-    ## Nullhypothese (H₀): Es gibt keinen Unterschied im Gesundheitsrisiko zwischen Männern und Frauen.
-    t_test_2_sample(df["Gesundheitszustand"], df["Geschlecht"], alternative='two-sided')
-    ## Nullhypothese (H₀): Es gibt keinen Unterschied im Gesundheitsrisiko zwischen den Altersgruppen.
-    t_test_2_sample(df["Gesundheitszustand"], df["Alter"], alternative='two-sided')
-
+    data["ttest_Gesundheitszustand_Geschlecht"] = t_test_2_sample(df["Gesundheitszustand"], df["Geschlecht"], alternative='two-sided')
+    data["ttest_Gesundheitszustand_Alter"] = t_test_2_sample(df["Gesundheitszustand"], df["Alter"], alternative='two-sided')
     # Testen Sie, ob bestimmte Merkmale wie der Ruheblutdruck oder der Cholesterinwert signifikante Unterschiede zwischen Personen mit und ohne Risiko zeigen.
-    ## Nullhypothese (H₀): Es gibt keinen Unterschied im Ruheblutdruck zwischen Personen mit Risiko (Gesundheitszustand = 1) und ohne Risiko (Gesundheitszustand = 0).
-    t_test_2_sample(df["Ruheblutdruck"], df["Gesundheitszustand"], alternative='two-sided')
-    ## Nullhypothese (H₀): Es gibt keinen Unterschied im Cholesterinwert zwischen Personen mit Risiko (Gesundheitszustand = 1) und ohne Risiko (Gesundheitszustand = 0).
-    t_test_2_sample(df["Cholesterinwert"], df["Gesundheitszustand"], alternative='two-sided')
+    data["ttest_Ruheblutdruck_Gesundheitszustand"] = t_test_2_sample(df["Ruheblutdruck"], df["Gesundheitszustand"], alternative='two-sided')
+    data["ttest_Cholesterinwert_Gesundheitszustand"] = t_test_2_sample(df["Cholesterinwert"], df["Gesundheitszustand"], alternative='two-sided')
 
     # 3. Modellierung und Klassifikation:
+    # TODO - Klassifikation gescheit machen
     # Klassifikationsmodell
     X = df.drop("Gesundheitszustand", axis=1)  # Features
     # y = data["Gesundheitszustand"]  # Zielvariable
@@ -78,11 +75,8 @@ def gesundheitsdaten_main(df: pd.DataFrame):
     # knn_classifier
     knn_classifier(df, "Gesundheitszustand")
 
-
-    # Hyperparameter-Tuning
-    ...
-
     # 4. Zusätzliche Analyse:
     # Wählen Sie ein Subset der Daten (z.B. eine spezifische Altersgruppe oder Geschlechtergruppe) und analysieren Sie, wie sich die Vorhersagen oder statistischen Eigenschaften in dieser Gruppe von der Gesamtpopulation unterscheiden.
+    # TODO - String zurückgeben
     subset_condition = {'Alter': 60}
     gesundheitsdaten_subset_analysis(df, subset_condition)

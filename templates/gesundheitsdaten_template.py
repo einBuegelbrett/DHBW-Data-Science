@@ -54,7 +54,17 @@ gesundheitsdaten_template = """
 
     <section id="tests">
         <h2>Tests</h2>
-        <p>{{ tests }}</p>
+        <h3>Nullhypothese (H₀): Es gibt keinen Unterschied im Gesundheitsrisiko zwischen Männern und Frauen.</h3>
+        <p>{{ ttest_Gesundheitszustand_Geschlecht }}</p>
+        
+        <h3>Nullhypothese (H₀): Es gibt keinen Unterschied im Gesundheitsrisiko zwischen den Altersgruppen.</h3>
+        <p>{{ ttest_Gesundheitszustand_Alter }}</p>
+        
+        <h3>Nullhypothese (H₀): Es gibt keinen Unterschied im Ruheblutdruck zwischen Personen mit Risiko (Gesundheitszustand = 1) und ohne Risiko (Gesundheitszustand = 0).</h3>
+        <p>{{ ttest_Ruheblutdruck_Gesundheitszustand }}</p>
+        
+        <h3>Nullhypothese (H₀): Es gibt keinen Unterschied im Cholesterinwert zwischen Personen mit Risiko (Gesundheitszustand = 1) und ohne Risiko (Gesundheitszustand = 0).</h3>
+        <p>{{ ttest_Cholesterinwert_Gesundheitszustand }}</p>
     </section>
 
     <section id="nlp-ml">
