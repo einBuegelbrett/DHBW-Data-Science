@@ -12,5 +12,3 @@ def evaluate_model(y_true, y_pred, average='weighted'):
     print("Precision:", precision_score(y_true, y_pred, average=average))
     print("Recall:", recall_score(y_true, y_pred, average=average))
     print("F1-Score:", f1_score(y_true, y_pred, average=average))
-    print("\nKlassifikationsbericht:\n")
-    print(classification_report(y_true, y_pred))
