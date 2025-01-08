@@ -25,6 +25,7 @@ def kunden_main(df):
 
     # Encode Gender to binary
     df = dv.to_binary(df, "Gender", "Male", "Female")
+    copy_df = df.copy()
     data["cleaning"] = df.head().to_html(classes="table")
 
     # Statistical Summary
@@ -73,31 +74,15 @@ def kunden_main(df):
         data["statistics"] = "\n".join(statistics_texts)
 
     # Correlation and Covariance
+    corr_cov_age_income = st.korrelation_kovarianz(df["Age"], df["Annual Income (k$)"])
+    data["corr_cov_age_income"] = f"Covariance: {corr_cov_age_income['covariance']:.2f}, Correlation: {corr_cov_age_income['correlation']:.2f}"
+
+    corr_cov_age_spending = st.korrelation_kovarianz(df["Age"], df["Spending Score (1-100)"])
+    data["corr_cov_age_spending"] = f"Covariance: {corr_cov_age_spending['covariance']:.2f}, Correlation: {corr_cov_age_spending['correlation']:.2f}"
+
     corr_cov = st.korrelation_kovarianz(df["Annual Income (k$)"], df["Spending Score (1-100)"])
     data["correlation_covariance"] = f"Covariance: {corr_cov['covariance']:.2f}, Correlation: {corr_cov['correlation']:.2f}"
-    data["correlation_covariance_interpretation"] = (f"--- Analyse der Korrelation und Kovarianz ---<br>"
-          f"Die Kovarianz {corr_cov['covariance']:.2f}, zeigt eine leichte gemeinsame Streuung der beiden Variablen,"
-          f"was bedeutet, dass sie sich in die gleiche Richtung bewegen.<br>"
-          "Die Stärke und Richtung der Beziehung wird dadurch aber nicht deutlich.<br>"
-          f"Die Extrem niedrige Korrelation von {corr_cov['correlation']:f}, deutet darauf hin dass es keinen"
-          "linearen Zusammenhang zwischen Einkommen und Ausgabenverhalten gibt.<br>")
-
-    # Scatterplot: Income vs. Spending Score
     scatterplot(df, "Annual Income (k$)", "Spending Score (1-100)", "income_spending")
-    data["scatterplot_interpretation"] = ("--- Interpretation des Scatterplots ---<br>"
-        "Der Scatterplot zeigt deutlich unterschiedliche Cluster in den Daten: <br>"
-          "Ein großes, zentrales Cluster, das viele Datenpunkte im Bereich von mittlerem Einkommen (40-60 k$) "
-          "und mittlerem Spending Score (40-60) umfasst.<br>"
-          "Vier kleinere Cluster, in den jeweiligen Ecken verteilt sind: "
-          "Die Verteilung zeigt deutlich segmentiertes Verhalten, was auf verschiedene Kundengruppen oder "
-          "Marktsegmente hinweist.")
-
-    data["correlation_covariance_scatterplot"] = ("--- Verbindung zwischen Korrelation/Kovarianz und Scatterplot ---<br>"
-            "Die numerischen Ergebnisse von Korrelation und Kovarianz stimmen mit dem Scatterplot überein:<br>"
-            "Es gibt keinen linearen Zusammenhang zwischen Einkommen und Ausgabeverhalten, welcher Aussagekräftig genug ist"
-            "um eine klare Beziehung zu erkennen.<br>"
-            "Die Cluster im Scatterplot zeigen jedoch eine segmentierte Population, die sich in fünf Gruppen unterteilen lässt. "
-            "Dies deutet darauf hin, dass andere Faktoren das Ausgabeverhalten beeinflussen. ")
 
     # Boxplot: Income by Gender
     boxplot(df, x="Gender", y="Annual Income (k$)", hue=None, title="Annual Income by Gender", x_label="Gender", y_label="Annual Income (k$)")
@@ -111,12 +96,9 @@ def kunden_main(df):
         print("Annual Income data is not normally distributed.")
 
     # Chi-Square Test
-    copy_df = df.copy()
     df['Spending_Category'] = df['Spending Score (1-100)'].apply(categorize_spending_score)
-
     # Create a contingency table for Gender vs. Spending_Category
     contingency_table = pd.crosstab(df['Gender'], df['Spending_Category'])
-
     # Perform the Chi-Square test
     print("\nChi-Square Test:")
     chi_square_test(contingency_table)
