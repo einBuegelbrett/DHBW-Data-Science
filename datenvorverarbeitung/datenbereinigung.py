@@ -78,3 +78,11 @@ def categorize_spending_score(score: int) -> str:
         return 'Medium'
     else:
         return 'High'
+
+def categorize_herzfrequenz(value: int) -> str:
+    if value < 120:
+        return "Niedrig"
+    elif 120 <= value <= 150:
+        return "Mittel"
+    else:
+        return "Hoch"

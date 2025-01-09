@@ -3,7 +3,7 @@ import pandas as pd
 import seaborn as sns
 from wordcloud import WordCloud
 
-def boxplot(data: pd.DataFrame, x: str, y: str, hue: str|None, title: str, x_label: str, y_label: str, image_name: str) -> None:
+def boxplot(data: pd.DataFrame, x: str, y: str|None, hue: str|None, title: str, x_label: str, y_label: str, image_name: str) -> None:
     """
     Create a box plot
 

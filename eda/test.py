@@ -78,27 +78,27 @@ def t_test_2_sample(data1: pd.Series, data2: pd.Series, alternative: str = 'two-
     stat, p = levene(data1, data2)
     equal_var = p > 0.05  # Assume equal variance if p > 0.05
 
-    output += "\nLevene’s Test for Equality of Variances:\n"
-    output += f"Statistic={stat}, P-value={p} ({'Equal variances' if equal_var else 'Unequal variances'})\n"
+    output += "\nLevene’s Test for Equality of Variances:\n <br>"
+    output += f"Statistic={stat}, P-value={p} ({'Equal variances' if equal_var else 'Unequal variances'})\n <br>"
 
     # Perform the two-sample t-test
     t_stat, p_value = ttest_ind(data1, data2, equal_var=equal_var, alternative=alternative)
 
     # Print the t-test results
-    output += "\nTwo-Sample T-Test:\n"
-    output += f"T-statistic: {t_stat}\n"
-    output += f"P-value: {p_value}\n"
+    output += "\nTwo-Sample T-Test:\n <br>"
+    output += f"T-statistic: {t_stat}\n <br>"
+    output += f"P-value: {p_value}\n <br>"
 
     # Interpret the results based on the alternative hypothesis
     if alternative == 'two-sided':
         result = "rejected" if p_value < 0.05 else "not rejected"
-        output += f"Test is two-sided: Null hypothesis is {result}.\n"
+        output += f"Test is two-sided: Null hypothesis is {result}.\n <br>"
     elif alternative == 'greater':
         result = "rejected" if p_value < 0.05 else "not rejected"
-        output += f"Test is one-sided (greater): Null hypothesis is {result}.\n"
+        output += f"Test is one-sided (greater): Null hypothesis is {result}.\n <br>"
     elif alternative == 'less':
         result = "rejected" if p_value < 0.05 else "not rejected"
-        output += f"Test is one-sided (less): Null hypothesis is {result}.\n"
+        output += f"Test is one-sided (less): Null hypothesis is {result}.\n <br>"
     else:
         return "Invalid alternative hypothesis."
 
@@ -122,8 +122,6 @@ def chi_square_test(data: pd.DataFrame) -> str:
     output += f"Chi-Square Statistic: {chi2}\n <br>"
     output += f"P-value: {p}\n <br>"
     output += f"Degrees of Freedom: {dof}\n <br>"
-    output += "Expected Frequencies:\n <br>"
-    output += pd.DataFrame(expected, index=data.index, columns=data.columns).to_string() + "\n <br>"
 
     # Decision
     alpha = 0.05

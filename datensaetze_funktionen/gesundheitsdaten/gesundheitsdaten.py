@@ -1,5 +1,6 @@
 import pandas as pd
-from eda.test import t_test_2_sample
+from datenvorverarbeitung.datenbereinigung import categorize_herzfrequenz
+from eda.test import t_test_2_sample, normality_test, chi_square_test
 from eda.visualisierungen import histogram, boxplot
 from eda.statistiken import korrelation_kovarianz, gesundheitsdaten_subset_analysis, count_outliers_iqr
 from ml.k_neighbour import knn_classifier
@@ -70,12 +71,28 @@ def gesundheitsdaten_main(df: pd.DataFrame) -> dict[str, str]:
     data["min_correlation_column"] = f"Spalte mit der niedrigsten Korrelation: {min_correlation_column} ({correlations[min_correlation_column]:.2f})"
 
     # 2. Hypothesentests:
-    # statistische Tests
-    data["ttest_Gesundheitszustand_Geschlecht"] = t_test_2_sample(df["Gesundheitszustand"], df["Geschlecht"], alternative='two-sided')
-    data["ttest_Gesundheitszustand_Alter"] = t_test_2_sample(df["Gesundheitszustand"], df["Alter"], alternative='two-sided')
-    # Testen Sie, ob bestimmte Merkmale wie der Ruheblutdruck oder der Cholesterinwert signifikante Unterschiede zwischen Personen mit und ohne Risiko zeigen.
-    data["ttest_Ruheblutdruck_Gesundheitszustand"] = t_test_2_sample(df["Ruheblutdruck"], df["Gesundheitszustand"], alternative='two-sided')
-    data["ttest_Cholesterinwert_Gesundheitszustand"] = t_test_2_sample(df["Cholesterinwert"], df["Gesundheitszustand"], alternative='two-sided')
+
+    # Normality Test
+    data["normality_test"] = normality_test(df, ['Gesundheitszustand'])
+    data["which_test"] = ""
+    data["test"] = ""
+
+    if normality_test(df, ['Gesundheitszustand']) == "Gesundheitszustand is normally distributed.\n <br>":
+        data["which_test"] = "Der Normality Test zeigt, dass die Zielvariable Gesundheitszustand normalverteilt ist und daher ein t-Test durchgeführt wird."
+        data["test"] += "<h6>Nullhypothese (H₀): Es gibt keinen Unterschied im Gesundheitsrisiko zwischen Männern und Frauen.</h6>"
+        data["test"] += t_test_2_sample(df["Gesundheitszustand"], df["Geschlecht"], alternative='two-sided')
+        data["test"] += "Der Levene-Test zeigt mit einer P-Wert von 0.555, dass die Varianzen zwischen den Gruppen als gleich betrachtet werden können. Der Two-Sample T-Test liefert jedoch einen T-Wert von -3.62 und einen P-Wert von 0.0023, was darauf hinweist, dass die Nullhypothese abgelehnt wird. Es gibt also einen signifikanten Unterschied im Gesundheitsrisiko zwischen Männern und Frauen."
+        data["test"] += "<h6>Nullhypothese (H₀): Es gibt keinen Unterschied im Cholesterinwert zwischen Personen mit Risiko (Gesundheitszustand = 1) und ohne Risiko (Gesundheitszustand = 0).</h6>"
+        data["test"] += t_test_2_sample(df["Cholesterinwert"], df["Gesundheitszustand"], alternative='two-sided')
+        data["test"] += "Auch hier zeigt der Levene-Test mit einem P-Wert von 0.00028 ungleiche Varianzen zwischen den Gruppen. Der T-Test liefert mit einem T-Wert von 14.85 und einem P-Wert von 4.17e-7 einen hochsignifikanten Unterschied. Dies bedeutet, dass der Cholesterinwert zwischen Personen mit und ohne Gesundheitsrisiko signifikant verschieden ist"
+    else:
+        data["which_test"] = "Der Normality Test zeigt, dass die Zielvariable Gesundheitszustand nicht normalverteilt ist und daher ein Chi-Square-Test durchgeführt wird."
+        data["test"] += "<h6>Nullhypothese (H₀): Es gibt keinen Zusammenhang zwischen Geschlecht und Herzfrequenzkategorie.</h6>"
+        df['Herzfrequenz_Kategorie'] = df['MaximaleHerzfrequenz'].apply(categorize_herzfrequenz)
+        contingency_table = pd.crosstab(df['Geschlecht'], df['Herzfrequenz_Kategorie'])
+        data["test"] = chi_square_test(contingency_table)
+        data["test"] += "Der Chi-Quadrat-Test liefert einen Chi-Quadrat-Wert von 4.37 und einen P-Wert von 0.1124. Da der P-Wert größer als das übliche Signifikanzniveau von 0.05 ist, wird die Nullhypothese nicht abgelehnt. Das bedeutet, dass es keinen signifikanten Zusammenhang zwischen den Variablen gibt . Der Test zeigt, dass die  Kategorien nicht signifikant von den erwarteten Häufigkeiten abweichen. Es ist also nicht möglich, zu behaupten, dass das Geschlecht einen Einfluss auf die Herzfrequenzkategorie hat."
+
 
     # 3. Modellierung und Klassifikation:
     # Klassifikationsmodell

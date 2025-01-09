@@ -58,33 +58,32 @@ gesundheitsdaten_template = """
     <section id="graphen">
         <h2>Graphen</h2>
         <h3>Untersuchung der Verteilung der numerischen Variablen</h3>
-        <img src="images/Ruheblutdruck.png" alt="Histogram of Ruheblutdruck" width="400px" height="400px">
-        <img src="images/Cholesterinwert.png" alt="Histogram of Cholesterinwert" width="400px" height="400px">
-        <img src="images/MaximaleHerzfrequenz.png" alt="Histogram of MaximaleHerzfrequenz" width="400px" height="400px">
-        <img src="images/Gesundheitszustand.png" alt="Histogram of Gesundheitszustand" width="400px" height="400px">
-        
-        <h3>Die 3 Spalten mit den größten Ausreißern sind:</h3>
         <ul>
-            {{ top_outliers }}
+            <li> 
+                <img src="images/Ruheblutdruck.png" alt="Histogram of Ruheblutdruck" width="400px" height="400px">
+                <img src="images/Cholesterinwert.png" alt="Histogram of Cholesterinwert" width="400px" height="400px">
+            </li>
+            <li>
+                <img src="images/MaximaleHerzfrequenz.png" alt="Histogram of MaximaleHerzfrequenz" width="400px" height="400px">
+                <img src="images/Gesundheitszustand.png" alt="Histogram of Gesundheitszustand" width="400px" height="400px">
+            </li>  
+                <h3>Die 3 Spalten mit den größten Ausreißern sind:</h3>
+            <li>
+                <img src="images/image_0.png" alt="Boxplot of {{ top_outliers[0].column }}" width="350px" height="350px">
+                <img src="images/image_1.png" alt="Boxplot of {{ top_outliers[1].column }}" width="350px" height="350px">
+                <img src="images/image_2.png" alt="Boxplot of {{ top_outliers[2].column }}" width="350px" height="350px">
+            </li>
         </ul>
-        <img src="images/image_0.png" alt="Boxplot of {{ top_outliers[0].column }}" width="400px" height="400px">
-        <img src="images/image_1.png" alt="Boxplot of {{ top_outliers[1].column }}" width="400px" height="400px">
-        <img src="images/image_2.png" alt="Boxplot of {{ top_outliers[2].column }}" width="400px" height="400px">
+    
+            {{ top_outliers }}
     </section>
 
     <section id="tests">
         <h2>Tests</h2>
-        <h3>Nullhypothese (H₀): Es gibt keinen Unterschied im Gesundheitsrisiko zwischen Männern und Frauen.</h3>
-        <p>{{ ttest_Gesundheitszustand_Geschlecht }}</p>
-        
-        <h3>Nullhypothese (H₀): Es gibt keinen Unterschied im Gesundheitsrisiko zwischen den Altersgruppen.</h3>
-        <p>{{ ttest_Gesundheitszustand_Alter }}</p>
-        
-        <h3>Nullhypothese (H₀): Es gibt keinen Unterschied im Ruheblutdruck zwischen Personen mit Risiko (Gesundheitszustand = 1) und ohne Risiko (Gesundheitszustand = 0).</h3>
-        <p>{{ ttest_Ruheblutdruck_Gesundheitszustand }}</p>
-        
-        <h3>Nullhypothese (H₀): Es gibt keinen Unterschied im Cholesterinwert zwischen Personen mit Risiko (Gesundheitszustand = 1) und ohne Risiko (Gesundheitszustand = 0).</h3>
-        <p>{{ ttest_Cholesterinwert_Gesundheitszustand }}</p>
+        <h3>Normality Test</h3>
+        <p>{{ normality_test }}</p>
+        <p>{{ which_test }}</p>
+        <p>{{ test | safe }}</p>      
     </section>
 
     <section id="ml">
