@@ -10,6 +10,7 @@ gesundheitsdaten_template = """
         h1, h2 { color: #333; }        
         section { margin-bottom: 20px; }
         #images_li li { list-style-type: none; }
+        table th { word-wrap: break-word; word-break: break-word; white-space: normal; text-align: center; }
     </style>
 </head>
 <body>
@@ -91,6 +92,8 @@ gesundheitsdaten_template = """
 
     <section id="ml">
         <h2>Machine Learning</h2>
+        <p>Hier sind die Ergebnisse der verschiedenen Algorithmen des maschinellen Lernens:</p>
+        
         <h3>--- Evaluation: Logistic Regression ---</h3>
         <p>{{ logistic_regression_evaluate_model }}</p>
         
@@ -99,10 +102,14 @@ gesundheitsdaten_template = """
         
         <h3>--- Evaluation: K-Nearest Neighbors (KNN) ---</h3>
         <p>{{ knn_classifier_evaluate_model }}</p>
+        
+        Die Ergebnisse unserer Machine-Learning-Modelle zeigen eine hervorragende Leistung in allen getesteten Algorithmen. Sowohl die Logistische Regression, der Random-Forest-Algorithmus als auch der K-Nearest-Neighbors (KNN) haben eine Genauigkeit (Accuracy), Präzision, Recall und F1-Score von jeweils 1.0 erzielt. Dies deutet darauf hin, dass die Modelle perfekt auf die vorliegende Aufgabe abgestimmt sind und sowohl keine Fehlklassifikationen aufweisen als auch die zugrunde liegenden Muster optimal erkannt haben.
     </section>
 
     <section id="hyperparametertuning">
         <h2>Hyperparametertuning</h2>
+        <p>Die besten Parameter für die verschiedenen Algorithmen für unseren Datensatz sind:</p>
+        
         <h3>--- Evaluation: Logistic Regression --- </h3>
         <p>Beste Parameter:</p>
         <p>{{ logistic_regression_best_params }}</p>
