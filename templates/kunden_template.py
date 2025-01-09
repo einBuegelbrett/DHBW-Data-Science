@@ -75,7 +75,16 @@ kunden_template = """
 
     <section id="boxplot">
         <h2>Boxplot</h2>
-        <p>{{ graphs }}</p>
+        <img src="images/Boxplot_Income_Gender.png" alt="Income_Gender_Boxplot" width="400px" height="400px">
+        <p> Der Boxplot zeigt die Verteilung des Einkommens nach Geschlecht. <br>
+            Es ist zu erkennen, dass die Verteilung des Einkommens bei Männern und Frauen sehr ähnlich ist,
+            was auf ein vergleichbares mittleres Einkommen hinweist.
+            Wobei Frauen tendenziell ein niedrigeres mittleres Einkommen haben als Männer, um rund 2k$. 
+            Auch der Interquartilsabstand (IQR) ist in beiden Gruppen ähnlich und zeigt eine ähnliche Streuung. 
+            Abgesehen davon zeigen die Whiskers, die die minimalen und maximalen Werte der Daten ohne Ausreißer darstellen, für beide Gruppen gleiche Spannweiten.
+            Ein Ausreißer oberhalb des oberen Whiskers ist nur in der Gruppe für das "Männliche" Geschlecht zu sehen, was auf ein besonders hohen Einkommen hinweist.
+            Insgesamt ist die Verteilung des Einkommens bei Männern und Frauen relativ ähnlich. 
+        </p> 
     </section>
 
     <section id="tests">
