@@ -58,20 +58,22 @@ kunden_template = """
             Die Korrelation, deutet darauf hin dass es keinen linearen Zusammenhang zwischen Alter und Ausgabenverhalten gibt.
         </p>
             
-        <h4> Korrelation und Kovarianz zwischen Einkommen und Ausgabenverhalten</h4>    
+        <h3> Korrelation und Kovarianz zwischen Einkommen und Ausgabenverhalten</h3>    
         <p>{{ correlation_covariance }}</p>
         <p> Mit zunehmendem Alter geben Menschen tendenziell weniger aus, 
             aber diese Beziehung ist nicht sehr stark. <br>
             Es gibt wahrscheinlich noch andere Faktoren, die das Ausgabenverhalten beeinflussen.
         </p>
             
-        <img src="images/income_spending.png" alt="Income Spending Scatterplot" width="400px" height="400px">
-        <p> Der Scatterplot zeigt deutlich unterschiedliche Cluster in den Daten: <br>
-            Ein großes, zentrales Cluster, das viele Datenpunkte im Bereich von mittlerem Einkommen (40-60 k$) 
-            und mittlerem Spending Score (40-60) umfasst.<br>
-            Vier kleinere Cluster, in den jeweiligen Ecken verteilt sind: 
-            Die Verteilung zeigt deutlich segmentiertes Verhalten, was auf verschiedene Kundengruppen oder 
-            Marktsegmente hinweist. 
+        <img src="images/income_spending.png" alt="Income Spending Scatterplot" width="450px" height="450px">
+        <img src="images/kmeans_clusters.png" alt="K-Means Clustering" width="450px" height="450px">
+        <p> {{ cluster_centers }}</p>
+        <p> Die K-Means-Cluster-Analyse ergibt fünf Cluster, die sich im Scatterplot klar abzeichnen. 
+        Ein großes, zentrales Cluster hat sein Zentrum bei etwa (55.3, 49.5) und umfasst Kunden mit mittlerem Einkommen und moderatem Kaufverhalten. 
+        Die übrigen vier Cluster sind in den Ecken des Plots verteilt: Das Cluster oben rechts (86.5, 82.1) repräsentiert einkommensstarke und ausgabefreudige Kunden, 
+        während das Cluster unten rechts (88.2, 17.1) einkommensstarke, aber sparsame Kunden umfasst. 
+        Oben links (25.7, 79.4) liegen einkommensschwache, aber ausgabefreudige Kunden, während das Cluster unten links (26.3, 20.9) Kunden mit niedrigem Einkommen und geringen Ausgaben repräsentiert. 
+        Diese klaren Segmente verdeutlichen die Unterschiede im Kaufverhalten und Einkommen und helfen, verschiedene Zielgruppen innerhalb der Daten zu identifizieren.
         </p>
         <br>
         <p> Zusammenfassend lässt sich sagen, dass die numerischen Ergebnisse von Korrelation und Kovarianz mit dem Scatterplot übereinstimmen:<br>
@@ -83,7 +85,7 @@ kunden_template = """
 
 
     <section id="boxplot">
-        <h2>--- Evaluation: Boxplot ---</h2>
+        <h2> Boxplot </h2>
         <img src="images/Boxplot_Income_Gender.png" alt="Income_Gender_Boxplot" width="400px" height="400px">
         <p> Der Boxplot zeigt die Verteilung des Einkommens nach Geschlecht. <br>
             Es ist zu erkennen, dass die Verteilung des Einkommens bei Männern und Frauen sehr ähnlich ist,
@@ -98,7 +100,7 @@ kunden_template = """
 
     <section id="tests">
         <h2>Tests</h2>
-        <h3>--- Evaluation: Normalverteilungstest ---</h3>
+        <h3> Normalverteilungstest </h3>
         <p>{{ normality_test }}</p>
         <p> Die Normalitätstests für alle drei Variablen (Alter, jährliches Einkommen und Ausgabeverhalten) zeigen, 
             dass sie nicht normalverteilt sind. Beim Alter, dem Einkommen und dem Ausgabeverhalten weisen die Tests jeweils darauf hin, 
@@ -107,13 +109,13 @@ kunden_template = """
             Dies hat Auswirkungen auf die Auswahl der statistischen Methoden, die für die weitere Analyse verwendet werden sollten, da viele Verfahren die Annahme der Normalverteilung voraussetzen.
         </p>
         
-        <h4> Entscheidung für Chi-Square Test</h4>
+        <h3> Entscheidung für Chi-Square Test</h3>
         <p> Basierend auf den Ergebnissen der Normalitätstests zeigte sich, dass keine der betrachteten Variablen (Alter, Jahreseinkommen und Ausgabenscore) normalverteilt ist, wie die extrem niedrigen p-Werte der Shapiro-Wilk-Tests nahelegen. 
             Da der T-Test die Voraussetzung der Normalverteilung nicht erfüllt und ebenso eine Fehlermeldung durch zu kleine Stichproben wirft, wurde sich für den Chi-Quadrat-Test entschieden. 
             Dieser Test setzt keine Normalverteilung der Daten voraus und ist daher besser geeignet, um die Abhängigkeiten zwischen kategorialen Variablen zu untersuchen.
         </p>
         
-        <h3>--- Evaluation: Chi-Square-Test ---</h3>
+        <h3> Chi-Square-Test </h3>
         <p><strong> Nullhypothese (H0): Es gibt keinen signifikanten Zusammenhang zwischen dem Geschlecht und der Ausgabenkategorie (hoch, mittel, niedrig). <br>
                     Alternativhypothese (HA): Es gibt einen signifikanten Zusammenhang zwischen dem Geschlecht und der Ausgabenkategorie. </strong></p>
         <p> {{ chi_square_test }}</p>
@@ -124,7 +126,7 @@ kunden_template = """
     </section>
 
     <section id="ml">
-        <h2>--- Evaluation: K-Nearest Neighbors (KNN) ---</h2>
+        <h2> K-Nearest Neighbors (KNN) </h2>
         <p>{{ knn_classifier_evaluate_model }}</p>
         <p>Der KNN-Classifier zeigt eine herausragende Leistung bei der Klassifikation der Daten mit einer Genauigkeit von 95%. 
             Neben der hohen Genauigkeit sind auch die weiteren Metriken – Precision, Recall und F1-Score – jeweils mit 95% auf einem sehr hohen Niveau. 
@@ -134,14 +136,14 @@ kunden_template = """
     </section>
 
     <section id="hyperparametertuning">
-        <h4>Hyperparametertuning</h4>
+        <h2>Hyperparametertuning</h2>
         <p>{{ hyperparameter_tuning }}</p>
         <p> Das Hyperparameter-Tuning hat die besten möglichkeiten für das Modell gefunden. Die besten Parameter beinhalten die Verwendung der euklidischen Distanz als Maßzahl zur Berechnung der Abstände,
         die Betrachtung der 5 nächsten Nachbarn und gleichmäßige Gewichtung dieser Nachbarn. Dieses gezielte Hyperparameter-Tuning hat wesentlich dazu beigetragen, die Leistung des Modells zu maximieren.
         </p>
     </section>
     
-    <img src="images/knn_confusion_matrix.png" alt="KNN Confusion Matrix" width="600px" height="600px">
+    <img src="images/knn_confusion_matrix.png" alt="KNN Confusion Matrix" width="500px" height="500px">
     <p> Die Confusion-Matrix liefert eine detaillierte Analyse der Modellvorhersagen und zeigt, dass die meisten Datenpunkte korrekt klassifiziert wurden.
         Es treten nur Fehler zwischen den Klassen „Low“ und „Medium“ auf, was darauf hindeutet, dass diese beiden Kategorien in den Daten möglicherweise Ähnlichkeiten aufweisen, die die Unterscheidung erschweren könnten.
     </p>

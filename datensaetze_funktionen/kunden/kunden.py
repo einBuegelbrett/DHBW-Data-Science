@@ -4,7 +4,8 @@ from datenvorverarbeitung.datenbereinigung import to_binary, categorize_spending
 from eda.konfidenzintervalle import konfidenzintervall
 from eda.visualisierungen import scatterplot, boxplot, histplot
 from eda.test import chi_square_test, normality_test
-from ml.k_neighbour import knn_classifier, kmeans_cluster_analysis
+from ml.k_neighbour import knn_classifier
+from ml.k_means import kmeans_cluster_analysis
 
 def kunden_main(df: pd.DataFrame) -> dict[str, str]:
     """
@@ -47,15 +48,15 @@ def kunden_main(df: pd.DataFrame) -> dict[str, str]:
         imagename = ""
 
         if col == "Age":
-            distribution_comment = "Das Alter der Kunden ist leicht rechtsschief verteilt (Median < Mittelwert), was darauf hindeutet, dass es mehr jüngere Kunden gibt."
+            distribution_comment = "Die Altersverteilung ist leicht rechtsschief (Median < Mittelwert), was auf mehr jüngere Kunden hindeutet. Das Konfidenzintervall (95%) von 36.91 bis 40.79 zeigt, dass das Durchschnittsalter der Kunden in diesem Bereich liegt. Die breite Streuung (Standardabweichung: 13.97) deutet auf eine vielfältige Altersgruppe hin."
             imagename = "Age"
             histplot(df, col, "Age Distribution", imagename)
         elif col == "Annual Income (k$)":
-            distribution_comment = "Die Verteilung des Einkommens ist relativ symmetrisch, da Median und Mittelwert fast gleich sind."
+            distribution_comment = "Die Einkommensverteilung ist nahezu symmetrisch (Median ≈ Mittelwert). Das Konfidenzintervall (95%) von 56.92 bis 64.20 zeigt, dass das durchschnittliche Einkommen stabil ist. Eine Standardabweichung von 26.26 weist auf eine hohe Varianz in den Einkommen hin."
             imagename = "Income"
             histplot(df, col, "Annual Income Distribution", imagename)
         elif col == "Spending Score (1-100)":
-            distribution_comment = "Diese Verteilung ist nahezu ausgeglichen, was darauf hinweist, dass die Kunden unterschiedliche Kaufverhalten aufweisen, von sparsamen bis hin zu spendablen Kunden."
+            distribution_comment = "Die Verteilung des Spending Scores ist ausgeglichen (Median ≈ Mittelwert). Das Konfidenzintervall (95%) von 46.62 bis 53.78 zeigt, dass die Ausgaben der Kunden im Durchschnitt in diesem Bereich liegen. Die Streuung (Standardabweichung: 25.82) zeigt eine große Bandbreite im Kaufverhalten."
             imagename = "Spending"
             histplot(df, col, "Spending Score Distribution", imagename)
         else:
@@ -66,9 +67,9 @@ def kunden_main(df: pd.DataFrame) -> dict[str, str]:
             f"<p>Mittelwert = {mean:.2f}<br>"
             f"Median = {median:.2f}<br>"
             f"Standardabweichung = {std_dev:.2f}<br>"
-            f"Konfidenzintervall (95%) = {conf_interval}</p>"
+            f"Konfidenzintervall (95%) = ({float(conf_interval[0]):.2f}, {float(conf_interval[1]):.2f})</p>"
             f"{distribution_comment}</p>"
-            + f'<img src="images/{imagename}.png" alt="{col} Histogram" width="400px" height="400px">'
+            + f'<img src="images/{imagename}.png" alt="{col} Histogram" width="350px" height="350px">'
         )
         # Nach der Schleife alle Texte zusammenfügen
         data["statistics"] = "\n".join(statistics_texts)
@@ -83,6 +84,8 @@ def kunden_main(df: pd.DataFrame) -> dict[str, str]:
     corr_cov = st.korrelation_kovarianz(df["Annual Income (k$)"], df["Spending Score (1-100)"])
     data["correlation_covariance"] = f"Covariance: {corr_cov['covariance']:.2f}, Correlation: {corr_cov['correlation']:.2f}"
     scatterplot(df, "Annual Income (k$)", "Spending Score (1-100)", "income_spending")
+    cluster_centers = kmeans_cluster_analysis(df, 5, "Annual Income (k$)", "Spending Score (1-100)" )
+    data["cluster_centers"] = f"Cluster Centers: {cluster_centers}"
 
     # Boxplot: Income by Gender
     boxplot(df_gender, "Gender", "Annual Income (k$)", None, "Annual Income by Gender", "Gender", "Annual Income (k$)", "Boxplot_Income_Gender")
@@ -101,12 +104,6 @@ def kunden_main(df: pd.DataFrame) -> dict[str, str]:
     accuracy, best_params = knn_classifier(df, "Spending Score (Category)")
     data["knn_classifier"] = f"Accuracy: {accuracy}"
     data["hyperparameter-tuning"] = f"Best Parameters: {best_params}"
-
-    print("\nK-Means Cluster Analysis:")
-    cluster_centers = kmeans_cluster_analysis(df)
-
-    # Add the cluster centers to the report
-    data["cluster_centers"] = f"Cluster Centers: {cluster_centers}"
 
     # Return data for output generation
     return data
