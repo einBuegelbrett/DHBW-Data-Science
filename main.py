@@ -7,7 +7,7 @@ from jinja2 import Template
 from templates.kunden_template import kunden_template
 from templates.social_media_template import social_media_template
 from templates.gesundheitsdaten_template import gesundheitsdaten_template
-import pdfkit
+from xhtml2pdf import pisa
 
 if __name__ == "__main__":
     document = fh.select_file()
@@ -55,7 +55,17 @@ if __name__ == "__main__":
         with open("report.html", "w", encoding="utf-8") as f:
             f.write(rendered_html)
 
-        # Konvertiere HTML zu PDF
-        pdfkit.from_file('report.html', 'report.pdf')
+        def html_to_pdf(html_file, output_pdf):
+            # Öffne die HTML-Datei und lese den Inhalt
+            with open(html_file, "r", encoding="utf-8") as f:
+                html_content = f.read()
+
+            # Erstelle das PDF und speichere es im angegebenen Output-Pfad
+            with open(output_pdf, 'wb') as pdf_file:
+                pisa.CreatePDF(html_content, dest=pdf_file)
+
+
+        # Nutze die Funktion mit der HTML-Datei und dem Ziel-PDF-Dateinamen
+        html_to_pdf('report.html', 'report.pdf')
     else:
         print("Keine Template oder Daten gefunden.")
