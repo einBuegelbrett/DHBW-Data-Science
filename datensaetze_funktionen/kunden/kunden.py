@@ -103,7 +103,7 @@ def kunden_main(df: pd.DataFrame) -> dict[str, str]:
     df['Spending Score (Category)'] = df['Spending Score (1-100)'].apply(categorize_spending_score)
     accuracy, best_params = knn_classifier(df, "Spending Score (Category)")
     data["knn_classifier"] = f"Accuracy: {accuracy}"
-    data["hyperparameter-tuning"] = f"Best Parameters: {best_params}"
+    data["hyperparameter_tuning"] = f"Best Parameters: {best_params}"
 
     # Return data for output generation
     return data

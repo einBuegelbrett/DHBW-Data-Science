@@ -6,9 +6,12 @@ kunden_template = """
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Datenanalyse-Report</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
-        h1, h2 { color: #333; }
+        body { font-family: Arial, sans-serif; margin: 15px; line-height: 1.6; }
         section { margin-bottom: 20px; }
+        table { border-collapse: collapse; width: 80%; }
+        th { background-color: #f2f2f2; }
+        th, td { border: 1px solid #dddddd; text-align: left; padding: 8px; }
+        th:first-child, td:first-child { width: 100px; }
     </style>
 </head>
 <body>
@@ -31,7 +34,7 @@ kunden_template = """
         <p>Der Datensatz nach der Bereinigung sieht wie folgt aus, auch nur die ersten 5 Zeilen aus Platzgründen:</p>
         <p>{{ cleaning }}</p>
     </section>
-    
+    <br>
     <section id="statistiken">
         <h2>Statistiken</h2>
         {{ statistics }}
@@ -65,8 +68,8 @@ kunden_template = """
             Es gibt wahrscheinlich noch andere Faktoren, die das Ausgabenverhalten beeinflussen.
         </p>
             
-        <img src="images/income_spending.png" alt="Income Spending Scatterplot" width="450px" height="450px">
-        <img src="images/kmeans_clusters.png" alt="K-Means Clustering" width="450px" height="450px">
+        <img src="images/income_spending.png" alt="Income Spending Scatterplot" width="400px" height="400px">
+        <img src="images/kmeans_clusters.png" alt="K-Means Clustering" width="400px" height="400px">
         <p> {{ cluster_centers }}</p>
         <p> Die K-Means-Cluster-Analyse ergibt fünf Cluster, die sich im Scatterplot klar abzeichnen. 
         Ein großes, zentrales Cluster hat sein Zentrum bei etwa (55.3, 49.5) und umfasst Kunden mit mittlerem Einkommen und moderatem Kaufverhalten. 
@@ -127,7 +130,7 @@ kunden_template = """
 
     <section id="ml">
         <h2> K-Nearest Neighbors (KNN) </h2>
-        <p>{{ knn_classifier_evaluate_model }}</p>
+        <p>{{ knn_classifier }}</p>
         <p>Der KNN-Classifier zeigt eine herausragende Leistung bei der Klassifikation der Daten mit einer Genauigkeit von 95%. 
             Neben der hohen Genauigkeit sind auch die weiteren Metriken – Precision, Recall und F1-Score – jeweils mit 95% auf einem sehr hohen Niveau. 
             Dies deutet darauf hin, dass das Modell sowohl zuverlässig bei der Erkennung der tatsächlichen Klassen (Recall) als auch präzise bei der Vorhersage der Klassen (Precision) ist. 
