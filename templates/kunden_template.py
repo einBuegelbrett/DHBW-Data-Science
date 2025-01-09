@@ -60,16 +60,18 @@ kunden_template = """
         <h6>Visualisierung mit Scatterplot</h6>
         <img src="images/income_spending.png" alt="Income Spending Scatterplot" width="400px" height="400px">
         <p> Der Scatterplot zeigt deutlich unterschiedliche Cluster in den Daten: <br>
-          Ein großes, zentrales Cluster, das viele Datenpunkte im Bereich von mittlerem Einkommen (40-60 k$) 
-          und mittlerem Spending Score (40-60) umfasst.<br>
-          Vier kleinere Cluster, in den jeweiligen Ecken verteilt sind: 
-          Die Verteilung zeigt deutlich segmentiertes Verhalten, was auf verschiedene Kundengruppen oder 
-          Marktsegmente hinweist. </p>
+            Ein großes, zentrales Cluster, das viele Datenpunkte im Bereich von mittlerem Einkommen (40-60 k$) 
+            und mittlerem Spending Score (40-60) umfasst.<br>
+            Vier kleinere Cluster, in den jeweiligen Ecken verteilt sind: 
+            Die Verteilung zeigt deutlich segmentiertes Verhalten, was auf verschiedene Kundengruppen oder 
+            Marktsegmente hinweist. 
+        </p>
         <br>
         <p> Zusammenfassend lässt sich sagen, dass die numerischen Ergebnisse von Korrelation und Kovarianz mit dem Scatterplot übereinstimmen:<br>
             Es gibt keinen linearen Zusammenhang zwischen Einkommen und Ausgabeverhalten, welcher aussagekräftig genug ist, um eine klare Beziehung zu erkennen.<br>
             Die Cluster im Scatterplot zeigen jedoch eine segmentierte Population, die sich in fünf Gruppen unterteilen lässt.
-            Dies deutet darauf hin, dass andere Faktoren das Ausgabeverhalten beeinflussen. </p>
+            Dies deutet darauf hin, dass andere Faktoren das Ausgabeverhalten beeinflussen. 
+        </p>
     </section>
 
 
@@ -92,10 +94,20 @@ kunden_template = """
         <h4> Normalverteilungstest</h4>
         <p>{{ normality_test }}</p>
         <p> Die Normalitätstests für alle drei Variablen (Alter, jährliches Einkommen und Ausgabeverhalten) zeigen, 
-        dass sie nicht normalverteilt sind. Beim Alter, dem Einkommen und dem Ausgabeverhalten weisen die Tests jeweils darauf hin, 
-        dass diese Variablen von einer normalen Verteilung abweichen. Das bedeutet, dass die Verteilungen in den Daten entweder asymmetrisch oder schief sind 
-        oder andere Merkmale aufweisen, die eine normale Verteilung nicht widerspiegeln. 
-        Dies hat Auswirkungen auf die Auswahl der statistischen Methoden, die für die weitere Analyse verwendet werden sollten, da viele Verfahren die Annahme der Normalverteilung voraussetzen.</p>
+            dass sie nicht normalverteilt sind. Beim Alter, dem Einkommen und dem Ausgabeverhalten weisen die Tests jeweils darauf hin, 
+            dass diese Variablen von einer normalen Verteilung abweichen. Das bedeutet, dass die Verteilungen in den Daten entweder asymmetrisch oder schief sind 
+            oder andere Merkmale aufweisen, die eine normale Verteilung nicht widerspiegeln. 
+            Dies hat Auswirkungen auf die Auswahl der statistischen Methoden, die für die weitere Analyse verwendet werden sollten, da viele Verfahren die Annahme der Normalverteilung voraussetzen.
+        </p>
+        
+        <h4> Entscheidung für Chi-Square Test</h4>
+        <p> Basierend auf den Ergebnissen der Normalitätstests zeigte sich, dass keine der betrachteten Variablen (Alter, Jahreseinkommen und Ausgabenscore) normalverteilt ist, wie die extrem niedrigen p-Werte der Shapiro-Wilk-Tests nahelegen. 
+            Da der T-Test die Voraussetzung der Normalverteilung nicht erfüllt und ebenso eine Fehlermeldung durch zu kleine Stichproben wirft, wurde sich für den Chi-Quadrat-Test entschieden. 
+            Dieser Test setzt keine Normalverteilung der Daten voraus und ist daher besser geeignet, um die Abhängigkeiten zwischen kategorialen Variablen zu untersuchen.
+        </p>
+        
+        
+        
     </section>
 
     <section id="nlp-ml">

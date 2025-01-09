@@ -88,16 +88,14 @@ def kunden_main(df):
     # Chi-Square Test
     df['Spending_Category'] = df['Spending Score (1-100)'].apply(dv.categorize_spending_score)
     contingency_table = pd.crosstab(df['Gender'], df['Spending_Category'])
-    chi_square_test(contingency_table)
+    output = chi_square_test(contingency_table)
+    print(output)
 
     # KNN Classifier with Visualization
     df = copy_df
     df['Spending Score (Category)'] = df['Spending Score (1-100)'].apply(dv.categorize_spending_score)
     print("\nKNN Classifier Performance:")
-    accuracy, best_params = knn_classifier(
-        data=df,
-        target_column="Spending Score (Category)",  # Klassifikationsziel
-    )
+    accuracy, best_params = knn_classifier(df, "Spending Score (Category)")
     print(f"Best Accuracy: {accuracy}")
     print(f"Best Parameters: {best_params}")
 
