@@ -108,28 +108,3 @@ def word_cloud(data, column, title, image_name) -> None:
     plt.title(title)
     plt.savefig(f"images/{image_name}.png")
     plt.show()
-
-def line_plot(x, y, hue=None, data=None, title=None, x_label=None, y_label=None):
-    """
-    Create a line plot using Seaborn or Matplotlib.
-
-    :param x: x-axis values (list or DataFrame column)
-    :param y: y-axis values (list or DataFrame column)
-    :param hue: Optional, grouping variable for multiple lines (default: None)
-    :param data: Optional, DataFrame containing the data
-    :param title: Title of the plot
-    :param x_label: Label for the x-axis
-    :param y_label: Label for the y-axis
-    :return: None
-    """
-    plt.figure(figsize=(15, 10))
-    if data is not None:
-        sns.lineplot(data=data, x=x, y=y, hue=hue)
-    else:
-        plt.plot(x, y, marker='o', label='Accuracy')
-    plt.title(title or "Line Plot")
-    plt.xlabel(x_label or "X-axis")
-    plt.ylabel(y_label or "Y-axis")
-    if hue is None:
-        plt.legend()
-    plt.show()
