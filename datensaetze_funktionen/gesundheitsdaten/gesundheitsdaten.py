@@ -23,6 +23,8 @@ def gesundheitsdaten_main(df: pd.DataFrame) -> dict[str, str]:
 
     data["cleaning"] = df.head().to_html(classes="table")
 
+    df_copy = df.copy()
+
     # 1. Datenexploration (EDA):
     # Untersuchung der Verteilung der numerischen Variablen
     for column in df.columns:
@@ -96,13 +98,30 @@ def gesundheitsdaten_main(df: pd.DataFrame) -> dict[str, str]:
 
     # 3. Modellierung und Klassifikation:
     # Klassifikationsmodell
-    # Evaluieren Sie die Modelle mit geeigneten Metriken (z.B. Accuracy, F1-Score) (findet statt in der Funktion).
+    # Evaluieren Sie die Modelle mit geeigneten Metriken (z.B. Accuracy, F1-Score (findet statt in der Funktion)).
     # logistic_regression
-    data["logistic_regression_evaluate_model"], data["logistic_regression_best_params"] = logistic_regression(df, "Gesundheitszustand")
-    # random_forest
-    data["random_forest_evaluate_model"], data["random_forest_best_params"] = random_forest(df, "Gesundheitszustand")
-    # knn_classifier
-    data["knn_classifier_evaluate_model"], data["knn_classifier_best_params"] = knn_classifier(df, "Gesundheitszustand")
+    try:
+        data["logistic_regression_evaluate_model"], data["logistic_regression_best_params"] = logistic_regression(df_copy, "Gesundheitszustand")
+    except Exception as e:
+        data["logistic_regression_evaluate_model"] = "Logistic Regression model doesn't work"
+        data["logistic_regression_best_params"] = "Logistic Regression model doesn't work"
+        print(e)
+
+    # Random Forest
+    try:
+        data["random_forest_evaluate_model"], data["random_forest_best_params"] = random_forest(df_copy, "Gesundheitszustand")
+    except Exception as e:
+        data["random_forest_evaluate_model"] = "Random Forest model doesn't work"
+        data["random_forest_best_params"] = "Random Forest model doesn't work"
+        print(e)
+
+    # KNN Classifier
+    try:
+        data["knn_classifier_evaluate_model"], data["knn_classifier_best_params"] = knn_classifier(df_copy, "Gesundheitszustand")
+    except Exception as e:
+        data["knn_classifier_evaluate_model"] = "KNN Classifier model doesn't work"
+        data["knn_classifier_best_params"] = "KNN Classifier model doesn't work"
+        print(e)
 
     # 4. Zusätzliche Analyse:
     # Wählen Sie ein Subset der Daten (z.B. eine spezifische Altersgruppe oder Geschlechtergruppe) und analysieren Sie, wie sich die Vorhersagen oder statistischen Eigenschaften in dieser Gruppe von der Gesamtpopulation unterscheiden.
