@@ -39,7 +39,7 @@ kunden_template = """
     
     <section id="income_spending">
         <h2>Korrelation und Kovarianz</h2>
-        <h4> Korrelation und Kovarianz zwischen Alter und Einkommen</h4>
+        <h3> Korrelation und Kovarianz zwischen Alter und Einkommen</h3>
         <p>{{corr_cov_age_income}}</p>
         <p> Die Kovarianz, zeigt eine leichte gemeinsame Streuung der beiden Variablen,
             was bedeutet, dass sie sich in die gleiche Richtung bewegen.<br>
@@ -47,7 +47,7 @@ kunden_template = """
             Die Korrelation, deutet darauf hin dass es keinen linearen Zusammenhang zwischen Alter und Einkommen gibt.
         </p>
             
-        <h4> Korrelation und Kovarianz zwischen Alter und Ausgabenverhalten</h4>
+        <h3> Korrelation und Kovarianz zwischen Alter und Ausgabenverhalten</h3>
         <p>{{corr_cov_age_spending}}</p>
         <p> Mit zunehmendem Alter scheint das Einkommen kaum beeinflusst zu werden, 
             da der Zusammenhang äußerst schwach ist. <br>
@@ -65,7 +65,6 @@ kunden_template = """
             Es gibt wahrscheinlich noch andere Faktoren, die das Ausgabenverhalten beeinflussen.
         </p>
             
-        <h6>Visualisierung mit Scatterplot</h6>
         <img src="images/income_spending.png" alt="Income Spending Scatterplot" width="400px" height="400px">
         <p> Der Scatterplot zeigt deutlich unterschiedliche Cluster in den Daten: <br>
             Ein großes, zentrales Cluster, das viele Datenpunkte im Bereich von mittlerem Einkommen (40-60 k$) 
@@ -84,7 +83,7 @@ kunden_template = """
 
 
     <section id="boxplot">
-        <h2>Boxplot</h2>
+        <h2>--- Evaluation: Boxplot ---</h2>
         <img src="images/Boxplot_Income_Gender.png" alt="Income_Gender_Boxplot" width="400px" height="400px">
         <p> Der Boxplot zeigt die Verteilung des Einkommens nach Geschlecht. <br>
             Es ist zu erkennen, dass die Verteilung des Einkommens bei Männern und Frauen sehr ähnlich ist,
@@ -99,7 +98,7 @@ kunden_template = """
 
     <section id="tests">
         <h2>Tests</h2>
-        <h4> Normalverteilungstest</h4>
+        <h3>--- Evaluation: Normalverteilungstest ---</h3>
         <p>{{ normality_test }}</p>
         <p> Die Normalitätstests für alle drei Variablen (Alter, jährliches Einkommen und Ausgabeverhalten) zeigen, 
             dass sie nicht normalverteilt sind. Beim Alter, dem Einkommen und dem Ausgabeverhalten weisen die Tests jeweils darauf hin, 
@@ -114,9 +113,9 @@ kunden_template = """
             Dieser Test setzt keine Normalverteilung der Daten voraus und ist daher besser geeignet, um die Abhängigkeiten zwischen kategorialen Variablen zu untersuchen.
         </p>
         
-        <h4> Chi-Square Test</h4>
-        <p><strong> Nullhypothese (𝐻0): Es gibt keinen signifikanten Zusammenhang zwischen dem Geschlecht und der Ausgabenkategorie (hoch, mittel, niedrig). <br>
-                    Alternativhypothese (𝐻𝐴): Es gibt einen signifikanten Zusammenhang zwischen dem Geschlecht und der Ausgabenkategorie. </strong></p>
+        <h3>--- Evaluation: Chi-Square-Test ---</h3>
+        <p><strong> Nullhypothese (H0): Es gibt keinen signifikanten Zusammenhang zwischen dem Geschlecht und der Ausgabenkategorie (hoch, mittel, niedrig). <br>
+                    Alternativhypothese (HA): Es gibt einen signifikanten Zusammenhang zwischen dem Geschlecht und der Ausgabenkategorie. </strong></p>
         <p> {{ chi_square_test }}</p>
         <p> Die Ergebnisse zeigen einen Chi-Quadrat-Wert von 0.656, einen p-Wert von 0.720 und 2 Freiheitsgrade. 
             Da der p-Wert größer als das Signifikanzniveau von 0.05 ist, wird die Nullhypothese, dass kein signifikanter Zusammenhang zwischen den Variablen besteht, beibehalten und dementsprechend abgelehnt wird. 
@@ -124,15 +123,33 @@ kunden_template = """
         </p>
     </section>
 
-    <section id="nlp-ml">
-        <h2>nlp / ml</h2>
-        <p>{{ nlp_ml }}</p>
+    <section id="ml">
+        <h2>--- Evaluation: K-Nearest Neighbors (KNN) ---</h2>
+        <p>{{ knn_classifier_evaluate_model }}</p>
+        <p>Der KNN-Classifier zeigt eine herausragende Leistung bei der Klassifikation der Daten mit einer Genauigkeit von 95%. 
+            Neben der hohen Genauigkeit sind auch die weiteren Metriken – Precision, Recall und F1-Score – jeweils mit 95% auf einem sehr hohen Niveau. 
+            Dies deutet darauf hin, dass das Modell sowohl zuverlässig bei der Erkennung der tatsächlichen Klassen (Recall) als auch präzise bei der Vorhersage der Klassen (Precision) ist. 
+            Der harmonische Mittelwert dieser beiden Metriken, der F1-Score, bestätigt eine ausgewogene Modellleistung.
+        </p>
     </section>
 
     <section id="hyperparametertuning">
-        <h2>Hyperparametertuning</h2>
+        <h4>Hyperparametertuning</h4>
         <p>{{ hyperparameter_tuning }}</p>
+        <p> Das Hyperparameter-Tuning hat die besten möglichkeiten für das Modell gefunden. Die besten Parameter beinhalten die Verwendung der euklidischen Distanz als Maßzahl zur Berechnung der Abstände,
+        die Betrachtung der 5 nächsten Nachbarn und gleichmäßige Gewichtung dieser Nachbarn. Dieses gezielte Hyperparameter-Tuning hat wesentlich dazu beigetragen, die Leistung des Modells zu maximieren.
+        </p>
     </section>
+    
+    <img src="images/knn_confusion_matrix.png" alt="KNN Confusion Matrix" width="600px" height="600px">
+    <p> Die Confusion-Matrix liefert eine detaillierte Analyse der Modellvorhersagen und zeigt, dass die meisten Datenpunkte korrekt klassifiziert wurden.
+        Es treten nur Fehler zwischen den Klassen „Low“ und „Medium“ auf, was darauf hindeutet, dass diese beiden Kategorien in den Daten möglicherweise Ähnlichkeiten aufweisen, die die Unterscheidung erschweren könnten.
+    </p>
+    
+    <p> Zusammenfassend lässt sich sagen, dass der KNN-Classifier optimal auf die vorliegenden Daten abgestimmt ist und nur sehr wenige Fehler macht. 
+    Dies spricht für eine gelungene Datenaufbereitung sowie eine effektive Modellanpassung. 
+    Die Ergebnisse bestätigen, dass der KNN-Algorithmus in diesem Fall eine geeignete Wahl für die Klassifikationsaufgabe ist.
+    </p>
 </body>
 </html>
 """

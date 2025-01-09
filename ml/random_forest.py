@@ -40,7 +40,7 @@ def random_forest(data: pd.DataFrame, target_column: str, test_size: float = 0.2
     }
 
     # Set up GridSearchCV
-    grid_search = GridSearchCV(estimator=rf, param_grid=param_grid, cv=5, n_jobs=-1, verbose=2)
+    grid_search = GridSearchCV(estimator=rf, param_grid=param_grid, cv=5, n_jobs=-1, verbose=0)
 
     # Fit the model with the best hyperparameters
     grid_search.fit(X_train, y_train)

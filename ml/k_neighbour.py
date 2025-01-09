@@ -64,6 +64,7 @@ def knn_classifier(data: pd.DataFrame, target_column: str, test_size: float = 0.
     plt.title('Confusion Matrix')
     plt.xlabel('Predicted Categories')
     plt.ylabel('Actual Categories')
+    plt.savefig('images/knn_confusion_matrix.png')
     plt.show()
 
     # Return evaluation metrics and the best hyperparameters
