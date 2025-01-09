@@ -7,7 +7,6 @@ from datenvorverarbeitung.datei_handler import read_document, select_file, html_
 from templates.kunden_template import kunden_template
 from templates.social_media_template import social_media_template
 from templates.gesundheitsdaten_template import gesundheitsdaten_template
-from xhtml2pdf import pisa
 
 if __name__ == "__main__":
     document = select_file()
