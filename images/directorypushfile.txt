@@ -1,3 +1,7 @@
 This file was only used to push the directory images to the repository, and is not needed for the project. It will be removed in the next commit.
 the file was used instead of the directory because the directory was empty and git does not allow empty directories to be pushed to the repository.
 And we didnt want to add any images to the directory at the time, to be able to push the directory to the repository.
+
+edit:
+The file cant be removed from the repository, because it is the only file in the directory, and git does not allow empty directories
+to be pushed to the repository. So the file will be kept in the directory, and will be ignored by the project.
