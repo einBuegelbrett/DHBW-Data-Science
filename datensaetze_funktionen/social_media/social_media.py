@@ -2,7 +2,7 @@ import pandas as pd
 from datenvorverarbeitung.datenbereinigung import map_keywords_to_integers, clean_text
 from eda.konfidenzintervalle import konfidenzintervall
 from eda.statistiken import korrelation_kovarianz, relative_haeufigkeit
-from eda.test import t_test_2_sample
+from eda.test import t_test_2_sample, normality_test
 from eda.visualisierungen import pie_chart, word_cloud
 from nlp.nlp_social_media import nlp_social_media
 
@@ -35,7 +35,6 @@ def social_media_main(df: pd.DataFrame) -> dict[str, str]:
     word_cloud(df, "text", "Word Cloud for relevant and irrelevant posts", "wordcloud_all")
     word_cloud(df[df['target'] == 1], "text", "Word Cloud for relevant posts", "wordcloud_relevant")
     word_cloud(df[df['target'] == 0], "text", "Word Cloud for irrelevant posts", "wordcloud_irrelevant")
-    data["relative_frequency"] = relative_haeufigkeit(df["location"])
 
     # Konfidenzintervalle
     relevant_posts = df[df['target'] == 1]['text_length'] # Split into first groups
@@ -43,12 +42,16 @@ def social_media_main(df: pd.DataFrame) -> dict[str, str]:
     ci_relevant = konfidenzintervall(relevant_posts.values, confidence_level=0.95)
     ci_irrelevant = konfidenzintervall(irrelevant_posts.values, confidence_level=0.95)
     data["confidence_intervals"] = (
-        f"Relevante Beiträge (95% KI): ({ci_relevant[0]:.2f}, {ci_relevant[1]:.2f}), "
-        f"Irrelevante Beiträge (95% KI): ({ci_irrelevant[0]:.2f}, {ci_irrelevant[1]:.2f})"
+        f"Relevante Beiträge: ({ci_relevant[0]:.2f}, {ci_relevant[1]:.2f}), "
+        f"Irrelevante Beiträge: ({ci_irrelevant[0]:.2f}, {ci_irrelevant[1]:.2f})"
     )
 
     # Tests
-    data["ttest"] = t_test_2_sample(relevant_posts, irrelevant_posts, alternative='two-sided')
+    # Normality Test
+    df['relevant_text_length'] = df['text_length'].where(df['target'] == 1)
+    df['irrelevant_text_length'] = df['text_length'].where(df['target'] == 0)
+
+    data["normality_test"] = normality_test(df, ["relevant_text_length", "irrelevant_text_length"])
 
     # NLP
     data["nlp"] = nlp_social_media(df, "text", 5)

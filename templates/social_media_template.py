@@ -9,6 +9,7 @@ social_media_template = """
         body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
         h1, h2, h3 { color: #333; }
         section { margin-bottom: 20px; }
+        #sentiment-table th, #sentiment-table td { border: 1px solid black; padding: 2px; }
     </style>
 </head>
 <body>
@@ -51,18 +52,20 @@ social_media_template = """
 
     <section id="graphen">
         <h2>Graphen</h2>
+        <h3>--- Konfidenzintervall ---</h3>
         <p>{{ confidence_intervals }}</p>
-        <p>{{ relative_frequency }}</p>
+        <p>Das Konfidenzintervall gibt an, mit welcher Sicherheit wir die wahre Werte für die relevanten und irrelevanten Beiträge schätzen können. In diesem Fall liegt das 95%-Konfidenzintervall für die relevanten Beiträge zwischen 96.24% und 98.36%, was darauf hinweist, dass wir mit hoher Sicherheit davon ausgehen können, dass der wahre Wert der Relevanz in diesem Bereich liegt. Für die irrelevanten Beiträge liegt das 95%-Konfidenzintervall zwischen 90.16% und 91.36%, was eine vergleichbare Zuverlässigkeit bei der Schätzung der Irrelevanz widerspiegelt. Diese Intervalle geben uns wertvolle Hinweise darauf, wie genau und stabil die Analyseergebnisse sind und dass die Klassifikationen der Beiträge insgesamt eine hohe Präzision aufweisen.</p>
         
-        <p>Wir wollen zuerst die Wordcloud für alle Beiträge visualisieren.</p>
+        <h3>--- Wortwolke ---</h3>
+        <p>Wir wollen zuerst die Wortwolke für alle Beiträge visualisieren.</p>
         <img src="images/wordcloud_all.png" alt="Income Spending Scatterplot" width="400px" height="400px">
         <p>Beim ersten Blick auf den Graph fällt auf, dass bestimmte Begriffe wie „people“, „time“ und ähnliche häufig vorkommen. Dies könnte darauf hindeuten, dass die Beiträge in ihrer Wortwahl eher allgemein gehalten sind und nicht spezifisch auf Krisen oder dramatische Ereignisse eingehen.</p>
         
         <p>Vielleicht liegt es aber auch daran, dass es mehr irrelevante Beiträge gibt als relevante Beiträge. Dies werden wir jetzt analysieren indem wir die Anzahl der relevanten und irrelevanten Beiträge visualisieren.</p>
-        <img src="images/target_pie_chart.png" alt="Target Pie Chart" width="400px" height="400px">
+        <img src="images/target_pie_chart.png" alt="Target Pie Chart" width="400px" height="300px">
         <Wir merken, dass es mehr irrelevante Beiträge gibt als relevante Beiträge. Dies könnte erklären warum Wörter wie „people“ häufiger vorkommen.>
         
-        <p>Wir analysieren also jetzt Wörter analysieren die häufig in irrelevanten Beiträgen vorkommen, um das zu bestätigen, kreieren wir die Wordcloud dazu.<p>
+        <p>Wir analysieren also jetzt Wörter analysieren die häufig in irrelevanten Beiträgen vorkommen, um das zu bestätigen, kreieren wir die Wortwolke dazu.<p>
         <img src="images/wordcloud_irrelevant.png" alt="Income Spending Scatterplot" width="400px" height="400px">
         <p>Die Wortwolke der irrelevanten Beiträge zeigt eine ähnliche Verteilung wie die der allgemeinen Beiträge: Wörter wie „people“ erscheinen häufig und es gibt weniger ausgeprägte Unterschiede in der Häufigkeit der Begriffe. Dies könnte darauf hindeuten, dass diese Beiträge nicht auf ein konkretes oder dringendes Thema fokussiert sind.</p>        
     
@@ -72,20 +75,22 @@ social_media_template = """
 
     <section id="tests">
         <h2>Tests</h2>
-        <h3>T-Test</h3>
-        <p><strong> Nullhypothese (𝐻0): Es gibt keinen signifikanten Unterschied in der durchschnittlichen Textlänge zwischen relevanten und irrelevanten Beiträgen. <br> 
-        Alternativhypothese (𝐻𝐴): Es gibt einen signifikanten Unterschied in der durchschnittlichen Textlänge zwischen relevanten und irrelevanten Beiträgen. </strong></p>
-        <p>{{ ttest }}</p>
-        <p>Dies bedeutet, dass ein statistisch signifikanter Unterschied zwischen der durchschnittlichen Beitragslänge von relevanten und irrelevanten Beiträgen besteht.</p>
+        <h3>--- Evaluation: Normalverteilungstest ---</h3>
+        <p>{{ normality_test }}</p>
+        <p> Die Normalitätstests für die Länge der relevanten und irrelevanten Nachrichten zeigen, 
+            dass sie nicht normalverteilt sind. Das bedeutet, dass die Verteilungen in den Daten entweder asymmetrisch oder schief sind 
+            oder andere Merkmale aufweisen, die eine normale Verteilung nicht widerspiegeln. 
+            Daher können wir keine Annahmen über die Verteilung der Daten machen und den T-Test nicht durchführen.</p>
+        </p>
     </section>
 
     <section id="nlp">
         <h2>nlp</h2>
-        <p>Wir wollen jetzt schauen, ob das Sentiment des Textes einen Einfluss auf die Relevanz des Beitrags hat.</p>
+        <p>Im Folgenden wird die Beziehung zwischen der Stimmung eines Textes und der Relevanz des Beitrags untersucht. Ziel ist es herauszufinden, ob eine bestimmte Sentimentausprägung auf eine höhere Relevanz des Beitrags hinweist.</p>
         <p>{{ nlp }}</p>
         <img src="images/sentiment_scores_boxplot.png" alt="Sentiment Scores Boxplot" width="400px" height="400px">
         <img src="images/sentiment_bar_chart.png" alt="Sentiment Bar Chart" width="400px" height="400px">
-        <p>Wir merken, dass oft ein Negatives Sentiment auch ein Indikator für relevante Beiträge ist und umgekehrt. Wir können daraus schließen, dass relevante Beiträge für Katastrophe oft negativ sind. Das war zu erwarten wie man es schon mit der Wortwolke gesehen hat.</p>
+        <p>Die Visualisierungen zeigen, dass ein negativer Sentiment häufig mit der Relevanz der Beiträge korreliert. Dies deutet darauf hin, dass relevante Beiträge für Katastrophen tendenziell negativ formuliert sind. Dies steht im Einklang mit den vorangegangenen Erkenntnissen, die bereits durch die Erstellung einer Wortwolke nahegelegt wurden.</p>
     </section>
 </body>
 </html>
