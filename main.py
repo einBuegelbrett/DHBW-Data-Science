@@ -10,8 +10,7 @@ from templates.gesundheitsdaten_template import gesundheitsdaten_template
 from xhtml2pdf import pisa
 
 if __name__ == "__main__":
-    #document = select_file()
-    document = "datasets/Kunden-Datensatz.csv"
+    document = select_file()
 
     if document == "":
         print("Keine Datei ausgewählt. Das Programm wird beendet.")
