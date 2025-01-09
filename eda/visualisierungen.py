@@ -3,7 +3,7 @@ import pandas as pd
 import seaborn as sns
 from wordcloud import WordCloud
 
-def boxplot(data: pd.DataFrame, x: str, y: str, hue: str, title: str, x_label: str, y_label: str, image_name: str) -> None:
+def boxplot(data: pd.DataFrame, x: str, y: str, hue: str|None, title: str, x_label: str, y_label: str, image_name: str) -> None:
     """
     Create a box plot
 
@@ -82,7 +82,7 @@ def histplot(data: pd.DataFrame, column: str, title: str, image_name: str) -> No
     plt.show()
 
 
-def bar_chart(data: pd.DataFrame, x: str, hue: str, image_name: str) -> None:
+def bar_chart(data: pd.DataFrame, x: str, hue: str|None, image_name: str) -> None:
     """
     Create a bar chart
 

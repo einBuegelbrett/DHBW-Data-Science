@@ -36,11 +36,10 @@ def social_media_main(df: pd.DataFrame) -> dict[str, str]:
     word_cloud(df[df['target'] == 1], "text", "Word Cloud for relevant posts", "wordcloud_relevant")
     word_cloud(df[df['target'] == 0], "text", "Word Cloud for irrelevant posts", "wordcloud_irrelevant")
     data["relative_frequency"] = relative_haeufigkeit(df["location"])
-    relevant_posts = df[df['target'] == 1]['text_length'] # Split into first groups
-    irrelevant_posts = df[df['target'] == 0]['text_length'] # Split into second groups
-    pie_chart(df, "target", "Anzahl der relevanten und irrelevanten Beiträge", "number_of_posts_pie_chart") # Calculate the average post length for each location
 
     # Konfidenzintervalle
+    relevant_posts = df[df['target'] == 1]['text_length'] # Split into first groups
+    irrelevant_posts = df[df['target'] == 0]['text_length'] # Split into second groups
     ci_relevant = konfidenzintervall(relevant_posts.values, confidence_level=0.95)
     ci_irrelevant = konfidenzintervall(irrelevant_posts.values, confidence_level=0.95)
     data["confidence_intervals"] = (
@@ -49,7 +48,7 @@ def social_media_main(df: pd.DataFrame) -> dict[str, str]:
     )
 
     # Tests
-    data["tests"] = t_test_2_sample(relevant_posts, irrelevant_posts, alternative='two-sided')
+    data["ttest"] = t_test_2_sample(relevant_posts, irrelevant_posts, alternative='two-sided')
 
     # NLP
     data["nlp"] = nlp_social_media(df, "text", 5)

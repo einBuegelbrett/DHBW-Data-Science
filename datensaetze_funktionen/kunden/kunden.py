@@ -88,14 +88,12 @@ def kunden_main(df: pd.DataFrame) -> dict[str, str]:
     boxplot(df_gender, "Gender", "Annual Income (k$)", None, "Annual Income by Gender", "Gender", "Annual Income (k$)", "Boxplot_Income_Gender")
 
     # Normality Test
-    output = normality_test(df, ['Age', 'Annual Income (k$)', 'Spending Score (1-100)'])
-    data["normality_test"] = output
+    data["normality_test"] = normality_test(df, ['Age', 'Annual Income (k$)', 'Spending Score (1-100)'])
 
     # Chi-Square Test
     df['Spending_Category'] = df['Spending Score (1-100)'].apply(categorize_spending_score)
     contingency_table = pd.crosstab(df['Gender'], df['Spending_Category'])
-    output = chi_square_test(contingency_table)
-    data["chi_square_test"] = output
+    data["chi_square_test"] = chi_square_test(contingency_table)
 
     # KNN Classifier with Visualization
     df = copy_df
