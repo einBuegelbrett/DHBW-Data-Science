@@ -5,13 +5,6 @@ from eda.test import chi_square_test, normality_test
 from ml.k_neighbour import knn_classifier, kmeans_cluster_analysis
 import pandas as pd
 
-def categorize_spending_score(score):
-    if score <= 33:
-        return 'Low'
-    elif score <= 66:
-        return 'Medium'
-    else:
-        return 'High'
 def kunden_main(df):
     """
     Main function to perform analysis on the customer dataset.
@@ -96,7 +89,7 @@ def kunden_main(df):
         print("Annual Income data is not normally distributed.")
 
     # Chi-Square Test
-    df['Spending_Category'] = df['Spending Score (1-100)'].apply(categorize_spending_score)
+    df['Spending_Category'] = df['Spending Score (1-100)'].apply(dv.categorize_spending_score)
     # Create a contingency table for Gender vs. Spending_Category
     contingency_table = pd.crosstab(df['Gender'], df['Spending_Category'])
     # Perform the Chi-Square test
@@ -105,7 +98,7 @@ def kunden_main(df):
 
     # KNN Classifier with Visualization
     df = copy_df
-    df['Spending Score (Category)'] = df['Spending Score (1-100)'].apply(categorize_spending_score)
+    df['Spending Score (Category)'] = df['Spending Score (1-100)'].apply(dv.categorize_spending_score)
     print("\nKNN Classifier Performance:")
     accuracy, best_params = knn_classifier(
         data=df,

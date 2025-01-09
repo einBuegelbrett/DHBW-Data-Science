@@ -70,3 +70,11 @@ def clean_text(df: pd.DataFrame, column: str) -> pd.DataFrame:
         .str.replace(r"&amp;|amp", "", regex=True) \
         .str.replace(r"%20", " ", regex=True)
     return df
+
+def categorize_spending_score(score):
+    if score <= 33:
+        return 'Low'
+    elif score <= 66:
+        return 'Medium'
+    else:
+        return 'High'
