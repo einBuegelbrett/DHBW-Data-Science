@@ -6,13 +6,12 @@ from ml.evaluate_model import evaluate_model
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 
-def knn_classifier(data: pd.DataFrame, target_column: str, n_neighbors: int = 5, test_size: float = 0.2, random_state: int = 42):
+def knn_classifier(data: pd.DataFrame, target_column: str, test_size: float = 0.2, random_state: int = 42):
     """
     Perform K-Nearest Neighbors classification on a given dataset.
 
     :param data: Input DataFrame
     :param target_column: The column to be predicted
-    :param n_neighbors: Number of neighbors for KNN
     :param test_size: Proportion of the dataset to include in the test split
     :param random_state: Random state for reproducibility
     :return: Best model and its evaluation score
@@ -40,7 +39,7 @@ def knn_classifier(data: pd.DataFrame, target_column: str, n_neighbors: int = 5,
     }
 
     # Set up GridSearchCV
-    grid_search = GridSearchCV(estimator=knn, param_grid=param_grid, cv=5, n_jobs=-1, verbose=2)
+    grid_search = GridSearchCV(estimator=knn, param_grid=param_grid, cv=5, n_jobs=-1, verbose=0)
 
     # Fit the model with the best hyperparameters
     grid_search.fit(X_train, y_train)
