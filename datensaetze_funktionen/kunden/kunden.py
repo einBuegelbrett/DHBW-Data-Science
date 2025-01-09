@@ -1,5 +1,5 @@
-import datenvorverarbeitung.data_cleaning as dv
 import eda.statistiken as st
+from datenvorverarbeitung.data_cleaning import to_binary, categorize_spending_score
 from eda.visualisierungen import scatterplot, boxplot, histogram
 from eda.test import chi_square_test, normality_test
 from ml.k_neighbour import knn_classifier, kmeans_cluster_analysis
@@ -18,7 +18,7 @@ def kunden_main(df):
 
     # Encode Gender to binary
     df_gender = df.copy()
-    df = dv.to_binary(df, "Gender", "Male", "Female")
+    df = to_binary(df, "Gender", "Male", "Female")
     copy_df = df.copy()
     data["cleaning"] = df.head().to_html(classes="table")
 
@@ -40,6 +40,7 @@ def kunden_main(df):
         mean = stats["mean"]
         median = stats["median"]
         std_dev = stats["std_dev"]
+        imagename = ""
 
         if col == "Age":
             distribution_comment = "Das Alter der Kunden ist leicht rechtsschief verteilt (Median < Mittelwert), was darauf hindeutet, dass es mehr jüngere Kunden gibt."
@@ -86,14 +87,14 @@ def kunden_main(df):
     data["normality_test"] = output
 
     # Chi-Square Test
-    df['Spending_Category'] = df['Spending Score (1-100)'].apply(dv.categorize_spending_score)
+    df['Spending_Category'] = df['Spending Score (1-100)'].apply(categorize_spending_score)
     contingency_table = pd.crosstab(df['Gender'], df['Spending_Category'])
     output = chi_square_test(contingency_table)
     print(output)
 
     # KNN Classifier with Visualization
     df = copy_df
-    df['Spending Score (Category)'] = df['Spending Score (1-100)'].apply(dv.categorize_spending_score)
+    df['Spending Score (Category)'] = df['Spending Score (1-100)'].apply(categorize_spending_score)
     print("\nKNN Classifier Performance:")
     accuracy, best_params = knn_classifier(df, "Spending Score (Category)")
     print(f"Best Accuracy: {accuracy}")
