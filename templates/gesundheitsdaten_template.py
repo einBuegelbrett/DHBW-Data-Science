@@ -7,8 +7,9 @@ gesundheitsdaten_template = """
     <title>Datenanalyse-Report</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
-        h1, h2 { color: #333; }
+        h1, h2 { color: #333; }        
         section { margin-bottom: 20px; }
+        #images_li li { list-style-type: none; }
     </style>
 </head>
 <body>
@@ -58,7 +59,7 @@ gesundheitsdaten_template = """
     <section id="graphen">
         <h2>Graphen</h2>
         <h3>Untersuchung der Verteilung der numerischen Variablen</h3>
-        <ul>
+        <ul id="images_li">
             <li> 
                 <img src="images/Ruheblutdruck.png" alt="Histogram of Ruheblutdruck" width="400px" height="400px">
                 <img src="images/Cholesterinwert.png" alt="Histogram of Cholesterinwert" width="400px" height="400px">
@@ -71,6 +72,8 @@ gesundheitsdaten_template = """
             <li>
                 <img src="images/image_0.png" alt="Boxplot of {{ top_outliers[0].column }}" width="350px" height="350px">
                 <img src="images/image_1.png" alt="Boxplot of {{ top_outliers[1].column }}" width="350px" height="350px">
+            </li>
+            <li>                
                 <img src="images/image_2.png" alt="Boxplot of {{ top_outliers[2].column }}" width="350px" height="350px">
             </li>
         </ul>
@@ -87,7 +90,7 @@ gesundheitsdaten_template = """
     </section>
 
     <section id="ml">
-        <h2>ml</h2>
+        <h2>Machine Learning</h2>
         <h3>--- Evaluation: Logistic Regression ---</h3>
         <p>{{ logistic_regression_evaluate_model }}</p>
         
@@ -100,13 +103,16 @@ gesundheitsdaten_template = """
 
     <section id="hyperparametertuning">
         <h2>Hyperparametertuning</h2>
-        <h3>--- Evaluation: Logistic Regression ---</h3>
+        <h3>--- Evaluation: Logistic Regression --- </h3>
+        <p>Beste Parameter:</p>
         <p>{{ logistic_regression_best_params }}</p>
         
-        <h3>--- Evaluation: Random Forest ---</h3>
+        <h3>--- Evaluation: Random Forest --- </h3>
+        <p>Beste Parameter:</p>
         <p>{{ random_forest_best_params }}</p>
         
-        <h3>--- Evaluation: K-Nearest Neighbors (KNN) ---</h3>
+        <h3>--- Evaluation: K-Nearest Neighbors (KNN) --- </h3>
+        <p>Beste Parameter:</p>
         <p>{{ knn_classifier_best_params }}</p>
     </section>
     

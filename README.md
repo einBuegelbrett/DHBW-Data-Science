@@ -9,6 +9,19 @@ Die Datei `main.py` muss nur ausgeführt werden. Es öffnet sich automatisch ein
 ### Hinweis bei dem Starten
 Auf Windows-basierten Systemen kann es vorkommen, dass das Programm nach dem Start erneut ausgeführt werden muss, damit sich das Dateiauswahlfenster korrekt öffnet.
 
+## pip install
+jinja2
+pandas
+scipy
+matplotlib
+seaborn
+wordcloud
+scikit-learn
+transformers
+xhtml2pdf
+torch (https://pytorch.org/)
+tk 
+
 ## Modularität
 Um die Anwendung so modular wie möglich zu gestalten, wurde die Anwendung in verschiedene Klassen unterteilt, die alle unabhängig von ihrem Datensatz wiederverwendet werden können.
 

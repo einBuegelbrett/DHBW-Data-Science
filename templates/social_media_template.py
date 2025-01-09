@@ -28,7 +28,7 @@ social_media_template = """
             <li>Ersetzen von fehlenden Werten</li>
             <li>Entfernen von Duplikaten</li>
             <li>Mapping von Keywords zu Integers</li>
-            <li>Textbereinigung (Zum Beispiel Spezialzeichen wie "&amp%" entfernen)</li>
+            <li>Textbereinigung (Zum Beispiel Spezialzeichen wie "&ampamp%" oder Links entfernen)</li>
         </ul>
         <p>Der Datensatz nach der Bereinigung sieht wie folgt aus, auch nur die ersten 5 Zeilen aus Platzgründen:</p>
         <p>{{ cleaning }}</p>
@@ -36,26 +36,24 @@ social_media_template = """
 
     <section id="korrelation-kovarianz">
         <h2>Korrelation / Kovarianz</h2>
-        <h3>--- Analyse der Korrelation und Kovarianz ---</h3>
+        <h3>--- Analyse der Korrelation und Kovarianz zwischen Keyword und Target ---</h3>
         <p>{{ corr_cov_keyword_target }}</p>
-        <p>Die Kovarianz {corr_cov_keyword_target['covariance']:.2f} indicates a small positive relationship between the variables.<p>
-        <p>Die Analyse der Beziehung zwischen den Variablen "Keyword" und "Target" zeigt eine Kovarianz von {corr_cov_keyword_target['covariance']:.2f} und eine Korrelation von {corr_cov_location_target['correlation']:.2f}. Die positive Kovarianz weist auf eine leichte positive Beziehung hin, was bedeutet, dass eine Zunahme der Werte in der einen Variablen tendenziell mit einer leichten Zunahme in der anderen Variablen verbunden ist. Allerdings ist die Korrelation mit {corr_cov_keyword_target['correlation']:.2f} sehr schwach und nahe bei 0, was darauf hindeutet, dass diese lineare Beziehung nicht signifikant ist. In der Praxis bedeutet dies, dass "Keyword" als Variable nur eine sehr geringe Vorhersagekraft für den Zielwert "Target" hat. Die geringe Korrelation zeigt deutlich, dass die Abhängigkeit zwischen diesen Variablen für diese Daten vernachlässigbar ist.</p>
+        <p>Die Analyse der Beziehung zwischen den Variablen "Keyword" und "Target" zeigt eine Kovarianz von 0.99 und eine Korrelation von 0.09. Die positive Kovarianz weist auf eine leichte positive Beziehung hin, was bedeutet, dass eine Zunahme der Werte in der einen Variablen tendenziell mit einer leichten Zunahme in der anderen Variablen verbunden ist. Allerdings ist die Korrelation mit 0.09 sehr schwach und nahe bei 0, was darauf hindeutet, dass diese lineare Beziehung nicht signifikant ist. In der Praxis bedeutet dies, dass "Keyword" als Variable nur eine sehr geringe Vorhersagekraft für den Zielwert "Target" hat. Die geringe Korrelation zeigt deutlich, dass die Abhängigkeit zwischen diesen Variablen für diese Daten vernachlässigbar ist.</p>
         
-        <h3>--- Analyse der Korrelation und Kovarianz ---</h3>
+        <h3>--- Analyse der Korrelation und Kovarianz zwischen Location und Target ---</h3>
         <p>{{ corr_cov_location_target }}</p>
-        <p>Die Kovarianz {corr_cov_location_target['covariance']:.2f} indicates a stronger positive relationship between the variables (but the absolute value depends on the data's scale).<p>
-        <p>Für die Beziehung zwischen "Location" und "Target" ergibt sich eine Kovarianz von {corr_cov_location_target['covariance']:.2f} und eine Korrelation von {corr_cov_location_target['correlation']:.2f}. Die negative Kovarianz deutet auf eine gegenläufige Beziehung hin, das heißt, dass höhere Werte in "Location" mit einer Tendenz zu niedrigeren Werten in "Target" verbunden sein könnten. Dennoch ist die Korrelation mit {corr_cov_location_target['correlation']:.2f} so gering, dass praktisch keine lineare Beziehung zwischen diesen beiden Variablen besteht. Die negative Kovarianz allein liefert keinen starken Hinweis auf einen Zusammenhang, da sie stark von der Skalierung der Daten abhängt und durch die geringe Korrelation weiter relativiert wird.</p>
+        <p>Für die Beziehung zwischen "Location" und "Target" ergibt sich eine Kovarianz von -1.92 und eine Korrelation von -0.00. Die negative Kovarianz deutet auf eine gegenläufige Beziehung hin, das heißt, dass höhere Werte in "Location" mit einer Tendenz zu niedrigeren Werten in "Target" verbunden sein könnten. Dennoch ist die Korrelation mit -0.00 so gering, dass praktisch keine lineare Beziehung zwischen diesen beiden Variablen besteht. Die negative Kovarianz allein liefert keinen starken Hinweis auf einen Zusammenhang, da sie stark von der Skalierung der Daten abhängt und durch die geringe Korrelation weiter relativiert wird.</p>
         
         <h3>--- Zusammenfassung ---</h3>
         <p>Zusammenfassend zeigt die Analyse der Korrelation und Kovarianz, dass weder "Keyword" noch "Location" eine signifikante lineare Beziehung zu "Target" aufweisen. Beide Korrelationen sind sehr nah an 0, was darauf hinweist, dass Änderungen in diesen Variablen keinen starken Einfluss auf den Zielwert haben. Die Ergebnisse deuten darauf hin, dass weder "Keyword" noch "Location" entscheidende Faktoren für die Vorhersage von "Target" sind. Darüber hinaus sollte berücksichtigt werden, dass die Kovarianz abhängig von der Skalierung der Daten ist, während die Korrelation eine normierte Maßzahl darstellt, die unabhängig von den Einheiten der Variablen interpretiert werden kann. Daher bestätigen die schwachen Korrelationen letztendlich die mangelnde Relevanz dieser beiden Variablen in Bezug auf den Zielwert.</p>
     </section>
 
     <section id="graphen">
-        <h2>Graphen</h2>
-        <h3>--- Konfidenzintervall ---</h3>
+        <h2>--- Konfidenzintervall ---</h2>
         <p>{{ confidence_intervals }}</p>
         <p>Das Konfidenzintervall gibt an, mit welcher Sicherheit wir die wahre Werte für die relevanten und irrelevanten Beiträge schätzen können. In diesem Fall liegt das 95%-Konfidenzintervall für die relevanten Beiträge zwischen 96.24% und 98.36%, was darauf hinweist, dass wir mit hoher Sicherheit davon ausgehen können, dass der wahre Wert der Relevanz in diesem Bereich liegt. Für die irrelevanten Beiträge liegt das 95%-Konfidenzintervall zwischen 90.16% und 91.36%, was eine vergleichbare Zuverlässigkeit bei der Schätzung der Irrelevanz widerspiegelt. Diese Intervalle geben uns wertvolle Hinweise darauf, wie genau und stabil die Analyseergebnisse sind und dass die Klassifikationen der Beiträge insgesamt eine hohe Präzision aufweisen.</p>
         
+        <h2>Graphen</h2>
         <h3>--- Wortwolke ---</h3>
         <p>Wir wollen zuerst die Wortwolke für alle Beiträge visualisieren.</p>
         <img src="images/wordcloud_all.png" alt="Income Spending Scatterplot" width="400px" height="400px">
@@ -88,8 +86,10 @@ social_media_template = """
         <h2>nlp</h2>
         <p>Im Folgenden wird die Beziehung zwischen der Stimmung eines Textes und der Relevanz des Beitrags untersucht. Ziel ist es herauszufinden, ob eine bestimmte Sentimentausprägung auf eine höhere Relevanz des Beitrags hinweist.</p>
         <p>{{ nlp }}</p>
-        <img src="images/sentiment_scores_boxplot.png" alt="Sentiment Scores Boxplot" width="400px" height="400px">
-        <img src="images/sentiment_bar_chart.png" alt="Sentiment Bar Chart" width="400px" height="400px">
+        <img src="images/sentiment_scores_boxplot.png" alt="Sentiment Scores Boxplot" width="400px" height="300px">
+        <img src="images/sentiment_bar_chart.png" alt="Sentiment Bar Chart" width="400px" height="300px">
+        <p>Der Boxplot zeigt den Zusammenhang zwischen den Sentiment Scores und der Relevanz der Daten, wobei die Relevanz durch die Werte 0 (irrelevant) und 1 (relevant) dargestellt wird. Die X-Achse repräsentiert die Relevanz, während die Y-Achse die Sentiment Scores anzeigt, die sich in einem Bereich von etwa 0,96 bis 1,00 bewegen. Für irrelevante Daten (Relevanz = 0) sind ausschließlich positive Sentiments vorhanden, was durch den blauen Bereich dargestellt wird. Dieser Bereich zeigt nur minimale Streuung, da die Sentiment Scores nahezu konstant bei 1,00 liegen.</p>
+        <p>Für relevante Daten (Relevanz = 1) hingegen sind nur negative Sentiments zu erkennen, die durch die orangefarbene Box dargestellt werden. Diese Box zeigt den Interquartilsabstand, der den Bereich umfasst, in dem sich 50 % der Datenpunkte befinden. Die Medianlinie der Box verdeutlicht den zentralen Wert der Sentiment Scores für die negativen Sentiments. Insgesamt zeigt der Plot, dass irrelevante Daten sehr hohe positive Sentiments aufweisen, während relevante Daten eine größere Streuung negativer Sentiments zeigen.</p>
         <p>Die Visualisierungen zeigen, dass ein negativer Sentiment häufig mit der Relevanz der Beiträge korreliert. Dies deutet darauf hin, dass relevante Beiträge für Katastrophen tendenziell negativ formuliert sind. Dies steht im Einklang mit den vorangegangenen Erkenntnissen, die bereits durch die Erstellung einer Wortwolke nahegelegt wurden.</p>
     </section>
 </body>

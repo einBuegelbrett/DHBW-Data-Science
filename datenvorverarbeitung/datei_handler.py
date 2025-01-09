@@ -1,7 +1,6 @@
 import pandas as pd
 import tkinter as tk
 from tkinter import filedialog
-
 from xhtml2pdf import pisa
 
 
@@ -42,7 +41,7 @@ def select_file() -> str:
 
     return file_path
 
-def html_to_pdf(html_file: str, pdf_file: str, jinja_template, data):
+def html_to_pdf(html_file: str, pdf_file: str, jinja_template: any, data: any):
     rendered_html = jinja_template.render(**data)
 
     # HTML speichern

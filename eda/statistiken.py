@@ -94,7 +94,7 @@ def subset_analysis(data: pd.DataFrame, subset_condition: dict, target_variable:
     data = data.apply(pd.to_numeric, errors='coerce')
 
     # Originaldaten untersuchen
-    output += "<h2>--- Statistische Eigenschaften der Gesamtpopulation ---<\h2><br>"
+    output += "<h2> --- Statistische Eigenschaften der Gesamtpopulation --- </h2> <br>"
     output += data.describe().to_html(classes="table")
 
     # Subset auswählen basierend auf der Bedingung
@@ -102,11 +102,11 @@ def subset_analysis(data: pd.DataFrame, subset_condition: dict, target_variable:
     for column, value in subset_condition.items():
         subset = subset[subset[column] == value]
 
-    output += "<h2>--- Statistische Eigenschaften des Subsets ---<\h2><br>"
+    output += "<h2>--- Statistische Eigenschaften des Subsets ---</h2><br>"
     output += subset.describe().to_html(classes="table")
 
     # Korrelationen innerhalb des Subsets
-    output += "<h2>--- Korrelationen im Subset ---<\h2> <br>"
+    output += "<h2>--- Korrelationen im Subset ---</h2> <br>"
     for column in subset.columns[:-1]:
         if column != target_variable:
             corr_cov = korrelation_kovarianz(subset[column], subset[target_variable])
