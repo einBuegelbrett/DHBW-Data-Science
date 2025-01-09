@@ -1,10 +1,12 @@
 import matplotlib.pyplot as plt
+import pandas as pd
 import seaborn as sns
 from wordcloud import WordCloud
 
-def boxplot(data, x, y, hue, title, x_label, y_label, image_name) -> None:
+def boxplot(data: pd.DataFrame, x: str, y: str, hue: str, title: str, x_label: str, y_label: str, image_name: str) -> None:
     """
     Create a box plot
+
     :param data: DataFrame containing the data
     :param x: The column name for the x-axis
     :param y: The column name for the y-axis
@@ -24,9 +26,10 @@ def boxplot(data, x, y, hue, title, x_label, y_label, image_name) -> None:
     plt.show()
 
 
-def scatterplot(data, column1, column2, image_name) -> None:
+def scatterplot(data: pd.DataFrame, column1: str, column2: str, image_name: str) -> None:
     """
     Create a scatter plot
+
     :param data: DataFrame containing the data
     :param column1: The column name for the x-axis
     :param column2: The column name for the y-axis
@@ -42,9 +45,10 @@ def scatterplot(data, column1, column2, image_name) -> None:
     plt.show()
 
 
-def histogram(data, column, title, image_name) -> None:
+def histogram(data: pd.DataFrame, column: str, title: str, image_name: str) -> None:
     """
     Create a histogram
+
     :param data: DataFrame containing the data
     :param column: The column name for the histogram
     :param title: Title of the plot
@@ -59,7 +63,17 @@ def histogram(data, column, title, image_name) -> None:
     plt.savefig(f"images/{image_name}.png")
     plt.show()
 
-def bar_chart(data, x, hue, image_name) -> None:
+
+def bar_chart(data: pd.DataFrame, x: str, hue: str, image_name: str) -> None:
+    """
+    Create a bar chart
+
+    :param data: DataFrame containing the data
+    :param x: The column name for the x-axis
+    :param hue: Optional, the column name to group the data by
+    :param image_name: Name of the image file to save the plot
+    :return: None
+    """
     plt.figure(figsize=(12, 6))
     sns.countplot(data=data, x=x, hue=hue, palette='Set2')
     plt.title("Count of Sentiment by Relevance")
@@ -70,7 +84,7 @@ def bar_chart(data, x, hue, image_name) -> None:
     plt.show()
 
 
-def pie_chart(data, column, title, image_name) -> None:
+def pie_chart(data: pd.DataFrame, column: str, title: str, image_name: str) -> None:
     """
     Creates a pie chart based on a specific column of a DataFrame.
 
@@ -88,7 +102,7 @@ def pie_chart(data, column, title, image_name) -> None:
     plt.show()
 
 
-def word_cloud(data, column, title, image_name) -> None:
+def word_cloud(data: pd.DataFrame, column: str, title: str, image_name: str) -> None:
     """
     Creates a word cloud based on a specific column of a DataFrame.
 

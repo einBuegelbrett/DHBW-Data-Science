@@ -25,7 +25,7 @@ def read_document(filename: str) -> pd.DataFrame:
     return df
 
 
-def select_file():
+def select_file() -> str:
     """
     Opens a file dialog for the user to select a dataset.
     :return: The path to the selected file
@@ -36,4 +36,5 @@ def select_file():
         title="Wählen Sie eine Datendatei aus",
         filetypes=(("CSV-Dateien", "*.csv"), ("Textdateien", "*.txt"))
     )
+
     return file_path
