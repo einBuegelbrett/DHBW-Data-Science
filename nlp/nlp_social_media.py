@@ -15,7 +15,7 @@ def nlp_social_media(data: pd.DataFrame, column: str, lines_to_process: int) -> 
     output = ""
 
     # Sentiment-Analyse Pipeline laden
-    classifier = pipeline('sentiment-analysis')
+    classifier = pipeline('sentiment-analysis', model='distilbert/distilbert-base-uncased-finetuned-sst-2-english')
 
     data_subset = data[[column, 'target']].dropna(subset=[column]).head(lines_to_process)
     texts = data_subset[column].tolist()
@@ -24,12 +24,15 @@ def nlp_social_media(data: pd.DataFrame, column: str, lines_to_process: int) -> 
     # Perform sentiment analysis
     sentiment_results = [classifier(text)[0] for text in texts]
 
+    output += "<table id=\"sentiment-table\" class=\"table\"><thead><tr><th>Text</th><th>Sentiment</th><th>Relevance to Crisis</th></tr></thead><tbody>"
+
     # Display some sentiment results with relevance
     for text, result, relevance in zip(texts, sentiment_results, relevances):
-        output += f"Text: {text}\n"
-        output += f"Sentiment: {result['label']} (Score: {result['score']:.2f})\n"
-        output += f"Relevance to crisis: {'Relevant' if relevance == 1 else 'Irrelevant'}\n"
-        output += "-" * 80 + "\n"
+        output += f"<tr><td>Text: {text}</td>"
+        output += f"<td>Sentiment: {result['label']} (Score: {result['score']:.2f})</td>"
+        output += f"<td>Relevance to crisis: {'Relevant' if relevance == 1 else 'Irrelevant'}</td></tr>"
+
+    output += "</tbody></table>"
 
     # Add results to the DataFrame
     data_subset['Sentiment'] = [result['label'] for result in sentiment_results]

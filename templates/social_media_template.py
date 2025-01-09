@@ -9,6 +9,7 @@ social_media_template = """
         body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
         h1, h2, h3 { color: #333; }
         section { margin-bottom: 20px; }
+        #sentiment-table th, #sentiment-table td { border: 1px solid black; padding: 2px; }
     </style>
 </head>
 <body>
@@ -59,7 +60,7 @@ social_media_template = """
         <p>Beim ersten Blick auf den Graph fällt auf, dass bestimmte Begriffe wie „people“, „time“ und ähnliche häufig vorkommen. Dies könnte darauf hindeuten, dass die Beiträge in ihrer Wortwahl eher allgemein gehalten sind und nicht spezifisch auf Krisen oder dramatische Ereignisse eingehen.</p>
         
         <p>Vielleicht liegt es aber auch daran, dass es mehr irrelevante Beiträge gibt als relevante Beiträge. Dies werden wir jetzt analysieren indem wir die Anzahl der relevanten und irrelevanten Beiträge visualisieren.</p>
-        <img src="images/target_pie_chart.png" alt="Target Pie Chart" width="400px" height="400px">
+        <img src="images/target_pie_chart.png" alt="Target Pie Chart" width="400px" height="300px">
         <Wir merken, dass es mehr irrelevante Beiträge gibt als relevante Beiträge. Dies könnte erklären warum Wörter wie „people“ häufiger vorkommen.>
         
         <p>Wir analysieren also jetzt Wörter analysieren die häufig in irrelevanten Beiträgen vorkommen, um das zu bestätigen, kreieren wir die Wordcloud dazu.<p>
