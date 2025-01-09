@@ -63,6 +63,24 @@ def histogram(data: pd.DataFrame, column: str, title: str, image_name: str) -> N
     plt.savefig(f"images/{image_name}.png")
     plt.show()
 
+def histplot(data: pd.DataFrame, column: str, title: str, image_name: str) -> None:
+    """
+    Create a histogram
+
+    :param data: DataFrame containing the data
+    :param column: The column name for the histogram
+    :param title: Title of the plot
+    :param image_name: Name of the image file to save the plot
+    :return: None
+    """
+    plt.figure(figsize=(15, 10))
+    sns.histplot(data[column], kde=True, bins=10)
+    plt.title(title)
+    plt.xlabel(column)
+    plt.ylabel("Frequency")
+    plt.savefig(f"images/{image_name}.png")
+    plt.show()
+
 
 def bar_chart(data: pd.DataFrame, x: str, hue: str, image_name: str) -> None:
     """

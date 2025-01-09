@@ -1,7 +1,8 @@
 import pandas as pd
 import eda.statistiken as st
 from datenvorverarbeitung.datenbereinigung import to_binary, categorize_spending_score
-from eda.visualisierungen import scatterplot, boxplot, histogram
+from eda.konfidenzintervalle import konfidenzintervall
+from eda.visualisierungen import scatterplot, boxplot, histplot
 from eda.test import chi_square_test, normality_test
 from ml.k_neighbour import knn_classifier, kmeans_cluster_analysis
 
@@ -28,11 +29,13 @@ def kunden_main(df: pd.DataFrame) -> dict[str, str]:
         mean = st.mittelwert(df[col])
         median = st.median(df[col])
         std_dev = df[col].std()
+        conf_interval = konfidenzintervall(df[col].values, confidence_level=0.95)
         summary_stats.append({
             "column": col,
             "mean": mean,
             "median": median,
-            "std_dev": std_dev
+            "std_dev": std_dev,
+            "conf_interval": conf_interval
         })
     # Bericht drucken
     for stats in summary_stats:
@@ -40,20 +43,21 @@ def kunden_main(df: pd.DataFrame) -> dict[str, str]:
         mean = stats["mean"]
         median = stats["median"]
         std_dev = stats["std_dev"]
+        conf_interval = stats["conf_interval"]
         imagename = ""
 
         if col == "Age":
             distribution_comment = "Das Alter der Kunden ist leicht rechtsschief verteilt (Median < Mittelwert), was darauf hindeutet, dass es mehr jüngere Kunden gibt."
             imagename = "Age"
-            histogram(df, col, "Age Distribution", imagename)
+            histplot(df, col, "Age Distribution", imagename)
         elif col == "Annual Income (k$)":
             distribution_comment = "Die Verteilung des Einkommens ist relativ symmetrisch, da Median und Mittelwert fast gleich sind."
             imagename = "Income"
-            histogram(df, col, "Annual Income Distribution", imagename)
+            histplot(df, col, "Annual Income Distribution", imagename)
         elif col == "Spending Score (1-100)":
             distribution_comment = "Diese Verteilung ist nahezu ausgeglichen, was darauf hinweist, dass die Kunden unterschiedliche Kaufverhalten aufweisen, von sparsamen bis hin zu spendablen Kunden."
             imagename = "Spending"
-            histogram(df, col, "Spending Score Distribution", imagename)
+            histplot(df, col, "Spending Score Distribution", imagename)
         else:
             distribution_comment = "Keine spezifische Verteilungsanalyse verfügbar."
 
@@ -62,6 +66,7 @@ def kunden_main(df: pd.DataFrame) -> dict[str, str]:
             f"<p>Mittelwert = {mean:.2f}<br>"
             f"Median = {median:.2f}<br>"
             f"Standardabweichung = {std_dev:.2f}<br>"
+            f"Konfidenzintervall (95%) = {conf_interval}</p>"
             f"{distribution_comment}</p>"
             + f'<img src="images/{imagename}.png" alt="{col} Histogram" width="400px" height="400px">'
         )
@@ -90,7 +95,7 @@ def kunden_main(df: pd.DataFrame) -> dict[str, str]:
     df['Spending_Category'] = df['Spending Score (1-100)'].apply(categorize_spending_score)
     contingency_table = pd.crosstab(df['Gender'], df['Spending_Category'])
     output = chi_square_test(contingency_table)
-    print(output)
+    data["chi_square_test"] = output
 
     # KNN Classifier with Visualization
     df = copy_df

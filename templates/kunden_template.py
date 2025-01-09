@@ -106,8 +106,14 @@ kunden_template = """
             Dieser Test setzt keine Normalverteilung der Daten voraus und ist daher besser geeignet, um die Abhängigkeiten zwischen kategorialen Variablen zu untersuchen.
         </p>
         
-        
-        
+        <h4> Chi-Square Test</h4>
+        <p><strong> Nullhypothese (𝐻0): Es gibt keinen signifikanten Zusammenhang zwischen dem Geschlecht und der Ausgabenkategorie (hoch, mittel, niedrig). <br>
+                    Alternativhypothese (𝐻𝐴): Es gibt einen signifikanten Zusammenhang zwischen dem Geschlecht und der Ausgabenkategorie. </strong></p>
+        <p> {{ chi_square_test }}</p>
+        <p> Die Ergebnisse zeigen einen Chi-Quadrat-Wert von 0.656, einen p-Wert von 0.720 und 2 Freiheitsgrade. 
+            Da der p-Wert größer als das Signifikanzniveau von 0.05 ist, wird die Nullhypothese, dass kein signifikanter Zusammenhang zwischen den Variablen besteht, beibehalten und dementsprechend abgelehnt wird. 
+            Die erwarteten Häufigkeiten zeigen keine auffälligen Abweichungen, sodass kein statistisch signifikanter Einfluss des Geschlechts auf die Ausgabenkategorien nachgewiesen werden kann. 
+        </p>
     </section>
 
     <section id="nlp-ml">
