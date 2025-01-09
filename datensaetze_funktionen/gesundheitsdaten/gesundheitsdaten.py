@@ -22,7 +22,6 @@ def gesundheitsdaten_main(df: pd.DataFrame) -> dict[str, str]:
         df[column] = pd.to_numeric(df[column], errors='coerce')
 
     data["cleaning"] = df.head().to_html(classes="table")
-
     df_copy = df.copy()
 
     # 1. Datenexploration (EDA):
@@ -42,7 +41,7 @@ def gesundheitsdaten_main(df: pd.DataFrame) -> dict[str, str]:
     i = 0
     data["top_outliers"] = ""
     for column, count in top_outliers:
-        data["top_outliers"] += f"<li>{column}: {count} Ausreißer</li>"
+        data["top_outliers"] += f"{column}: {count} Ausreißer\n"
         boxplot(df, x=column, y=None, hue=None, title=f"Boxplot of {column}", x_label=column, y_label=column[0],
                 image_name=f"image_{i}")
         i+= 1
