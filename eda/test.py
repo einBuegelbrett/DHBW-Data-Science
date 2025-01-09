@@ -12,13 +12,13 @@ def normality_test(data: pd.DataFrame, columns: list) -> str:
     output = ""
 
     for column in columns:
-        output += f"\nNormality Test for {column}:\n"
+        output += f" <br> Normality Test for {column}:\n <br>"
         stat, p = shapiro(data[column].dropna())  # Drop NaN values for the test
-        output += f"Statistic={stat}, P-value={p}\n"
+        output += f"Statistic={stat}, P-value={p}\n <br>"
         if p > 0.05:
-            output += f"{column} is normally distributed.\n"
+            output += f"{column} is normally distributed.\n <br>"
         else:
-            output += f"{column} is not normally distributed.\n"
+            output += f"{column} is not normally distributed.\n <br>"
 
     return output
 

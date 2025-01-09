@@ -82,7 +82,8 @@ def kunden_main(df):
     boxplot(df_gender, "Gender", "Annual Income (k$)", None, "Annual Income by Gender", "Gender", "Annual Income (k$)", "Boxplot_Income_Gender")
 
     # Normality Test
-    normality_test(df, ['Annual Income (k$)', 'Spending Score (1-100)'])
+    output = normality_test(df, ['Age', 'Annual Income (k$)', 'Spending Score (1-100)'])
+    data["normality_test"] = output
 
     # Chi-Square Test
     df['Spending_Category'] = df['Spending Score (1-100)'].apply(dv.categorize_spending_score)

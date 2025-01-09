@@ -89,7 +89,13 @@ kunden_template = """
 
     <section id="tests">
         <h2>Tests</h2>
-        <p>{{ tests }}</p>
+        <h4> Normalverteilungstest</h4>
+        <p>{{ normality_test }}</p>
+        <p> Die Normalitätstests für alle drei Variablen (Alter, jährliches Einkommen und Ausgabeverhalten) zeigen, 
+        dass sie nicht normalverteilt sind. Beim Alter, dem Einkommen und dem Ausgabeverhalten weisen die Tests jeweils darauf hin, 
+        dass diese Variablen von einer normalen Verteilung abweichen. Das bedeutet, dass die Verteilungen in den Daten entweder asymmetrisch oder schief sind 
+        oder andere Merkmale aufweisen, die eine normale Verteilung nicht widerspiegeln. 
+        Dies hat Auswirkungen auf die Auswahl der statistischen Methoden, die für die weitere Analyse verwendet werden sollten, da viele Verfahren die Annahme der Normalverteilung voraussetzen.</p>
     </section>
 
     <section id="nlp-ml">
