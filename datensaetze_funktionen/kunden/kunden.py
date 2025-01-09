@@ -17,7 +17,7 @@ def kunden_main(df):
     data["initial_dataset"] = df.head().to_html(classes="table")
 
     # Encode Gender to binary
-    copy_df_gender = df.copy()
+    df_gender = df.copy()
     df = dv.to_binary(df, "Gender", "Male", "Female")
     copy_df = df.copy()
     data["cleaning"] = df.head().to_html(classes="table")
@@ -79,7 +79,7 @@ def kunden_main(df):
     scatterplot(df, "Annual Income (k$)", "Spending Score (1-100)", "income_spending")
 
     # Boxplot: Income by Gender
-    boxplot(copy_df_gender, "Gender", "Annual Income (k$)", None, "Annual Income by Gender", "Gender", "Annual Income (k$)", "Boxplot_Income_Gender")
+    boxplot(df_gender, "Gender", "Annual Income (k$)", None, "Annual Income by Gender", "Gender", "Annual Income (k$)", "Boxplot_Income_Gender")
 
     # Normality Test
     print("\nNormality Test (Annual Income):")
