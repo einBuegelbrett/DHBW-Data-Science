@@ -1,7 +1,5 @@
 import pandas as pd
 import numpy as np
-import seaborn as sns
-import matplotlib.pyplot as plt
 
 def relative_haeufigkeit(data: pd.Series) -> pd.Series:
     """
@@ -81,7 +79,7 @@ def count_outliers_iqr(series: pd.Series) -> int:
     return ((series < lower_bound) | (series > upper_bound)).sum()
 
 
-def gesundheitsdaten_subset_analysis(data: pd.DataFrame, subset_condition: dict) -> str:
+def subset_analysis(data: pd.DataFrame, subset_condition: dict, target_variable: str) -> str:
     """
     Analyses a subset of the data and compares the characteristics with the total population.
 
@@ -93,47 +91,26 @@ def gesundheitsdaten_subset_analysis(data: pd.DataFrame, subset_condition: dict)
     output = ""
 
     # Konvertiere alle Spalten in numerische Werte
-    for column in data.columns:
-        data[column] = pd.to_numeric(data[column], errors='coerce')
+    data = data.apply(pd.to_numeric, errors='coerce')
 
     # Originaldaten untersuchen
-    output += "<h2>--- Statistische Eigenschaften der Gesamtpopulation ---<\h2> <br>"
-    output += f"{data.describe().to_string()} <br>"
+    output += "<h2>--- Statistische Eigenschaften der Gesamtpopulation ---<\h2><br>"
+    output += data.describe().to_html(classes="table")
 
     # Subset auswählen basierend auf der Bedingung
     subset = data.copy()
     for column, value in subset_condition.items():
         subset = subset[subset[column] == value]
 
-    output += "<h2>--- Statistische Eigenschaften des Subsets ---<\h2> <br>"
-    output += f"{subset.describe().to_string()} <br>"
-
-    # Histogramme: Vergleich zwischen Gesamtpopulation und Subset
-    for column in data.columns:
-        plt.figure(figsize=(12, 6))
-        sns.histplot(data[column], color="blue", kde=True, bins=20, label="Gesamtpopulation", alpha=0.6)
-        sns.histplot(subset[column], color="orange", kde=True, bins=20, label="Subset", alpha=0.6)
-        plt.title(f"Verteilung von {column} (Gesamtpopulation vs. Subset)")
-        plt.xlabel(column)
-        plt.ylabel("Häufigkeit")
-        plt.legend()
-        plt.show()
-
-    # Boxplots: Vergleich zwischen Gesamtpopulation und Subset
-    for column in data.columns[:-1]:  # Zielvariable ausschließen
-        plt.figure(figsize=(12, 6))
-        sns.boxplot(data=pd.concat([data, subset.assign(Group="Subset")]), x="Gesundheitszustand", y=column, hue="Group")
-        plt.title(f"Boxplot von {column} vs. Gesundheitszustand (Gesamtpopulation vs. Subset)")
-        plt.xlabel("Gesundheitszustand (0 = Gesund, 1 = Krank)")
-        plt.ylabel(column)
-        plt.show()
+    output += "<h2>--- Statistische Eigenschaften des Subsets ---<\h2><br>"
+    output += subset.describe().to_html(classes="table")
 
     # Korrelationen innerhalb des Subsets
     output += "<h2>--- Korrelationen im Subset ---<\h2> <br>"
     for column in subset.columns[:-1]:
-        if column != "Gesundheitszustand":
-            correlation, covariance = korrelation_kovarianz(subset[column], subset["Gesundheitszustand"])
-            output += f"Korrelation zwischen {column} und Gesundheitszustand (Subset): {correlation:.2f} (Kovarianz: {covariance:.4f}) <br>"
+        if column != target_variable:
+            corr_cov = korrelation_kovarianz(subset[column], subset[target_variable])
+            output += f"Korrelation zwischen {column} und {target_variable} (Subset): {corr_cov['correlation']:.2f} (Kovarianz: {corr_cov['covariance']:.2f})<br>"
 
     return output
 

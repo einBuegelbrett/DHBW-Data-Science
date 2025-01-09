@@ -2,7 +2,7 @@ import pandas as pd
 from datenvorverarbeitung.datenbereinigung import categorize_herzfrequenz
 from eda.test import t_test_2_sample, normality_test, chi_square_test
 from eda.visualisierungen import histogram, boxplot
-from eda.statistiken import korrelation_kovarianz, gesundheitsdaten_subset_analysis, count_outliers_iqr
+from eda.statistiken import korrelation_kovarianz, subset_analysis, count_outliers_iqr
 from ml.k_neighbour import knn_classifier
 from ml.logistic_regression import logistic_regression
 from ml.random_forest import random_forest
@@ -27,7 +27,6 @@ def gesundheitsdaten_main(df: pd.DataFrame) -> dict[str, str]:
     # 1. Datenexploration (EDA):
     # Untersuchung der Verteilung der numerischen Variablen
     for column in df.columns:
-        print("Column: ", column)
         histogram(df, column, column, column)
 
     # Ausreißer identifizieren
@@ -124,9 +123,8 @@ def gesundheitsdaten_main(df: pd.DataFrame) -> dict[str, str]:
 
     # 4. Zusätzliche Analyse:
     # Wählen Sie ein Subset der Daten (z.B. eine spezifische Altersgruppe oder Geschlechtergruppe) und analysieren Sie, wie sich die Vorhersagen oder statistischen Eigenschaften in dieser Gruppe von der Gesamtpopulation unterscheiden.
-    # TODO - String zurückgeben
-    subset_condition = {'Alter': 60}
-    # data["mehranalyse"] = gesundheitsdaten_subset_analysis(df, subset_condition)
+    subset_condition = {'Alter': 58}
+    data["mehranalyse"] = subset_analysis(df, subset_condition, "Gesundheitszustand")
 
     # Return data for output generation
     return data
