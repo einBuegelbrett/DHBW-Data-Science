@@ -2,6 +2,9 @@ import pandas as pd
 import tkinter as tk
 from tkinter import filedialog
 
+from xhtml2pdf import pisa
+
+
 def read_document(filename: str) -> pd.DataFrame:
     """
     Read a document and return its content as a DataFrame.
@@ -38,3 +41,16 @@ def select_file() -> str:
     )
 
     return file_path
+
+def html_to_pdf(html_file: str, pdf_file: str, jinja_template, data):
+    rendered_html = jinja_template.render(**data)
+
+    # HTML speichern
+    with open("report.html", "w", encoding="utf-8") as f:
+        f.write(rendered_html)
+
+    with open(html_file, "r", encoding="utf-8") as f:
+        html_content = f.read()
+
+    with open(pdf_file, 'wb') as pdf_file:
+        pisa.CreatePDF(html_content, dest=pdf_file)

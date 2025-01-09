@@ -5,7 +5,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from ml.evaluate_model import evaluate_model
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
-from ml.confusion_matrix import confusion_matrix
+from ml.confusion_matrix import confusion_matrix_plot
 
 def knn_classifier(data: pd.DataFrame, target_column: str, test_size: float = 0.2, random_state: int = 42) -> tuple[str, dict]:
     """
@@ -55,7 +55,7 @@ def knn_classifier(data: pd.DataFrame, target_column: str, test_size: float = 0.
     evaluation_metrics = evaluate_model(y_test, y_pred_knn)
 
     #Confusion Matrix
-    confusion_matrix(y_test, y_pred_knn)
+    confusion_matrix_plot(y_test, y_pred_knn, le)
 
     # Return evaluation metrics and the best hyperparameters
     return evaluation_metrics, grid_search.best_params_
