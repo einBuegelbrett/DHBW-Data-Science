@@ -1,26 +1,26 @@
 import pandas as pd
 from scipy.stats import shapiro, levene, ttest_ind, ttest_1samp, chi2_contingency
 
-def normality_test(data: pd.DataFrame) -> int:
+def normality_test(data: pd.DataFrame, columns: list) -> str:
     """
-    Perform a normality test on the data.
+    Perform normality tests for multiple numerical columns.
 
-    :param data: A pandas DataFrame containing the data to test.
-    :return: None. Results are printed directly.
+    :param data: pandas DataFrame containing the data
+    :param columns: List of column names to test for normality
     """
-    # Perform the Shapiro-Wilk test
-    stat, p = shapiro(data)
 
-    # Report results
-    print(f"Shapiro-Wilk Test for Normality:")
-    print(f"Statistic={stat}, P-value={p}")
-    if p > 0.05:
-        print("Fail to reject the null hypothesis: Data is normally distributed.")
-    else:
-        print("Reject the null hypothesis: Data is not normally distributed.")
+    output = ""
 
-    return p
+    for column in columns:
+        output += f"\nNormality Test for {column}:\n"
+        stat, p = shapiro(data[column].dropna())  # Drop NaN values for the test
+        output += f"Statistic={stat}, P-value={p}\n"
+        if p > 0.05:
+            output += f"{column} is normally distributed.\n"
+        else:
+            output += f"{column} is not normally distributed.\n"
 
+    return output
 
 def t_test_1_sample(data: pd.DataFrame, mu_0: float, alternative: str = 'two-sided') -> str:
     """

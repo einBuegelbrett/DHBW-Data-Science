@@ -82,19 +82,11 @@ def kunden_main(df):
     boxplot(df_gender, "Gender", "Annual Income (k$)", None, "Annual Income by Gender", "Gender", "Annual Income (k$)", "Boxplot_Income_Gender")
 
     # Normality Test
-    print("\nNormality Test (Annual Income):")
-    p_income = normality_test(df["Annual Income (k$)"])
-    if p_income > 0.05:
-        print("Annual Income data is normally distributed.")
-    else:
-        print("Annual Income data is not normally distributed.")
+    normality_test(df, ['Annual Income (k$)', 'Spending Score (1-100)'])
 
     # Chi-Square Test
     df['Spending_Category'] = df['Spending Score (1-100)'].apply(dv.categorize_spending_score)
-    # Create a contingency table for Gender vs. Spending_Category
     contingency_table = pd.crosstab(df['Gender'], df['Spending_Category'])
-    # Perform the Chi-Square test
-    print("\nChi-Square Test:")
     chi_square_test(contingency_table)
 
     # KNN Classifier with Visualization
