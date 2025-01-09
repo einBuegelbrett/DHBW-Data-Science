@@ -1,11 +1,11 @@
+import pandas as pd
 import eda.statistiken as st
-from datenvorverarbeitung.data_cleaning import to_binary, categorize_spending_score
+from datenvorverarbeitung.datenbereinigung import to_binary, categorize_spending_score
 from eda.visualisierungen import scatterplot, boxplot, histogram
 from eda.test import chi_square_test, normality_test
 from ml.k_neighbour import knn_classifier, kmeans_cluster_analysis
-import pandas as pd
 
-def kunden_main(df):
+def kunden_main(df: pd.DataFrame) -> dict[str, str]:
     """
     Main function to perform analysis on the customer dataset.
 

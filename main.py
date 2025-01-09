@@ -2,8 +2,8 @@ from jinja2 import Template
 from datensaetze_funktionen.gesundheitsdaten.gesundheitsdaten import gesundheitsdaten_main
 from datensaetze_funktionen.kunden.kunden import kunden_main
 from datensaetze_funktionen.social_media.social_media import social_media_main
-from datenvorverarbeitung.data_cleaning import replace_missing_values, remove_duplicates
-from datenvorverarbeitung.file_handler import read_document, select_file
+from datenvorverarbeitung.datenbereinigung import replace_missing_values, remove_duplicates
+from datenvorverarbeitung.datei_handler import read_document, select_file
 from templates.kunden_template import kunden_template
 from templates.social_media_template import social_media_template
 from templates.gesundheitsdaten_template import gesundheitsdaten_template

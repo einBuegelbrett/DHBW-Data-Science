@@ -6,8 +6,7 @@ from ml.k_neighbour import knn_classifier
 from ml.logistic_regression import logistic_regression
 from ml.random_forest import random_forest
 
-
-def gesundheitsdaten_main(df: pd.DataFrame):
+def gesundheitsdaten_main(df: pd.DataFrame) -> dict[str, str]:
     """
     Main function to perform analysis on the health data dataset.
 
