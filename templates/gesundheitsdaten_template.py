@@ -34,39 +34,32 @@ gesundheitsdaten_template = """
 
     <section id="korrelation-kovarianz">
         <h2>Korrelation / Kovarianz</h2>
-        <h3>--- Analyse der Korrelation und Kovarianz ---</h3>
+        <h3>--- Analyse der Korrelation und Kovarianz zwischen der Maximalen Herzfrequenz und dem Alter ---</h3>
         <p>{{ corr_cov_maximaleHerzfrequenz_alter }}</p>
-        <p><p>
+        <p>Die negative Kovarianz und die Korrelation zeigen eine mäßig starke negative Beziehung zwischen der maximalen Herzfrequenz und dem Alter. 
+        Das bedeutet, dass mit zunehmendem Alter die maximale Herzfrequenz tendenziell sinkt. 
+        Die Beziehung ist jedoch nicht perfekt, es gibt also auch Ausnahmen von diesem Trend.</p>
         
-        <h3>--- Analyse der Korrelation und Kovarianz ---</h3>
+        <h3>--- Analyse der Korrelation und Kovarianz zwischen dem Ruheblutdruck und Cholesterinwert---</h3>
         <p>{{ corr_cov_ruheblutdruck_cholesterinwert }}</p>
-        <p><p>
+        <p>Die Kovarianz von -203.58 und die Korrelation von -0.22 weisen auf eine schwache negative Beziehung hin. 
+        Dies deutet darauf hin, dass ein leichter Trend besteht, wonach Personen mit höherem Cholesterinwert tendenziell einen etwas niedrigeren Ruheblutdruck haben könnten.
+        </p>
         
-        <h3>--- Analyse der Korrelation und Kovarianz ---</h3>
+        <h3>--- Analyse der Korrelation und Kovarianz zwischen dem Blutzucker und dem Cholesterinwert---</h3>
         <p>{{ corr_cov_blutzucker_cholesterinwert }}</p>
-        <p><p>
+        <p>Hier ist die Kovarianz mit 1.29 sehr niedrig, und die Korrelation von 0.06 zeigt praktisch keinen Zusammenhang zwischen Blutzucker und Cholesterinwert. 
+        Dies deutet darauf hin, dass die beiden Variablen weitgehend unabhängig voneinander sind. 
+        Eine Vorhersage des Cholesterinwerts anhand des Blutzuckerspiegels oder umgekehrt wäre somit kaum möglich.
+        </p>
         
-        <h2>Mögliche Zusammenhänge zwischen den unabhängigen Variablen und der Zielvariable, höchsten und niedrigsten Korrelation</h2>
-        
-        <h3>--- Analyse der Korrelation und Kovarianz (max) ---</h3>
-        <p>{{ max_correlation_column }}</p>
-        <p><p>
-        
-        <h3>--- Analyse der Korrelation und Kovarianz (min) ---</h3>
-        <p>{{ min_correlation_column }}</p>
-        <p><p>
     </section>
 
     <section id="graphen">
         <h2>Graphen</h2>
         <h3>Untersuchung der Verteilung der numerischen Variablen</h3>
-        <img src="images/Alter.png" alt="Histogram of Alter" width="400px" height="400px">
-        <img src="images/Geschlecht.png" alt="Histogram of Geschlecht" width="400px" height="400px">
-        <img src="images/Brustschmerz-Typ.png" alt="Histogram of Brustschmerz-Typ" width="400px" height="400px">
         <img src="images/Ruheblutdruck.png" alt="Histogram of Ruheblutdruck" width="400px" height="400px">
         <img src="images/Cholesterinwert.png" alt="Histogram of Cholesterinwert" width="400px" height="400px">
-        <img src="images/Blutzucker.png" alt="Histogram of Blutzucker" width="400px" height="400px">
-        <img src="images/EKG.png" alt="Histogram of EKG" width="400px" height="400px">
         <img src="images/MaximaleHerzfrequenz.png" alt="Histogram of MaximaleHerzfrequenz" width="400px" height="400px">
         <img src="images/Gesundheitszustand.png" alt="Histogram of Gesundheitszustand" width="400px" height="400px">
         

@@ -119,18 +119,18 @@ def chi_square_test(data: pd.DataFrame) -> str:
     chi2, p, dof, expected = chi2_contingency(data)
 
     # Report results
-    output += f"Chi-Square Statistic: {chi2}\n"
-    output += f"P-value: {p}\n"
-    output += f"Degrees of Freedom: {dof}\n"
-    output += "Expected Frequencies:\n"
-    output += pd.DataFrame(expected, index=data.index, columns=data.columns).to_string() + "\n"
+    output += f"Chi-Square Statistic: {chi2}\n <br>"
+    output += f"P-value: {p}\n <br>"
+    output += f"Degrees of Freedom: {dof}\n <br>"
+    output += "Expected Frequencies:\n <br>"
+    output += pd.DataFrame(expected, index=data.index, columns=data.columns).to_string() + "\n <br>"
 
     # Decision
     alpha = 0.05
     if p < alpha:
-        output += "Reject the null hypothesis: There is a significant association between the variables.\n"
+        output += "Reject the null hypothesis: There is a significant association between the variables.\n <br>"
     else:
-        output += "Fail to reject the null hypothesis: There is no significant association between the variables.\n"
+        output += "Fail to reject the null hypothesis: There is no significant association between the variables.\n <br>"
 
     return output
 

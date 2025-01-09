@@ -98,10 +98,9 @@ def kunden_main(df: pd.DataFrame) -> dict[str, str]:
     # KNN Classifier with Visualization
     df = copy_df
     df['Spending Score (Category)'] = df['Spending Score (1-100)'].apply(categorize_spending_score)
-    print("\nKNN Classifier Performance:")
     accuracy, best_params = knn_classifier(df, "Spending Score (Category)")
-    print(f"Best Accuracy: {accuracy}")
-    print(f"Best Parameters: {best_params}")
+    data["knn_classifier"] = f"Accuracy: {accuracy}"
+    data["hyperparameter-tuning"] = f"Best Parameters: {best_params}"
 
     print("\nK-Means Cluster Analysis:")
     cluster_centers = kmeans_cluster_analysis(df)
