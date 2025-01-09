@@ -8,7 +8,7 @@ from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-def knn_classifier(data: pd.DataFrame, target_column: str, test_size: float = 0.2, random_state: int = 42):
+def knn_classifier(data: pd.DataFrame, target_column: str, test_size: float = 0.2, random_state: int = 42) -> tuple[str, dict]:
     """
     Perform K-Nearest Neighbors classification on a given dataset.
 
@@ -70,7 +70,7 @@ def knn_classifier(data: pd.DataFrame, target_column: str, test_size: float = 0.
     return evaluation_metrics, grid_search.best_params_
 
 
-def kmeans_cluster_analysis(df, n_clusters=5):
+def kmeans_cluster_analysis(df: pd.DataFrame, n_clusters: int = 5) -> list:
     """
     Perform K-Means clustering on the dataset to identify potential customer segments.
 

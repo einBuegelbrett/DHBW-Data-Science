@@ -4,7 +4,7 @@ from eda.konfidenzintervalle import konfidenzintervall
 from eda.statistiken import korrelation_kovarianz, relative_haeufigkeit
 from eda.test import t_test_2_sample
 from eda.visualisierungen import pie_chart, word_cloud
-from nlp.nlp import nlp_social_media
+from nlp.nlp_social_media import nlp_social_media
 
 def social_media_main(df: pd.DataFrame) -> dict[str, str]:
     """
