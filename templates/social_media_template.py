@@ -40,6 +40,8 @@ social_media_template = """
 
     <section id="graphen">
         <h2>Graphen</h2>
+        <p>{{ confidence_intervals }}</p>
+        
         <p>{{ relative_frequency }}</p>
         <img src="images/target_pie_chart.png" alt="Target Pie Chart" width="400px" height="400px">
         <p>Wir merken, dass Wörter wie 'people, time, etc herausstechen. Dies könnte darauf hindeuten, dass die Beiträge allgemein gehalten sind und nicht spezifisch auf Krisen eingehen.</p>

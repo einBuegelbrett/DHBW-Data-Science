@@ -1,6 +1,7 @@
 import pandas as pd
 from datenvorverarbeitung.datenbereinigung import map_keywords_to_integers, clean_text
-from eda.statistiken import korrelation_kovarianz
+from eda.konfidenzintervalle import konfidenzintervall
+from eda.statistiken import korrelation_kovarianz, relative_haeufigkeit
 from eda.test import t_test_2_sample
 from eda.visualisierungen import pie_chart, word_cloud
 from nlp.nlp import nlp_social_media
@@ -34,10 +35,18 @@ def social_media_main(df: pd.DataFrame) -> dict[str, str]:
     word_cloud(df, "text", "Word Cloud for relevant and irrelevant posts", "wordcloud_all")
     word_cloud(df[df['target'] == 1], "text", "Word Cloud for relevant posts", "wordcloud_relevant")
     word_cloud(df[df['target'] == 0], "text", "Word Cloud for irrelevant posts", "wordcloud_irrelevant")
-    data["relative_frequency"] = st.relative_haeufigkeit(df["location"])
+    data["relative_frequency"] = relative_haeufigkeit(df["location"])
     relevant_posts = df[df['target'] == 1]['text_length'] # Split into first groups
     irrelevant_posts = df[df['target'] == 0]['text_length'] # Split into second groups
     pie_chart(df, "target", "Anzahl der relevanten und irrelevanten Beiträge", "number_of_posts_pie_chart") # Calculate the average post length for each location
+
+    # Konfidenzintervalle
+    ci_relevant = konfidenzintervall(relevant_posts.values, confidence_level=0.95)
+    ci_irrelevant = konfidenzintervall(irrelevant_posts.values, confidence_level=0.95)
+    data["confidence_intervals"] = (
+        f"Relevante Beiträge (95% KI): ({ci_relevant[0]:.2f}, {ci_relevant[1]:.2f}), "
+        f"Irrelevante Beiträge (95% KI): ({ci_irrelevant[0]:.2f}, {ci_irrelevant[1]:.2f})"
+    )
 
     # Tests
     data["tests"] = t_test_2_sample(relevant_posts, irrelevant_posts, alternative='two-sided')
