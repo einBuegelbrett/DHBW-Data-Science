@@ -13,11 +13,11 @@ social_media_template = """
     </style>
 </head>
 <body>
-    <h1>Datenanalyse-Report</h1>
+    <h1>Datenanalyse-Report - Social-Media-Daten</h1>
 
     <section id="initial-dataset">
         <h2>Initialer Datensatz</h2>
-        <p>Hier ist der initiale Datensatz:</p>
+        <p>Hier ist der initiale Datensatz, dieser gibt die ersten 5 Zeilen aus:</p>
         <p>{{ initial_dataset }}</p>
     </section>
 
@@ -30,7 +30,7 @@ social_media_template = """
             <li>Mapping von Keywords zu Integers</li>
             <li>Textbereinigung (Zum Beispiel Spezialzeichen wie "&amp%" entfernen)</li>
         </ul>
-        <p>Der Datensatz nach der Bereinigung sieht wie folgt aus:</p>
+        <p>Der Datensatz nach der Bereinigung sieht wie folgt aus, auch nur die ersten 5 Zeilen aus Platzgründen:</p>
         <p>{{ cleaning }}</p>
     </section>
 

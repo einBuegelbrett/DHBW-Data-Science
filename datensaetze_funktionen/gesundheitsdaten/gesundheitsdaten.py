@@ -22,6 +22,7 @@ def gesundheitsdaten_main(df: pd.DataFrame) -> dict[str, str]:
         df[column] = pd.to_numeric(df[column], errors='coerce')
 
     data["cleaning"] = df.head().to_html(classes="table")
+    df_copy = df.copy()
 
     # 1. Datenexploration (EDA):
     # Untersuchung der Verteilung der numerischen Variablen
@@ -40,7 +41,7 @@ def gesundheitsdaten_main(df: pd.DataFrame) -> dict[str, str]:
     i = 0
     data["top_outliers"] = ""
     for column, count in top_outliers:
-        data["top_outliers"] += f"<li>{column}: {count} Ausreißer</li>"
+        data["top_outliers"] += f"{column}: {count} Ausreißer\n"
         boxplot(df, x=column, y=None, hue=None, title=f"Boxplot of {column}", x_label=column, y_label=column[0],
                 image_name=f"image_{i}")
         i+= 1
@@ -97,12 +98,13 @@ def gesundheitsdaten_main(df: pd.DataFrame) -> dict[str, str]:
     # 3. Modellierung und Klassifikation:
     # Klassifikationsmodell
     # Evaluieren Sie die Modelle mit geeigneten Metriken (z.B. Accuracy, F1-Score) (findet statt in der Funktion).
+    #df = df_copy
     # logistic_regression
-    data["logistic_regression_evaluate_model"], data["logistic_regression_best_params"] = logistic_regression(df, "Gesundheitszustand")
+   # data["logistic_regression_evaluate_model"], data["logistic_regression_best_params"] = logistic_regression(df, "Gesundheitszustand")
     # random_forest
-    data["random_forest_evaluate_model"], data["random_forest_best_params"] = random_forest(df, "Gesundheitszustand")
+   # data["random_forest_evaluate_model"], data["random_forest_best_params"] = random_forest(df, "Gesundheitszustand")
     # knn_classifier
-    data["knn_classifier_evaluate_model"], data["knn_classifier_best_params"] = knn_classifier(df, "Gesundheitszustand")
+   # data["knn_classifier_evaluate_model"], data["knn_classifier_best_params"] = knn_classifier(df, "Gesundheitszustand")
 
     # 4. Zusätzliche Analyse:
     # Wählen Sie ein Subset der Daten (z.B. eine spezifische Altersgruppe oder Geschlechtergruppe) und analysieren Sie, wie sich die Vorhersagen oder statistischen Eigenschaften in dieser Gruppe von der Gesamtpopulation unterscheiden.

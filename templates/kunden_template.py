@@ -12,11 +12,11 @@ kunden_template = """
     </style>
 </head>
 <body>
-    <h1>Datenanalyse-Report</h1>
+    <h1>Datenanalyse-Report - Kundendaten</h1>
 
     <section id="initial-dataset">
         <h2>Initialer Datensatz</h2>
-        <p>Hier ist der initiale Datensatz:</p>
+        <p>Hier ist der initiale Datensatz, dieser gibt die ersten 5 Zeilen aus:</p>
         <p>{{ initial_dataset }}</p>
     </section>
 
@@ -28,7 +28,7 @@ kunden_template = """
             <li>Entfernen von Duplikaten</li>
             <li>Mapping von Gender zu Integers</li>
         </ul>
-        <p>Der Datensatz nach der Bereinigung sieht wie folgt aus:</p>
+        <p>Der Datensatz nach der Bereinigung sieht wie folgt aus, auch nur die ersten 5 Zeilen aus Platzgründen:</p>
         <p>{{ cleaning }}</p>
     </section>
     
