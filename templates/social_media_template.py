@@ -52,10 +52,12 @@ social_media_template = """
 
     <section id="graphen">
         <h2>Graphen</h2>
+        <h3>--- Konfidenzintervall ---</h3>
         <p>{{ confidence_intervals }}</p>
-        <p>{{ relative_frequency }}</p>
+        <p>Das Konfidenzintervall gibt an, mit welcher Sicherheit wir die wahre Werte für die relevanten und irrelevanten Beiträge schätzen können. In diesem Fall liegt das 95%-Konfidenzintervall für die relevanten Beiträge zwischen 96.24% und 98.36%, was darauf hinweist, dass wir mit hoher Sicherheit davon ausgehen können, dass der wahre Wert der Relevanz in diesem Bereich liegt. Für die irrelevanten Beiträge liegt das 95%-Konfidenzintervall zwischen 90.16% und 91.36%, was eine vergleichbare Zuverlässigkeit bei der Schätzung der Irrelevanz widerspiegelt. Diese Intervalle geben uns wertvolle Hinweise darauf, wie genau und stabil die Analyseergebnisse sind und dass die Klassifikationen der Beiträge insgesamt eine hohe Präzision aufweisen.</p>
         
-        <p>Wir wollen zuerst die Wordcloud für alle Beiträge visualisieren.</p>
+        <h3>--- Wortwolke ---</h3>
+        <p>Wir wollen zuerst die Wortwolke für alle Beiträge visualisieren.</p>
         <img src="images/wordcloud_all.png" alt="Income Spending Scatterplot" width="400px" height="400px">
         <p>Beim ersten Blick auf den Graph fällt auf, dass bestimmte Begriffe wie „people“, „time“ und ähnliche häufig vorkommen. Dies könnte darauf hindeuten, dass die Beiträge in ihrer Wortwahl eher allgemein gehalten sind und nicht spezifisch auf Krisen oder dramatische Ereignisse eingehen.</p>
         
@@ -63,7 +65,7 @@ social_media_template = """
         <img src="images/target_pie_chart.png" alt="Target Pie Chart" width="400px" height="300px">
         <Wir merken, dass es mehr irrelevante Beiträge gibt als relevante Beiträge. Dies könnte erklären warum Wörter wie „people“ häufiger vorkommen.>
         
-        <p>Wir analysieren also jetzt Wörter analysieren die häufig in irrelevanten Beiträgen vorkommen, um das zu bestätigen, kreieren wir die Wordcloud dazu.<p>
+        <p>Wir analysieren also jetzt Wörter analysieren die häufig in irrelevanten Beiträgen vorkommen, um das zu bestätigen, kreieren wir die Wortwolke dazu.<p>
         <img src="images/wordcloud_irrelevant.png" alt="Income Spending Scatterplot" width="400px" height="400px">
         <p>Die Wortwolke der irrelevanten Beiträge zeigt eine ähnliche Verteilung wie die der allgemeinen Beiträge: Wörter wie „people“ erscheinen häufig und es gibt weniger ausgeprägte Unterschiede in der Häufigkeit der Begriffe. Dies könnte darauf hindeuten, dass diese Beiträge nicht auf ein konkretes oder dringendes Thema fokussiert sind.</p>        
     
@@ -75,27 +77,11 @@ social_media_template = """
         <h2>Tests</h2>
         <h3>--- Evaluation: Normalverteilungstest ---</h3>
         <p>{{ normality_test }}</p>
-        <p> Die Normalitätstests für alle drei Variablen (Alter, jährliches Einkommen und Ausgabeverhalten) zeigen, 
-            dass sie nicht normalverteilt sind. Beim Alter, dem Einkommen und dem Ausgabeverhalten weisen die Tests jeweils darauf hin, 
-            dass diese Variablen von einer normalen Verteilung abweichen. Das bedeutet, dass die Verteilungen in den Daten entweder asymmetrisch oder schief sind 
+        <p> Die Normalitätstests für die Länge der relevanten und irrelevanten Nachrichten zeigen, 
+            dass sie nicht normalverteilt sind. Das bedeutet, dass die Verteilungen in den Daten entweder asymmetrisch oder schief sind 
             oder andere Merkmale aufweisen, die eine normale Verteilung nicht widerspiegeln. 
-            Dies hat Auswirkungen auf die Auswahl der statistischen Methoden, die für die weitere Analyse verwendet werden sollten, da viele Verfahren die Annahme der Normalverteilung voraussetzen.
+            Daher können wir keine Annahmen über die Verteilung der Daten machen und den T-Test nicht durchführen.</p>
         </p>
-        
-        <h4> Entscheidung für Chi-Square Test</h4>
-        <p> Basierend auf den Ergebnissen der Normalitätstests zeigte sich, dass keine der betrachteten Variablen (Alter, Jahreseinkommen und Ausgabenscore) normalverteilt ist, wie die extrem niedrigen p-Werte der Shapiro-Wilk-Tests nahelegen. 
-            Da der T-Test die Voraussetzung der Normalverteilung nicht erfüllt und ebenso eine Fehlermeldung durch zu kleine Stichproben wirft, wurde sich für den Chi-Quadrat-Test entschieden. 
-            Dieser Test setzt keine Normalverteilung der Daten voraus und ist daher besser geeignet, um die Abhängigkeiten zwischen kategorialen Variablen zu untersuchen.
-        </p>
-        
-        <h3>--- Evaluation: Chi-Square-Test ---</h3>
-        <p><strong> Nullhypothese (𝐻0): Es gibt keinen signifikanten Unterschied in der durchschnittlichen Textlänge zwischen relevanten und irrelevanten Beiträgen. <br> 
-        Alternativhypothese (𝐻𝐴): Es gibt einen signifikanten Unterschied in der durchschnittlichen Textlänge zwischen relevanten und irrelevanten Beiträgen.</strong></p>
-        <p> {{ chi_square_test }}</p>
-        <p> Die Ergebnisse zeigen einen Chi-Quadrat-Wert von 0.656, einen p-Wert von 0.720 und 2 Freiheitsgrade. 
-            Da der p-Wert größer als das Signifikanzniveau von 0.05 ist, wird die Nullhypothese, dass kein signifikanter Zusammenhang zwischen den Variablen besteht, beibehalten und dementsprechend abgelehnt wird. 
-            Die erwarteten Häufigkeiten zeigen keine auffälligen Abweichungen, sodass kein statistisch signifikanter Einfluss des Geschlechts auf die Ausgabenkategorien nachgewiesen werden kann. 
-        </p> 
     </section>
 
     <section id="nlp">
