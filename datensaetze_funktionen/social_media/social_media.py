@@ -2,7 +2,7 @@ import pandas as pd
 from datenvorverarbeitung.datenbereinigung import map_keywords_to_integers, clean_text
 from eda.konfidenzintervalle import konfidenzintervall
 from eda.statistiken import korrelation_kovarianz, relative_haeufigkeit
-from eda.test import t_test_2_sample
+from eda.test import t_test_2_sample, normality_test
 from eda.visualisierungen import pie_chart, word_cloud
 from nlp.nlp_social_media import nlp_social_media
 
@@ -48,6 +48,13 @@ def social_media_main(df: pd.DataFrame) -> dict[str, str]:
     )
 
     # Tests
+    # Normality Test
+    df['relevant_text_length'] = df['text_length'].where(df['target'] == 1)
+    df['irrelevant_text_length'] = df['text_length'].where(df['target'] == 0)
+
+    data["normality_test"] = normality_test(df, ["relevant_text_length", "irrelevant_text_length"])
+
+    # T-Test
     data["ttest"] = t_test_2_sample(relevant_posts, irrelevant_posts, alternative='two-sided')
 
     # NLP

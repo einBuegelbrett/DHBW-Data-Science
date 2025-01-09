@@ -72,20 +72,38 @@ social_media_template = """
 
     <section id="tests">
         <h2>Tests</h2>
-        <h3>T-Test</h3>
+        <h3>--- Evaluation: Normalverteilungstest ---</h3>
+        <p>{{ normality_test }}</p>
+        <p> Die Normalitätstests für alle drei Variablen (Alter, jährliches Einkommen und Ausgabeverhalten) zeigen, 
+            dass sie nicht normalverteilt sind. Beim Alter, dem Einkommen und dem Ausgabeverhalten weisen die Tests jeweils darauf hin, 
+            dass diese Variablen von einer normalen Verteilung abweichen. Das bedeutet, dass die Verteilungen in den Daten entweder asymmetrisch oder schief sind 
+            oder andere Merkmale aufweisen, die eine normale Verteilung nicht widerspiegeln. 
+            Dies hat Auswirkungen auf die Auswahl der statistischen Methoden, die für die weitere Analyse verwendet werden sollten, da viele Verfahren die Annahme der Normalverteilung voraussetzen.
+        </p>
+        
+        <h4> Entscheidung für Chi-Square Test</h4>
+        <p> Basierend auf den Ergebnissen der Normalitätstests zeigte sich, dass keine der betrachteten Variablen (Alter, Jahreseinkommen und Ausgabenscore) normalverteilt ist, wie die extrem niedrigen p-Werte der Shapiro-Wilk-Tests nahelegen. 
+            Da der T-Test die Voraussetzung der Normalverteilung nicht erfüllt und ebenso eine Fehlermeldung durch zu kleine Stichproben wirft, wurde sich für den Chi-Quadrat-Test entschieden. 
+            Dieser Test setzt keine Normalverteilung der Daten voraus und ist daher besser geeignet, um die Abhängigkeiten zwischen kategorialen Variablen zu untersuchen.
+        </p>
+        
+        <h3>--- Evaluation: Chi-Square-Test ---</h3>
         <p><strong> Nullhypothese (𝐻0): Es gibt keinen signifikanten Unterschied in der durchschnittlichen Textlänge zwischen relevanten und irrelevanten Beiträgen. <br> 
-        Alternativhypothese (𝐻𝐴): Es gibt einen signifikanten Unterschied in der durchschnittlichen Textlänge zwischen relevanten und irrelevanten Beiträgen. </strong></p>
-        <p>{{ ttest }}</p>
-        <p>Dies bedeutet, dass ein statistisch signifikanter Unterschied zwischen der durchschnittlichen Beitragslänge von relevanten und irrelevanten Beiträgen besteht.</p>
+        Alternativhypothese (𝐻𝐴): Es gibt einen signifikanten Unterschied in der durchschnittlichen Textlänge zwischen relevanten und irrelevanten Beiträgen.</strong></p>
+        <p> {{ chi_square_test }}</p>
+        <p> Die Ergebnisse zeigen einen Chi-Quadrat-Wert von 0.656, einen p-Wert von 0.720 und 2 Freiheitsgrade. 
+            Da der p-Wert größer als das Signifikanzniveau von 0.05 ist, wird die Nullhypothese, dass kein signifikanter Zusammenhang zwischen den Variablen besteht, beibehalten und dementsprechend abgelehnt wird. 
+            Die erwarteten Häufigkeiten zeigen keine auffälligen Abweichungen, sodass kein statistisch signifikanter Einfluss des Geschlechts auf die Ausgabenkategorien nachgewiesen werden kann. 
+        </p> 
     </section>
 
     <section id="nlp">
         <h2>nlp</h2>
-        <p>Wir wollen jetzt schauen, ob das Sentiment des Textes einen Einfluss auf die Relevanz des Beitrags hat.</p>
+        <p>Im Folgenden wird die Beziehung zwischen der Stimmung eines Textes und der Relevanz des Beitrags untersucht. Ziel ist es herauszufinden, ob eine bestimmte Sentimentausprägung auf eine höhere Relevanz des Beitrags hinweist.</p>
         <p>{{ nlp }}</p>
         <img src="images/sentiment_scores_boxplot.png" alt="Sentiment Scores Boxplot" width="400px" height="400px">
         <img src="images/sentiment_bar_chart.png" alt="Sentiment Bar Chart" width="400px" height="400px">
-        <p>Wir merken, dass oft ein Negatives Sentiment auch ein Indikator für relevante Beiträge ist und umgekehrt. Wir können daraus schließen, dass relevante Beiträge für Katastrophe oft negativ sind. Das war zu erwarten wie man es schon mit der Wortwolke gesehen hat.</p>
+        <p>Die Visualisierungen zeigen, dass ein negativer Sentiment häufig mit der Relevanz der Beiträge korreliert. Dies deutet darauf hin, dass relevante Beiträge für Katastrophen tendenziell negativ formuliert sind. Dies steht im Einklang mit den vorangegangenen Erkenntnissen, die bereits durch die Erstellung einer Wortwolke nahegelegt wurden.</p>
     </section>
 </body>
 </html>
