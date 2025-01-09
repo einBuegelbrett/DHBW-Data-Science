@@ -1,6 +1,6 @@
 import datenvorverarbeitung.data_cleaning as dv
 import eda.statistiken as st
-from eda.visualisierungen import scatterplot, boxplot, histogram, line_plot
+from eda.visualisierungen import scatterplot, boxplot, histogram
 from eda.test import chi_square_test, normality_test
 from ml.k_neighbour import knn_classifier, kmeans_cluster_analysis
 import pandas as pd
@@ -105,16 +105,14 @@ def kunden_main(df):
 
     # KNN Classifier with Visualization
     df = copy_df
+    df['Spending Score (Category)'] = df['Spending Score (1-100)'].apply(categorize_spending_score)
     print("\nKNN Classifier Performance:")
-    neighbors = [1, 3, 5]
-    accuracies = []
-    for n in neighbors:
-        accuracy = knn_classifier(df, target_column="Spending Score (1-100)", n_neighbors=n)
-        accuracies.append(accuracy)
-        print(f"Accuracy with {n} neighbors: {accuracy:.2f}")
-
-    # Lineplot for KNN Accuracies
-    line_plot(x=neighbors, y=accuracies, title="KNN Accuracy vs. Number of Neighbors", x_label="Number of Neighbors", y_label="Accuracy")
+    accuracy, best_params = knn_classifier(
+        data=df,
+        target_column="Spending Score (Category)",  # Klassifikationsziel
+    )
+    print(f"Best Accuracy: {accuracy}")
+    print(f"Best Parameters: {best_params}")
 
     print("\nK-Means Cluster Analysis:")
     cluster_centers = kmeans_cluster_analysis(df)
