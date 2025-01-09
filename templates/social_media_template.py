@@ -16,11 +16,20 @@ social_media_template = """
 
     <section id="initial-dataset">
         <h2>Initialer Datensatz</h2>
+        <p>Hier ist der initiale Datensatz:</p>
         <p>{{ initial_dataset }}</p>
     </section>
 
     <section id="nach-cleaning">
         <h2>Nach Cleaning</h2>
+        <p>Für die Datenvorbereitung wurden die folgenden Schritte durchgeführt:</p>
+        <ul>
+            <li>Ersetzen von fehlenden Werten</li>
+            <li>Entfernen von Duplikaten</li>
+            <li>Mapping von Keywords zu Integers</li>
+            <li>Textbereinigung (Zum Beispiel Spezialzeichen wie "&amp%" entfernen)</li>
+        </ul>
+        <p>Der Datensatz nach der Bereinigung sieht wie folgt aus:</p>
         <p>{{ cleaning }}</p>
     </section>
 
